@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/pref_category_data">
+
+        <ListPreference
+            android:defaultValue="@string/pref_most_popular_value"
+            android:entries="@array/pref_sort_mode_labels"
+            android:entryValues="@array/pref_sort_mode_values"
+            android:key="@string/pref_sort_mode_key"
+            android:summary="@string/pref_sort_label"
+            android:title="@string/pref_sort_label"
+            android:icon="@drawable/ic_sort_24dp"/>
+
+        <CheckBoxPreference
+            android:defaultValue="@bool/pref_favorite_default"
+            android:key="@string/pref_favorite_key"
+            android:summaryOff="@string/pref_favorite_off"
+            android:summaryOn="@string/pref_favorite_on"
+            android:title="@string/pref_favorite_label"
+            android:icon="@drawable/ic_storage_24dp"/>
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory android:title="@string/pref_category_ui">
+
+    <CheckBoxPreference
+        android:defaultValue="@bool/pref_transition_default"
+        android:key="@string/pref_transition_key"
+        android:summaryOff="@string/pref_transition_off"
+        android:summaryOn="@string/pref_transition_on"
+        android:title="@string/pref_transition_label"
+        android:icon="@drawable/ic_wb_sunny_24dp"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

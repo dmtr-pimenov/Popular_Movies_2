@@ -1,0 +1,43 @@
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">Popular Movies</string>
+
+    <string name="try_button_title">Try again</string>
+
+    <!-- Messages -->
+    <string name="no_network_message">No network connection\nPlease turn Wi-Fi or mobile data on\n
+        and press "TRY AGAIN" button"\n
+        OR select Favorite Movies
+    </string>
+    <string name="error_loading_movies_list_message">An error has occurred. Please try again later</string>
+    <string name="error_loading_trailer_collection">Error loading trailers</string>
+    <string name="error_loading_review_collection">Error loading reviews</string>
+    <string name="error_no_player">No appropriate Application to show trailer</string>
+    <string name="empty_review_list">Empty review list</string>
+    <string name="empty_trailer_list">Empty trailer list</string>
+    <string name="added_to_favorites">Movie added to Favorites</string>
+    <string name="removed_from_favorites">Movie removed from Favorites</string>
+
+    <!-- Menu -->
+    <string name="action_settings">Settings</string>
+
+    <!-- content description -->
+    <string name="content_description_backdrop">Backdrop image</string>
+    <string name="content_description_poster">Poster image</string>
+
+    <!-- some labels -->
+    <string name="label_trailers">Trailers</string>
+    <string name="label_reviews">Reviews</string>
+
+    <string name="transition_poster" translatable="false">poster_transition</string>
+
+    <!-- formatters -->
+    <string name="json_date_format">
+        <xliff:g id="data">yyyy-MM-dd</xliff:g>
+    </string>
+
+    <string name="display_date_format">
+        <xliff:g id="data">MMMM yyyy</xliff:g>
+    </string>
+
+
+</resources>

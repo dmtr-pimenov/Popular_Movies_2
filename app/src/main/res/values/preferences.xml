@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Key name for sort mode preference in SharedPreferences -->
+    <string name="pref_sort_label">Sort Mode</string>
+    <string name="pref_sort_mode_key" translatable="false">sort_mode</string>
+
+    <!-- labels for sort mode in Settings Fragment -->
+    <string name="pref_most_popular_label">Most Popular</string>
+    <string name="pref_top_rated_label">Top Rated</string>
+
+    <!-- values of sort mode kinds -->
+    <string name="pref_most_popular_value" translatable="false">popular</string>
+    <string name="pref_top_rated_value" translatable="false">top_rated</string>
+
+    <!-- label of checkbox that describe source of movie records: DB or Network -->
+    <string name="pref_favorite_label">Favorite Movies</string>
+    <string name="pref_favorite_key" translatable="false">favorite</string>
+    <string name="pref_favorite_off">The Data is being retrieved from the Network.</string>
+    <string name="pref_favorite_on">The Data is being retrieved from the local Database.</string>
+
+    <!-- for enable/disable transition effect when we open MovieDetailActivity -->
+    <string name="pref_transition_label">Transition Effects Management</string>
+    <string name="pref_transition_key" translatable="false">transition</string>
+    <string name="pref_transition_off">The Transition effects are disabled. (Poor UI, Good performance)</string>
+    <string name="pref_transition_on">The Transition effects are enabled. (Good UI, Poor performance)</string>
+
+    <string name="pref_category_data">Data Settings</string>
+    <string name="pref_category_ui">UI Settings</string>
+</resources>

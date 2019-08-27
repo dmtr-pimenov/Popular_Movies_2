@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_sort_mode" translatable="false">@string/pref_most_popular_value</string>
+
+    <!-- Settings Screen -->
+    <bool name="pref_favorite_default">false</bool>
+    <bool name="pref_transition_default">true</bool>
+
+    <!-- to calculate number of movie stars -->
+    <integer name="max_rating_value">10</integer>
+</resources>
