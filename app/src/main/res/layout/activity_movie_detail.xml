@@ -199,7 +199,7 @@
 
             </android.support.v7.widget.CardView>
 
-            <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            <android.support.v7.widget.CardView 
                 android:id="@+id/cv_cardview_2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
