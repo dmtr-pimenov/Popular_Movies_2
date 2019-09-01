@@ -21,7 +21,7 @@ android {
         }
 
         buildTypes.each {
-            it.buildConfigField 'String', 'MOVEDB_API_KEY', INSERT_HERE_YOUR_MOVIEDB_API_KEY
+            it.buildConfigField 'String', 'MOVEDB_API_KEY', "\"" + getTmdbApiKey() + "\""
         }
     }
 
@@ -57,4 +57,12 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}
+
+def getTmdbApiKey() {
+    def keysFile = file("keys.properties")
+    def keysProperties = new Properties()
+    keysProperties.load(new FileInputStream(keysFile))
+    def tmdbApiKey = keysProperties['TMDB_API_KEY']
+    return tmdbApiKey
 }
