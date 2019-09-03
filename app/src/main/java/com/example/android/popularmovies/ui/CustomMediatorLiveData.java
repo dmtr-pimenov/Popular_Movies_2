@@ -10,12 +10,13 @@ import java.util.List;
 
 /**
  * This simple wrapper for MediatorLiveData
- * that keeps all active sources and provide method
+ * that keeps all active sources and provides method
  * to remove all sources
  * @param <T>
  */
 
 public class CustomMediatorLiveData<T> extends MediatorLiveData<T> {
+
     private List<LiveData> mSources = new ArrayList<>();
 
     @Override

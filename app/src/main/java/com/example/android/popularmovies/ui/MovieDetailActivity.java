@@ -2,7 +2,6 @@ package com.example.android.popularmovies.ui;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.Drawable;
@@ -222,7 +221,7 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
     }
 
     /**
-     * Convert String representation if Release date to
+     * Convert String representation of Release date to
      * short form representation
      *
      * @param releaseDate String representation of the Release Date. Format yyyy-MM-dd. Example: 2018-10-19
