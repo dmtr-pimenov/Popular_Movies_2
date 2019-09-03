@@ -135,12 +135,6 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
                     .placeholder(placeholder)
                     .error(error)
                     .into(moviePoster);
-/*
-            Picasso.with(mContext).load(posterPath)
-                    .placeholder(R.drawable.ic_file_download)
-                    .error(R.drawable.ic_error)
-                    .into(moviePoster);
-*/
         }
 
         @Override

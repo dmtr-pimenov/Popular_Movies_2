@@ -192,12 +192,7 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
                 .placeholder(placeholder)
                 .error(error)
                 .into(mBinding.ivBackdrop);
-/*
-        Picasso.with(this).load(backdropUrl)
-                .placeholder(R.drawable.ic_file_download)
-                .error(R.drawable.ic_error)
-                .into(mBinding.ivBackdrop);
-*/
+        
         // poster image
         String posterUrl = NetworkApi.getPosterUrl(movie.getPosterPath(), NetworkApi.PosterSize.W185);
         Picasso.with(this).load(posterUrl)
