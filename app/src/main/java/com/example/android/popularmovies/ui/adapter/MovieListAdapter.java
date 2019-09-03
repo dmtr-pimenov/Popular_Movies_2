@@ -1,7 +1,9 @@
 package com.example.android.popularmovies.ui.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -123,12 +125,22 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
 
         void bind(Movie movie) {
 
+            Drawable placeholder = ContextCompat.getDrawable(mContext, R.drawable.ic_file_download);
+            Drawable error = ContextCompat.getDrawable(mContext, R.drawable.ic_error);
+
             String posterPath = NetworkApi.getPosterUrl(movie.getPosterPath(),
                     NetworkApi.PosterSize.W185);
+
+            Picasso.with(mContext).load(posterPath)
+                    .placeholder(placeholder)
+                    .error(error)
+                    .into(moviePoster);
+/*
             Picasso.with(mContext).load(posterPath)
                     .placeholder(R.drawable.ic_file_download)
                     .error(R.drawable.ic_error)
                     .into(moviePoster);
+*/
         }
 
         @Override

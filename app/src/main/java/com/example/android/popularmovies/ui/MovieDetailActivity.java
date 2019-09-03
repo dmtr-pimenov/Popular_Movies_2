@@ -2,12 +2,15 @@ package com.example.android.popularmovies.ui;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -182,15 +185,25 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
     private void setupImageViews(Movie movie) {
         // backdrop image
         String backdropUrl = NetworkApi.getBackdropUrl(movie.getBackdropPath(), NetworkApi.BackdropSize.W780);
+
+        Drawable placeholder = ContextCompat.getDrawable(this, R.drawable.ic_file_download);
+        Drawable error = ContextCompat.getDrawable(this, R.drawable.ic_error);
+
+        Picasso.with(this).load(backdropUrl)
+                .placeholder(placeholder)
+                .error(error)
+                .into(mBinding.ivBackdrop);
+/*
         Picasso.with(this).load(backdropUrl)
                 .placeholder(R.drawable.ic_file_download)
                 .error(R.drawable.ic_error)
                 .into(mBinding.ivBackdrop);
+*/
         // poster image
         String posterUrl = NetworkApi.getPosterUrl(movie.getPosterPath(), NetworkApi.PosterSize.W185);
         Picasso.with(this).load(posterUrl)
-                .placeholder(R.drawable.ic_file_download)
-                .error(R.drawable.ic_error)
+                .placeholder(placeholder)
+                .error(error)
                 .into(mBinding.ivPoster);
     }
 

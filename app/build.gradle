@@ -13,6 +13,8 @@ android {
         lintOptions {
             disable 'GoogleAppIndexingWarning'
         }
+
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
