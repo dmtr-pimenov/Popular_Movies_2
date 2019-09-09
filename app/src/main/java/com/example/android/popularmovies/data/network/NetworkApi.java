@@ -4,6 +4,7 @@ import android.os.Build;
 import android.util.Log;
 
 import com.example.android.popularmovies.BuildConfig;
+import com.example.android.popularmovies.data.model.BackdropCollection;
 import com.example.android.popularmovies.data.model.MoviesPage;
 import com.example.android.popularmovies.data.model.ReviewCollection;
 import com.example.android.popularmovies.data.model.TrailerCollection;
@@ -141,6 +142,17 @@ public class NetworkApi {
      */
     public Call<ReviewCollection> getReviewCollection(String movieId) {
         return mRawMovieDbApi.getReviews(movieId,
+                BuildConfig.MOVEDB_API_KEY);
+    }
+
+    /**
+     * Executes REST request to MovieDB and
+     * Returns collection of Backdrops
+     * @param movieId - Movie ID
+     * @return Call<BackdropCollection>
+     */
+    public Call<BackdropCollection> getBackdropCollection(String movieId) {
+        return mRawMovieDbApi.getImages(movieId,
                 BuildConfig.MOVEDB_API_KEY);
     }
 

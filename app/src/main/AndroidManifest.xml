@@ -36,6 +36,7 @@
 
         <activity
             android:name=".ui.MovieDetailActivity"
+            android:theme="@style/AppTheme.TransparentStatusBar"
             android:parentActivityName=".ui.MainActivity"
             tools:ignore="UnusedAttribute">
             <meta-data

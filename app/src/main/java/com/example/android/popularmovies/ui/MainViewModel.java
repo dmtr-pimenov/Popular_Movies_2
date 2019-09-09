@@ -17,10 +17,10 @@ import java.util.List;
 
 /**
  * Application operates in 2 global modes
- * 1. Retrieving data from the network from The Movie DB rest serives
+ * 1. Retrieving data from the network from The Movie DB rest service
  * 2. Retrieving data from the local Database - Favorite Mode
  * By default application retrieves data from the Network
- * To switch in Favorite Mode open Settings and press on checkbox Favorite Movies
+ * To switch to Favorite Mode open Settings and click on checkbox Favorite Movies
  * To put Movie into local Database click on the heart shaped checkbox in MovieDetailActivity
  * A second click on this checkbox will delete the information from the local Database.
  */
