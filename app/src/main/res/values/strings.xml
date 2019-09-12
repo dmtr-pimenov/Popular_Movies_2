@@ -10,6 +10,7 @@
     </string>
     <string name="error_loading_movies_list_message">An error has occurred. Please try again later</string>
     <string name="error_loading_trailer_collection">Error loading trailers</string>
+    <string name="error_loading_backdrop_collection">Error loading backdrops</string>
     <string name="error_loading_review_collection">Error loading reviews</string>
     <string name="error_no_player">No appropriate Application to show trailer</string>
     <string name="empty_review_list">Empty review list</string>

@@ -12,6 +12,7 @@ import android.util.Log;
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.data.database.AppDatabase;
 import com.example.android.popularmovies.data.database.MovieDao;
+import com.example.android.popularmovies.data.model.BackdropCollection;
 import com.example.android.popularmovies.data.model.Movie;
 import com.example.android.popularmovies.data.model.MoviesPage;
 import com.example.android.popularmovies.data.model.Resource;
@@ -44,6 +45,7 @@ public class AppRepository {
     private Call<MoviesPage> mMovieQuery;
     private Call<TrailerCollection> mTrailerQuery;
     private Call<ReviewCollection> mReviewQuery;
+    private Call<BackdropCollection> mBackdropQuery;
 
     private MutableLiveData<Resource<MoviesPage>> mNetworkMoviesPage;
 
@@ -177,12 +179,54 @@ public class AppRepository {
         mMovieQuery.enqueue(moviesPageCallback);
     }
 
-    public LiveData<Resource<TrailerCollection>> retrieveTrailerList(@Nullable String movieId) {
+    public LiveData<Resource<BackdropCollection>> retrieveBackdropCollection(@Nullable String movieId) {
+
+        final MutableLiveData<Resource<BackdropCollection>> observedData = new MutableLiveData<>();
+
+        if (movieId == null) {
+            Log.e(TAG, "retrieveBackdropCollection: NULL Movie ID");
+            Resource<BackdropCollection> result = Resource.error("Null Movie ID", null);
+            observedData.setValue(result);
+            return observedData;
+        }
+
+        Callback<BackdropCollection> backdropCallback = new Callback<BackdropCollection>() {
+            @MainThread
+            @Override
+            public void onResponse(Call<BackdropCollection> call, Response<BackdropCollection> response) {
+                BackdropCollection collection = response.body();
+                Resource<BackdropCollection> result;
+                if (collection != null) {
+                    result = Resource.success(collection);
+                } else {
+                    result = Resource.error("Empty body", null);
+                }
+                observedData.setValue(result);
+            }
+
+            @MainThread
+            @Override
+            public void onFailure(Call<BackdropCollection> call, Throwable t) {
+                if (!call.isCanceled()) {
+                    Resource<BackdropCollection> result = Resource.error("error", null);
+                    observedData.setValue(result);
+                    t.printStackTrace();
+                }
+            }
+        };
+
+        mBackdropQuery = mNetworkApi.getBackdropCollection(movieId);
+        mBackdropQuery.enqueue(backdropCallback);
+
+        return observedData;
+    }
+
+    public LiveData<Resource<TrailerCollection>> retrieveTrailerCollection(@Nullable String movieId) {
 
         final MutableLiveData<Resource<TrailerCollection>> observedData = new MutableLiveData<>();
 
         if (movieId == null) {
-            Log.e(TAG, "retrieveTrailerList: NULL Movie ID");
+            Log.e(TAG, "retrieveTrailerCollection: NULL Movie ID");
             Resource<TrailerCollection> result = Resource.error("Null Movie ID", null);
             observedData.setValue(result);
             return observedData;
@@ -222,18 +266,18 @@ public class AppRepository {
         return observedData;
     }
 
-    public LiveData<Resource<ReviewCollection>> retrieveReviewList(@Nullable String movieId) {
+    public LiveData<Resource<ReviewCollection>> retrieveReviewCollection(@Nullable String movieId) {
 
         final MutableLiveData<Resource<ReviewCollection>> observedData = new MutableLiveData<>();
 
         if (movieId == null) {
-            Log.e(TAG, "retrieveReviewList: NULL Movie ID");
+            Log.e(TAG, "retrieveReviewCollection: NULL Movie ID");
             Resource<ReviewCollection> result = Resource.error("Null Movie ID", null);
             observedData.setValue(result);
             return observedData;
         }
 
-        Log.d(TAG, "retrieveReviewList. Movie ID: " + movieId);
+        Log.d(TAG, "retrieveReviewCollection. Movie ID: " + movieId);
 
         Callback<ReviewCollection> reviewsCallback = new Callback<ReviewCollection>() {
             @MainThread
@@ -279,6 +323,9 @@ public class AppRepository {
         }
         if (mReviewQuery != null && mReviewQuery.isExecuted()) {
             mReviewQuery.cancel();
+        }
+        if (mBackdropQuery != null && mBackdropQuery.isExecuted()) {
+            mBackdropQuery.cancel();
         }
     }
 

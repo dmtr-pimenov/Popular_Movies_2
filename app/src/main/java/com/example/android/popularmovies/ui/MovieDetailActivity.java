@@ -6,28 +6,30 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.android.popularmovies.R;
+import com.example.android.popularmovies.data.model.Backdrop;
 import com.example.android.popularmovies.data.model.Movie;
 import com.example.android.popularmovies.data.model.Resource;
 import com.example.android.popularmovies.data.model.ReviewMinimal;
 import com.example.android.popularmovies.data.model.TrailerMinimal;
 import com.example.android.popularmovies.data.network.NetworkApi;
 import com.example.android.popularmovies.databinding.ActivityMovieDetailBinding;
+import com.example.android.popularmovies.ui.adapter.BackdropAdapter;
 import com.example.android.popularmovies.ui.adapter.ReviewListAdapter;
 import com.example.android.popularmovies.ui.adapter.TrailerListAdapter;
 import com.example.android.popularmovies.ui.factory.MovieDetailViewModelFactory;
@@ -48,6 +50,7 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
     private ActivityMovieDetailBinding mBinding;
     private MovieDetailViewModel mViewModel;
     private Toast mToast;
+    private ViewPagerChanger mViewPagerChanger;
 
     private boolean isMovieDeleted = false;
     private boolean isFavoriteMode = false;
@@ -58,14 +61,6 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
         super.onCreate(savedInstanceState);
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_movie_detail);
-
-/*
-        //set status bar transparent
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            Window w = getWindow();
-            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-        }
-*/
 
         Intent startIntent = getIntent();
 
@@ -81,12 +76,13 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
 
         setupImageViews(movie);
         setupRatingViews(movie);
+        setupBackdropViewPager();
 
-        mBinding.tvOriginalTitle.setText(movie.getOriginalTitle());
-        mBinding.tvOverview.setText(movie.getOverview());
+        mBinding.textOriginalTitle.setText(movie.getOriginalTitle());
+        mBinding.textOverview.setText(movie.getOverview());
         mBinding.tvReleaseDate.setText(formatDate(movie.getReleaseDate()));
 
-        mBinding.cbMyFavoriteMovie.setOnClickListener(new View.OnClickListener() {
+        mBinding.checkFavoriteMovie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 processCheckBoxOnClick();
@@ -123,6 +119,21 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
 
         MovieDetailViewModelFactory factory = InjectorUtil.provideMovieDetailViewModelFactory(this, movie);
         mViewModel = ViewModelProviders.of(this, factory).get(MovieDetailViewModel.class);
+
+        mViewModel.getBackdropCollection().observe(this, new Observer<Resource<List<Backdrop>>>() {
+            @Override
+            public void onChanged(@Nullable Resource<List<Backdrop>> backdropCollectionResource) {
+                mViewModel.getBackdropCollection().removeObserver(this);
+                if (backdropCollectionResource == null ||
+                        backdropCollectionResource.status == Resource.Status.ERROR) {
+                    showToastMessage(R.string.error_loading_backdrop_collection);
+                } else {
+                    BackdropAdapter adapter = new BackdropAdapter(MovieDetailActivity.this,
+                            backdropCollectionResource.data);
+                    mBinding.viewPagerBackdrops.setAdapter(adapter);
+                }
+            }
+        });
 
         mViewModel.getTrailerCollection().observe(this, new Observer<Resource<List<TrailerMinimal>>>() {
             @Override
@@ -167,7 +178,7 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
     }
 
     private void changeFavoriteButtonStatus(boolean isFavorite) {
-        mBinding.cbMyFavoriteMovie.setChecked(isFavorite);
+        mBinding.checkFavoriteMovie.setChecked(isFavorite);
     }
 
     /**
@@ -176,7 +187,7 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
      * otherwise The Movie will be removed form DB
      */
     private void processCheckBoxOnClick() {
-        boolean isFavorite = mBinding.cbMyFavoriteMovie.isChecked();
+        boolean isFavorite = mBinding.checkFavoriteMovie.isChecked();
         Log.d(TAG, "processCheckBoxOnClick: " + isFavorite);
         int messageId;
 
@@ -192,18 +203,26 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
         showToastMessage(messageId);
     }
 
+    private void setupBackdropViewPager() {
+
+        TabLayout tabLayout = mBinding.tablayoutBackdropIndicator;
+        ViewPager viewPager = mBinding.viewPagerBackdrops;
+        tabLayout.setupWithViewPager(viewPager);
+
+        LinearLayout tabStrip = (LinearLayout) tabLayout.getChildAt(0);
+        for (int i = 0; i < tabStrip.getChildCount(); i++) {
+            tabStrip.getChildAt(i).setClickable(false);
+        }
+        mViewPagerChanger = new ViewPagerChanger(this,
+                mBinding.viewPagerBackdrops, 5000);
+        mViewPagerChanger.start();
+    }
+
     private void setupImageViews(Movie movie) {
-        // backdrop image
-        String backdropUrl = NetworkApi.getBackdropUrl(movie.getBackdropPath(), NetworkApi.BackdropSize.W780);
 
         Drawable placeholder = ContextCompat.getDrawable(this, R.drawable.ic_file_download);
         Drawable error = ContextCompat.getDrawable(this, R.drawable.ic_error);
 
-        Picasso.with(this).load(backdropUrl)
-                .placeholder(placeholder)
-                .error(error)
-                .into(mBinding.ivBackdrop);
-        
         // poster image
         String posterUrl = NetworkApi.getPosterUrl(movie.getPosterPath(), NetworkApi.PosterSize.W185);
         Picasso.with(this).load(posterUrl)
@@ -217,13 +236,13 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
         if (voteAverage == null) {
             voteAverage = 0f;
         }
-        float numStars = mBinding.rbMovieRating.getNumStars();
+        float numStars = mBinding.ratingMovieRating.getNumStars();
         float maxRating = (float) getResources().getInteger(R.integer.max_rating_value);
         float rating = voteAverage * numStars / maxRating;
-        mBinding.rbMovieRating.setRating(rating);
+        mBinding.ratingMovieRating.setRating(rating);
 
         String ratingString = DecimalFormat.getNumberInstance().format(voteAverage) + "/10";
-        mBinding.tvRatingStr.setText(ratingString);
+        mBinding.textRatingStr.setText(ratingString);
     }
 
     /**
@@ -272,7 +291,7 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
             mBinding.lvTrailers.setVisibility(View.VISIBLE);
         }
 
-        mBinding.cvCardview1.setOnClickListener(new View.OnClickListener() {
+        mBinding.cardview1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -314,7 +333,7 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
             mBinding.lvReviews.setVisibility(View.VISIBLE);
         }
 
-        mBinding.cvCardview2.setOnClickListener(new View.OnClickListener() {
+        mBinding.cardview2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 

@@ -2,11 +2,14 @@ package com.example.android.popularmovies.ui;
 
 import android.arch.core.util.Function;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 import android.util.Log;
 
 import com.example.android.popularmovies.data.AppRepository;
+import com.example.android.popularmovies.data.model.Backdrop;
+import com.example.android.popularmovies.data.model.BackdropCollection;
 import com.example.android.popularmovies.data.model.Movie;
 import com.example.android.popularmovies.data.model.Resource;
 import com.example.android.popularmovies.data.model.ReviewCollection;
@@ -27,6 +30,7 @@ public class MovieDetailViewModel extends ViewModel {
 
     private LiveData<Resource<List<TrailerMinimal>>> mTrailerCollection;
     private LiveData<Resource<List<ReviewMinimal>>> mReviewCollection;
+    private LiveData<Resource<List<Backdrop>>> mBackdropCollection;
 
     private LiveData<Boolean> mFavorite;
 
@@ -52,8 +56,33 @@ public class MovieDetailViewModel extends ViewModel {
                     }
                 }
         );
+        setupBackdropRetrieving();
         setupTrailersRetrieving();
         setupReviewsRetrieving();
+    }
+
+    private void setupBackdropRetrieving() {
+        if (mRepository.isFavoriteSelection()) {
+
+            mBackdropCollection = new MutableLiveData<>();
+            ((MutableLiveData) mBackdropCollection).setValue(Resource.error("Error", null));
+
+        } else {
+            mBackdropCollection = Transformations.map(mRepository.retrieveBackdropCollection(mMovie.getId().toString()),
+                    new Function<Resource<BackdropCollection>, Resource<List<Backdrop>>>() {
+                        @Override
+                        public Resource<List<Backdrop>> apply(Resource<BackdropCollection> input) {
+                            Resource<List<Backdrop>> res;
+                            if (input.status == Resource.Status.SUCCESS) {
+                                List<Backdrop> l = input.data.getBackdrops();
+                                res = Resource.success(l);
+                            } else {
+                                res = Resource.error(input.message, null);
+                            }
+                            return res;
+                        }
+                    });
+        }
     }
 
     private void setupTrailersRetrieving() {
@@ -67,7 +96,7 @@ public class MovieDetailViewModel extends ViewModel {
                         }
                     });
         } else {
-            mTrailerCollection = Transformations.map(mRepository.retrieveTrailerList(mMovie.getId().toString()),
+            mTrailerCollection = Transformations.map(mRepository.retrieveTrailerCollection(mMovie.getId().toString()),
                     new Function<Resource<TrailerCollection>, Resource<List<TrailerMinimal>>>() {
                         @Override
                         public Resource<List<TrailerMinimal>> apply(Resource<TrailerCollection> input) {
@@ -96,7 +125,7 @@ public class MovieDetailViewModel extends ViewModel {
                         }
                     });
         } else {
-            mReviewCollection = Transformations.map(mRepository.retrieveReviewList(mMovie.getId().toString()),
+            mReviewCollection = Transformations.map(mRepository.retrieveReviewCollection(mMovie.getId().toString()),
                     new Function<Resource<ReviewCollection>, Resource<List<ReviewMinimal>>>() {
                         @Override
                         public Resource<List<ReviewMinimal>> apply(Resource<ReviewCollection> input) {
@@ -150,6 +179,10 @@ public class MovieDetailViewModel extends ViewModel {
 
     public Movie getMovie() {
         return mMovie;
+    }
+
+    public LiveData<Resource<List<Backdrop>>> getBackdropCollection() {
+        return mBackdropCollection;
     }
 
     public LiveData<Resource<List<TrailerMinimal>>> getTrailerCollection() {
