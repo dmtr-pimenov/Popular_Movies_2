@@ -40,5 +40,10 @@
         <xliff:g id="data">MMMM yyyy</xliff:g>
     </string>
 
+    <!-- TabLayout labels -->
+    <string name="label_movie_info">INFO</string>
+    <string name="label_movie_trailers">TRAILERS</string>
+    <string name="label_movie_reviews">REVIEWS</string>
+
 
 </resources>

@@ -14,107 +14,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <CheckBox
-                android:id="@+id/check_favorite_movie"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:button="@drawable/check_box_selector"
-                android:checked="true"
-                android:elevation="@dimen/standard_elevation"
-                app:layout_constraintBottom_toBottomOf="@+id/view_pager_backdrops"
-                app:layout_constraintEnd_toStartOf="@+id/gl_vertical_end"
-                app:layout_constraintTop_toBottomOf="@+id/view_pager_backdrops" />
-
-            <ImageView
-                android:id="@+id/iv_poster"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/poster_height_detail_view"
-                android:layout_marginStart="@dimen/double_margin"
-                android:layout_marginLeft="@dimen/double_margin"
-                android:adjustViewBounds="false"
-                android:contentDescription="@string/content_description_poster"
-                android:elevation="@dimen/standard_elevation"
-                android:scaleType="centerCrop"
-                android:transitionName="@string/transition_poster"
-                app:layout_constraintBottom_toBottomOf="@id/view_pager_backdrops"
-                app:layout_constraintDimensionRatio="w,185:278"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/view_pager_backdrops" />
-
-            <RatingBar
-                android:id="@+id/rating_movie_rating"
-                style="?android:ratingBarStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:isIndicator="true"
-                android:numStars="5"
-                android:stepSize="1"
-                app:layout_constraintBottom_toBottomOf="@+id/text_rating_str"
-                app:layout_constraintStart_toStartOf="@id/tv_release_date"
-                app:layout_constraintTop_toTopOf="@+id/text_rating_str"
-                tools:rating="5" />
-
-            <TextView
-                android:id="@+id/tv_release_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/default_margin"
-                android:layout_marginLeft="@dimen/default_margin"
-                android:layout_marginTop="@dimen/default_margin"
-                android:textSize="@dimen/overview_text_size"
-                app:layout_constraintStart_toEndOf="@id/iv_poster"
-                app:layout_constraintTop_toBottomOf="@id/view_pager_backdrops"
-                tools:text="March 2018" />
-
-            <TextView
-                android:id="@+id/text_rating_str"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/default_margin"
-                android:layout_marginTop="@dimen/small_margin"
-                android:textSize="@dimen/overview_text_size"
-                app:layout_constraintStart_toEndOf="@id/rating_movie_rating"
-                app:layout_constraintTop_toBottomOf="@+id/tv_release_date"
-                tools:text="4/10" />
-
-            <TextView
-                android:id="@+id/text_original_title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/default_margin"
-                android:textColor="?attr/editTextColor"
-                android:textSize="@dimen/title_text_size"
-                app:layout_constraintEnd_toStartOf="@+id/gl_vertical_end"
-                app:layout_constraintStart_toStartOf="@id/tv_release_date"
-                app:layout_constraintTop_toBottomOf="@id/text_rating_str"
-                tools:text="Original Title" />
-
-            <TextView
-                android:id="@+id/text_overview"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/default_margin"
-                android:textSize="@dimen/overview_text_size"
-                app:layout_constraintEnd_toStartOf="@+id/gl_vertical_end"
-                app:layout_constraintStart_toStartOf="@+id/gl_vertical_start"
-                app:layout_constraintTop_toBottomOf="@id/barrier"
-                tools:text="Movie Overview" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/small_margin"
-                app:layout_constraintTop_toBottomOf="@id/lv_reviews" />
-
-            <android.support.constraint.Barrier
-                android:id="@+id/barrier"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:barrierDirection="bottom"
-                app:constraint_referenced_ids="text_original_title,iv_poster"
-                tools:layout_editor_absoluteY="331dp" />
-
             <android.support.constraint.Guideline
                 android:id="@+id/gl_vertical_start"
                 android:layout_width="wrap_content"
@@ -153,13 +52,117 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <ImageView
+                android:id="@+id/iv_poster"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/poster_height_detail_view"
+                android:layout_marginStart="@dimen/double_margin"
+                android:adjustViewBounds="false"
+                android:contentDescription="@string/content_description_poster"
+                android:elevation="@dimen/standard_elevation"
+                android:scaleType="centerCrop"
+                android:transitionName="@string/transition_poster"
+                app:layout_constraintBottom_toBottomOf="@id/view_pager_backdrops"
+                app:layout_constraintDimensionRatio="w,185:278"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view_pager_backdrops" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@color/colorPrimaryLight"
+                app:layout_constraintBottom_toBottomOf="@id/space"
+                app:layout_constraintTop_toBottomOf="@id/view_pager_backdrops" />
+
+            <TextView
+                android:id="@+id/tv_release_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginTop="@dimen/default_margin"
+                android:textSize="@dimen/overview_text_size"
+                app:layout_constraintStart_toEndOf="@id/iv_poster"
+                app:layout_constraintTop_toBottomOf="@id/view_pager_backdrops"
+                tools:text="March 2018" />
+
+            <RatingBar
+                android:id="@+id/rating_movie_rating"
+                style="?android:ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:stepSize="1"
+                app:layout_constraintBottom_toBottomOf="@+id/text_rating_str"
+                app:layout_constraintStart_toStartOf="@id/tv_release_date"
+                app:layout_constraintTop_toTopOf="@+id/text_rating_str"
+                tools:rating="5" />
+
+            <TextView
+                android:id="@+id/text_rating_str"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginTop="@dimen/small_margin"
+                android:textSize="@dimen/overview_text_size"
+                app:layout_constraintStart_toEndOf="@id/rating_movie_rating"
+                app:layout_constraintTop_toBottomOf="@+id/tv_release_date"
+                tools:text="4/10" />
+
+            <TextView
+                android:id="@+id/text_original_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin"
+                android:textColor="?attr/editTextColor"
+                android:textSize="@dimen/title_text_size"
+                app:layout_constraintEnd_toStartOf="@+id/gl_vertical_end"
+                app:layout_constraintStart_toStartOf="@id/tv_release_date"
+                app:layout_constraintTop_toBottomOf="@id/text_rating_str"
+                tools:text="Original Title" />
+
+            <android.support.constraint.Barrier
+                android:id="@+id/barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="text_original_title,iv_poster"
+                tools:layout_editor_absoluteY="331dp" />
+
+            <Space
+                android:id="@+id/space"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/double_margin"
+                app:layout_constraintTop_toBottomOf="@id/barrier"/>
+
+            <TextView
+                android:id="@+id/text_overview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin"
+                android:textSize="@dimen/overview_text_size"
+                app:layout_constraintEnd_toStartOf="@+id/gl_vertical_end"
+                app:layout_constraintStart_toStartOf="@+id/gl_vertical_start"
+                app:layout_constraintTop_toBottomOf="@id/space"
+                tools:text="Movie Overview" />
+
+            <CheckBox
+                android:id="@+id/check_favorite_movie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/check_box_selector"
+                android:checked="true"
+                android:elevation="@dimen/standard_elevation"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/view_pager_backdrops"
+                app:layout_constraintEnd_toStartOf="@+id/gl_vertical_end"
+                app:layout_constraintTop_toBottomOf="@+id/view_pager_backdrops" />
+
             <android.support.v7.widget.CardView
                 android:id="@+id/cardview_1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/cardview_default_elevation"
                 android:layout_marginTop="@dimen/default_margin"
-                android:layout_marginRight="@dimen/cardview_default_elevation"
                 app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
                 app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
                 app:layout_constraintTop_toBottomOf="@id/text_overview"
@@ -209,9 +212,7 @@
                 android:id="@+id/cardview_2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/cardview_default_elevation"
                 android:layout_marginTop="@dimen/default_margin"
-                android:layout_marginRight="@dimen/cardview_default_elevation"
                 app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
                 app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
                 app:layout_constraintTop_toBottomOf="@id/cardview_1"
@@ -253,6 +254,12 @@
                 app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
                 app:layout_constraintStart_toStartOf="@id/gl_vertical_start"
                 app:layout_constraintTop_toBottomOf="@id/cardview_2" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small_margin"
+                app:layout_constraintTop_toBottomOf="@id/lv_reviews" />
 
         </android.support.constraint.ConstraintLayout>
     </ScrollView>

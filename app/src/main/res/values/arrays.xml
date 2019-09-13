@@ -10,4 +10,10 @@
         <item>@string/pref_most_popular_value</item>
         <item>@string/pref_top_rated_value</item>
     </array>
+
+    <array name="array_movie_tab_label">
+        <item>@string/label_movie_info</item>
+        <item>@string/label_movie_trailers</item>
+        <item>@string/label_movie_reviews</item>
+    </array>
 </resources>
