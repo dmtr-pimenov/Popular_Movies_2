@@ -26,13 +26,14 @@ public class MovieInfoFragment extends Fragment {
      */
     public static MovieInfoFragment newInstance() {
         MovieInfoFragment fragment = new MovieInfoFragment();
+        fragment.setArguments(new Bundle());
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModel = ViewModelProviders.of(getActivity()).get(MovieDetailViewModel.class);
+//        mViewModel = ViewModelProviders.of(getActivity()).get(MovieDetailViewModel.class);
     }
 
     @Override

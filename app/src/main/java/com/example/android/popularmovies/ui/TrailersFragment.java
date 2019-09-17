@@ -24,13 +24,14 @@ public class TrailersFragment extends Fragment {
      */
     public static TrailersFragment newInstance() {
         TrailersFragment fragment = new TrailersFragment();
+        fragment.setArguments(new Bundle());
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModel = ViewModelProviders.of(getActivity()).get(MovieDetailViewModel.class);
+//        mViewModel = ViewModelProviders.of(getActivity()).get(MovieDetailViewModel.class);
     }
 
     @Override

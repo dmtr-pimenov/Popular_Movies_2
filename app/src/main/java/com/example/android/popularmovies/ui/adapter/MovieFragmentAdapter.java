@@ -1,6 +1,7 @@
 package com.example.android.popularmovies.ui.adapter;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -31,6 +32,12 @@ public class MovieFragmentAdapter extends FragmentPagerAdapter {
             default:
                 throw new RuntimeException("Unexpected fragment index");
         }
+    }
+
+    @Nullable
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return tabLabels[position];
     }
 
     @Override

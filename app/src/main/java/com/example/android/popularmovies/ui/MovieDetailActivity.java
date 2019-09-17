@@ -30,6 +30,7 @@ import com.example.android.popularmovies.data.model.TrailerMinimal;
 import com.example.android.popularmovies.data.network.NetworkApi;
 import com.example.android.popularmovies.databinding.ActivityMovieDetailBinding;
 import com.example.android.popularmovies.ui.adapter.BackdropAdapter;
+import com.example.android.popularmovies.ui.adapter.MovieFragmentAdapter;
 import com.example.android.popularmovies.ui.adapter.ReviewListAdapter;
 import com.example.android.popularmovies.ui.adapter.TrailerListAdapter;
 import com.example.android.popularmovies.ui.factory.MovieDetailViewModelFactory;
@@ -75,11 +76,11 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
         setupViewModel(movie);
 
         setupImageViews(movie);
-        setupRatingViews(movie);
+//        setupRatingViews(movie);
         setupBackdropViewPager();
+        setupViewPager();
 
         mBinding.textOriginalTitle.setText(movie.getOriginalTitle());
-        mBinding.textOverview.setText(movie.getOverview());
         mBinding.tvReleaseDate.setText(formatDate(movie.getReleaseDate()));
 
         mBinding.checkFavoriteMovie.setOnClickListener(new View.OnClickListener() {
@@ -128,6 +129,7 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
                         backdropCollectionResource.status == Resource.Status.ERROR) {
                     showToastMessage(R.string.error_loading_backdrop_collection);
                 } else {
+                    mViewModel.getBackdropCollection().removeObserver(this);
                     BackdropAdapter adapter = new BackdropAdapter(MovieDetailActivity.this,
                             backdropCollectionResource.data);
                     mBinding.viewPagerBackdrops.setAdapter(adapter);
@@ -135,7 +137,9 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
             }
         });
 
+/*
         mViewModel.getTrailerCollection().observe(this, new Observer<Resource<List<TrailerMinimal>>>() {
+        // todo remove observer
             @Override
             public void onChanged(@Nullable Resource<List<TrailerMinimal>> trailerCollectionResource) {
                 mViewModel.getTrailerCollection().removeObserver(this);
@@ -149,6 +153,7 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
         });
 
         mViewModel.getReviewCollection().observe(this, new Observer<Resource<List<ReviewMinimal>>>() {
+        // todo remove observer
             @Override
             public void onChanged(@Nullable Resource<List<ReviewMinimal>> reviewCollectionResource) {
                 mViewModel.getReviewCollection().removeObserver(this);
@@ -160,6 +165,7 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
                 }
             }
         });
+*/
 
         /*
          * If the App gets the Data from network we have to inform
@@ -172,13 +178,9 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
             public void onChanged(@Nullable Boolean isFavorite) {
                 mViewModel.isFavorite().removeObserver(this);
                 Log.d(TAG, "Movie is favorite: " + isFavorite);
-                changeFavoriteButtonStatus(isFavorite);
+                mBinding.checkFavoriteMovie.setChecked(isFavorite);
             }
         });
-    }
-
-    private void changeFavoriteButtonStatus(boolean isFavorite) {
-        mBinding.checkFavoriteMovie.setChecked(isFavorite);
     }
 
     /**
@@ -201,6 +203,13 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
         }
 
         showToastMessage(messageId);
+    }
+
+
+    private void setupViewPager() {
+        MovieFragmentAdapter adapter = new MovieFragmentAdapter(this, getSupportFragmentManager());
+        mBinding.viewPagerFragment.setAdapter(adapter);
+        mBinding.tablayoutFragment.setupWithViewPager(mBinding.viewPagerFragment);
     }
 
     private void setupBackdropViewPager() {
@@ -231,6 +240,7 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
                 .into(mBinding.ivPoster);
     }
 
+/*
     private void setupRatingViews(Movie movie) {
         Float voteAverage = movie.getVoteAverage();
         if (voteAverage == null) {
@@ -244,7 +254,9 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
         String ratingString = DecimalFormat.getNumberInstance().format(voteAverage) + "/10";
         mBinding.textRatingStr.setText(ratingString);
     }
+*/
 
+    // todo move this method to Util class
     /**
      * Convert String representation of Release date to
      * short form representation
@@ -270,6 +282,7 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
         return result;
     }
 
+/*
     private void setupTrailerList(final List<TrailerMinimal> trailerList) {
 
         final ListView trailers = mBinding.lvTrailers;
@@ -319,7 +332,9 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
             }
         });
     }
+*/
 
+/*
     private void setupReviewList(final List<ReviewMinimal> reviewList) {
 
         final ListView reviews = mBinding.lvReviews;
@@ -361,7 +376,9 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
             }
         });
     }
+*/
 
+/*
     private void showTrailer(@Nullable TrailerMinimal trailer) {
 
         if (trailer != null) {
@@ -376,6 +393,7 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
             }
         }
     }
+*/
 
     /**
      * Helper method

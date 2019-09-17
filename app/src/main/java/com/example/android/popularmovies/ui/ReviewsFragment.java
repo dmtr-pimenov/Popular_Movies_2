@@ -24,13 +24,14 @@ public class ReviewsFragment extends Fragment {
      */
     public static ReviewsFragment newInstance() {
         ReviewsFragment fragment = new ReviewsFragment();
+        fragment.setArguments(new Bundle());
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModel = ViewModelProviders.of(getActivity()).get(MovieDetailViewModel.class);
+//        mViewModel = ViewModelProviders.of(getActivity()).get(MovieDetailViewModel.class);
     }
 
     @Override
