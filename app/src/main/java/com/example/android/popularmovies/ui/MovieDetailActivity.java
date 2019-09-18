@@ -9,10 +9,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -61,29 +64,37 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
 
         super.onCreate(savedInstanceState);
 
-        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_movie_detail);
-
         Intent startIntent = getIntent();
-
         if (!startIntent.hasExtra(EXTRA_MOVIE_DATA)) {
             Log.e(TAG, "Incredible! No movie information");
             finish();
             return;
         }
 
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_movie_detail);
+
+        setSupportActionBar(mBinding.toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
         Movie movie = startIntent.getParcelableExtra(EXTRA_MOVIE_DATA);
+
+        setTitle(movie.getTitle());
 
         setupViewModel(movie);
 
+        setupAppBarListener();
         setupImageViews(movie);
 //        setupRatingViews(movie);
         setupBackdropViewPager();
         setupViewPager();
 
-        mBinding.textOriginalTitle.setText(movie.getOriginalTitle());
-        mBinding.tvReleaseDate.setText(formatDate(movie.getReleaseDate()));
+        mBinding.detailedInfo.textTitle.setText(movie.getTitle());
+        mBinding.detailedInfo.tvReleaseDate.setText(formatDate(movie.getReleaseDate()));
 
-        mBinding.checkFavoriteMovie.setOnClickListener(new View.OnClickListener() {
+        mBinding.detailedInfo.checkFavoriteMovie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 processCheckBoxOnClick();
@@ -132,7 +143,7 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
                     mViewModel.getBackdropCollection().removeObserver(this);
                     BackdropAdapter adapter = new BackdropAdapter(MovieDetailActivity.this,
                             backdropCollectionResource.data);
-                    mBinding.viewPagerBackdrops.setAdapter(adapter);
+                    mBinding.detailedInfo.viewPagerBackdrops.setAdapter(adapter);
                 }
             }
         });
@@ -178,7 +189,7 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
             public void onChanged(@Nullable Boolean isFavorite) {
                 mViewModel.isFavorite().removeObserver(this);
                 Log.d(TAG, "Movie is favorite: " + isFavorite);
-                mBinding.checkFavoriteMovie.setChecked(isFavorite);
+                mBinding.detailedInfo.checkFavoriteMovie.setChecked(isFavorite);
             }
         });
     }
@@ -189,7 +200,7 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
      * otherwise The Movie will be removed form DB
      */
     private void processCheckBoxOnClick() {
-        boolean isFavorite = mBinding.checkFavoriteMovie.isChecked();
+        boolean isFavorite = mBinding.detailedInfo.checkFavoriteMovie.isChecked();
         Log.d(TAG, "processCheckBoxOnClick: " + isFavorite);
         int messageId;
 
@@ -205,17 +216,16 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
         showToastMessage(messageId);
     }
 
-
     private void setupViewPager() {
         MovieFragmentAdapter adapter = new MovieFragmentAdapter(this, getSupportFragmentManager());
         mBinding.viewPagerFragment.setAdapter(adapter);
-        mBinding.tablayoutFragment.setupWithViewPager(mBinding.viewPagerFragment);
+        mBinding.tabFragment.setupWithViewPager(mBinding.viewPagerFragment);
     }
 
     private void setupBackdropViewPager() {
 
-        TabLayout tabLayout = mBinding.tablayoutBackdropIndicator;
-        ViewPager viewPager = mBinding.viewPagerBackdrops;
+        TabLayout tabLayout = mBinding.detailedInfo.tablayoutBackdropIndicator;
+        ViewPager viewPager = mBinding.detailedInfo.viewPagerBackdrops;
         tabLayout.setupWithViewPager(viewPager);
 
         LinearLayout tabStrip = (LinearLayout) tabLayout.getChildAt(0);
@@ -223,7 +233,7 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
             tabStrip.getChildAt(i).setClickable(false);
         }
         mViewPagerChanger = new ViewPagerChanger(this,
-                mBinding.viewPagerBackdrops, 5000);
+                mBinding.detailedInfo.viewPagerBackdrops, 3000);
         mViewPagerChanger.start();
     }
 
@@ -237,7 +247,7 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
         Picasso.with(this).load(posterUrl)
                 .placeholder(placeholder)
                 .error(error)
-                .into(mBinding.ivPoster);
+                .into(mBinding.detailedInfo.imagePoster);
     }
 
 /*
@@ -257,6 +267,7 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
 */
 
     // todo move this method to Util class
+
     /**
      * Convert String representation of Release date to
      * short form representation
@@ -280,6 +291,30 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
             result = "parse error";
         }
         return result;
+    }
+
+    private void setupAppBarListener() {
+        mBinding.appBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (Math.abs(verticalOffset) == appBarLayout.getTotalScrollRange()) {
+                    // Collapsed
+                    if (mViewPagerChanger.isStarted()) {
+                        mViewPagerChanger.stop();
+                    }
+                } else if (verticalOffset == 0) {
+                    // Expanded
+                    if (!mViewPagerChanger.isStarted()) {
+                        mViewPagerChanger.start();
+                    }
+                } else {
+                    // Somewhere in between
+                    if (!mViewPagerChanger.isStarted()) {
+                        mViewPagerChanger.start();
+                    }
+                }
+            }
+        });
     }
 
 /*
@@ -397,6 +432,7 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
 
     /**
      * Helper method
+     *
      * @param messageId
      */
     private void showToastMessage(@StringRes int messageId) {
@@ -412,6 +448,7 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
     /**
      * Click listener for TextView that contains Http link to Review on web site
      * If user clicks on link then external web browser will open page with Review
+     *
      * @param link
      */
     @Override

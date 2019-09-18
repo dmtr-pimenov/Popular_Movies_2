@@ -37,7 +37,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/view_pager_backdrops"
-                app:tabBackground="@drawable/selector_tab_indicator"
+                app:tabBackground="@drawable/selector_dotted_tab_indicator"
                 app:tabGravity="center"
                 app:tabIndicatorHeight="0dp"
                 app:tabPaddingEnd="8dp"
@@ -53,7 +53,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/iv_poster"
+                android:id="@+id/image_poster"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/poster_height_detail_view"
                 android:layout_marginStart="@dimen/double_margin"
@@ -81,7 +81,7 @@
                 android:layout_marginStart="@dimen/default_margin"
                 android:layout_marginTop="@dimen/default_margin"
                 android:textSize="@dimen/overview_text_size"
-                app:layout_constraintStart_toEndOf="@id/iv_poster"
+                app:layout_constraintStart_toEndOf="@id/image_poster"
                 app:layout_constraintTop_toBottomOf="@id/view_pager_backdrops"
                 tools:text="March 2018" />
 
@@ -110,7 +110,7 @@
                 tools:text="4/10" />
 
             <TextView
-                android:id="@+id/text_original_title"
+                android:id="@+id/text_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_margin"
@@ -126,7 +126,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:barrierDirection="bottom"
-                app:constraint_referenced_ids="text_original_title,iv_poster"
+                app:constraint_referenced_ids="text_title,image_poster"
                 tools:layout_editor_absoluteY="331dp" />
 
             <Space

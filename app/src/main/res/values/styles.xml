@@ -8,24 +8,31 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:textViewStyle">@style/CustomFontStyle</item>
     </style>
 
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="AppTheme.TransparentStatusBar" parent="AppTheme.NoActionBar">
         <item name="windowActionBarOverlay">false</item>
+        <item name="android:windowTranslucentStatus">true</item>
+
     </style>
 
     <style name="CustomFontStyle" parent="android:Widget.TextView">
         <item name="android:fontFamily">sans-serif-condensed</item>
         <item name="android:typeface">sans</item>
+    </style>
+
+    <!-- To hide Title in expanded Collapsing toolbar -->
+    <style name="CollapsingToolbarLayoutExpandedTextStyle" parent="AppTheme">
+        <item name="android:textColor">@android:color/transparent</item>
+        <item name="android:textSize">0sp</item>
     </style>
 
 </resources>
