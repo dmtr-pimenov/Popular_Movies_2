@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.example.android.popularmovies.BuildConfig;
 import com.example.android.popularmovies.data.model.BackdropCollection;
+import com.example.android.popularmovies.data.model.MovieDetail;
 import com.example.android.popularmovies.data.model.MoviesPage;
 import com.example.android.popularmovies.data.model.ReviewCollection;
 import com.example.android.popularmovies.data.model.TrailerCollection;
@@ -125,11 +126,21 @@ public class NetworkApi {
 
     /**
      * Executes REST request to MovieDB and
+     * Returns MovieDetail
+     * @param movieId
+     * @return
+     */
+    public Call<MovieDetail> getMovieDetail(String movieId) {
+        return mRawMovieDbApi.getMovieDetail(movieId, BuildConfig.MOVEDB_API_KEY);
+    }
+
+    /**
+     * Executes REST request to MovieDB and
      * Returns collection of trailers
      * @param movieId - Movie ID
      * @return Call<TrailerCollection>
      */
-    public Call<TrailerCollection> getTrailersCollection(String movieId) {
+    public Call<TrailerCollection> getTrailersCollection(long movieId) {
         return mRawMovieDbApi.getTrailers(movieId,
                 BuildConfig.MOVEDB_API_KEY);
     }
@@ -140,7 +151,7 @@ public class NetworkApi {
      * @param movieId - Movie ID
      * @return Call<ReviewCollection>
      */
-    public Call<ReviewCollection> getReviewCollection(String movieId) {
+    public Call<ReviewCollection> getReviewCollection(long movieId) {
         return mRawMovieDbApi.getReviews(movieId,
                 BuildConfig.MOVEDB_API_KEY);
     }
@@ -151,7 +162,7 @@ public class NetworkApi {
      * @param movieId - Movie ID
      * @return Call<BackdropCollection>
      */
-    public Call<BackdropCollection> getBackdropCollection(String movieId) {
+    public Call<BackdropCollection> getBackdropCollection(long movieId) {
         return mRawMovieDbApi.getImages(movieId,
                 BuildConfig.MOVEDB_API_KEY);
     }

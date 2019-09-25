@@ -1,6 +1,7 @@
 package com.example.android.popularmovies.data.network;
 
 import com.example.android.popularmovies.data.model.BackdropCollection;
+import com.example.android.popularmovies.data.model.MovieDetail;
 import com.example.android.popularmovies.data.model.MoviesPage;
 import com.example.android.popularmovies.data.model.ReviewCollection;
 import com.example.android.popularmovies.data.model.TrailerCollection;
@@ -21,15 +22,19 @@ public interface RawMovieDbApi {
                                    @Query("api_key") String apiKey,
                                    @Query("page") int page);
 
+    @GET("3/movie/{id}")
+    Call<MovieDetail> getMovieDetail(@Path("id") String movieId,
+                                     @Query("api_key") String apiKey);
+
     @GET("3/movie/{id}/videos")
-    Call<TrailerCollection> getTrailers(@Path("id") String movieId,
+    Call<TrailerCollection> getTrailers(@Path("id") long movieId,
                                         @Query("api_key") String apiKey);
 
     @GET("3/movie/{id}/reviews")
-    Call<ReviewCollection> getReviews(@Path("id") String movieId,
+    Call<ReviewCollection> getReviews(@Path("id") long movieId,
                                       @Query("api_key") String apiKey);
 
     @GET("3/movie/{id}/images")
-    Call<BackdropCollection> getImages(@Path("id") String movieId,
+    Call<BackdropCollection> getImages(@Path("id") long movieId,
                                        @Query("api_key") String apiKey);
 }

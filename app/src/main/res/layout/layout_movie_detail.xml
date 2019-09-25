@@ -9,17 +9,17 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <android.support.design.widget.TabLayout
-            android:id="@+id/tablayout_backdrop_indicator"
+            android:genreId="@+genreId/tablayout_backdrop_indicator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/double_margin"
             android:elevation="1dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/view_pager_backdrops"
+            app:layout_constraintTop_toTopOf="@genreId/view_pager_backdrops"
             app:tabBackground="@drawable/selector_dotted_tab_indicator"
             app:tabGravity="center"
             app:tabIndicatorHeight="0dp"
@@ -27,7 +27,7 @@
             app:tabPaddingStart="@dimen/default_margin" />
 
         <android.support.v4.view.ViewPager
-            android:id="@+id/view_pager_backdrops"
+            android:genreId="@+genreId/view_pager_backdrops"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintDimensionRatio="H,780:439"
@@ -36,19 +36,19 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <CheckBox
-            android:id="@+id/check_favorite_movie"
+            android:genreId="@+genreId/check_favorite_movie"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:button="@drawable/check_box_selector"
             android:checked="true"
             android:elevation="@dimen/standard_elevation"
-            app:layout_constraintBottom_toBottomOf="@+id/view_pager_backdrops"
-            app:layout_constraintEnd_toStartOf="@+id/gl_vertical_end"
-            app:layout_constraintTop_toBottomOf="@+id/view_pager_backdrops" />
+            app:layout_constraintBottom_toBottomOf="@+genreId/view_pager_backdrops"
+            app:layout_constraintEnd_toStartOf="@+genreId/gl_vertical_end"
+            app:layout_constraintTop_toBottomOf="@+genreId/view_pager_backdrops" />
 
         <ImageView
-            android:id="@+id/image_poster"
+            android:genreId="@+genreId/image_poster"
             android:layout_width="0dp"
             android:layout_height="@dimen/poster_height_detail_view"
             android:adjustViewBounds="false"
@@ -56,74 +56,88 @@
             android:elevation="@dimen/standard_elevation"
             android:scaleType="centerCrop"
             android:transitionName="@string/transition_poster"
-            app:layout_constraintBottom_toBottomOf="@id/view_pager_backdrops"
+            app:layout_constraintBottom_toBottomOf="@genreId/view_pager_backdrops"
             app:layout_constraintDimensionRatio="w,185:278"
-            app:layout_constraintStart_toStartOf="@id/gl_vertical_start"
-            app:layout_constraintTop_toBottomOf="@id/view_pager_backdrops" />
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="@color/colorPrimaryLight"
-            app:layout_constraintBottom_toBottomOf="@id/space"
-            app:layout_constraintTop_toBottomOf="@id/view_pager_backdrops" />
-
-        <Space
-            android:id="@+id/space"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/double_margin"
-            app:layout_constraintTop_toBottomOf="@id/barrier" />
+            app:layout_constraintStart_toStartOf="@genreId/gl_vertical_start"
+            app:layout_constraintTop_toBottomOf="@genreId/view_pager_backdrops"
+            tools:src="@tools:sample/avatars"/>
 
         <TextView
-            android:id="@+id/tv_release_date"
+            android:genreId="@+genreId/tv_release_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/default_margin"
             android:layout_marginTop="@dimen/default_margin"
             android:textSize="@dimen/overview_text_size"
-            app:layout_constraintStart_toEndOf="@id/image_poster"
-            app:layout_constraintTop_toBottomOf="@id/view_pager_backdrops"
+            app:layout_constraintStart_toEndOf="@genreId/image_poster"
+            app:layout_constraintTop_toBottomOf="@genreId/view_pager_backdrops"
             tools:text="March, 2018" />
 
         <TextView
-            android:id="@+id/text_title"
+            android:genreId="@+genreId/text_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_margin"
             android:textColor="?attr/editTextColor"
             android:textSize="@dimen/title_text_size"
-            app:layout_constraintEnd_toStartOf="@+id/gl_vertical_end"
-            app:layout_constraintStart_toStartOf="@id/tv_release_date"
-            app:layout_constraintTop_toBottomOf="@id/tv_release_date"
+            app:layout_constraintEnd_toStartOf="@+genreId/gl_vertical_end"
+            app:layout_constraintStart_toStartOf="@genreId/tv_release_date"
+            app:layout_constraintTop_toBottomOf="@genreId/tv_release_date"
             tools:text="Original Title" />
 
         <TextView
-            android:id="@+id/text_genres"
+            android:genreId="@+genreId/text_tag_line"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_margin"
+            android:textColor="?attr/editTextColor"
+            android:textSize="@dimen/title_text_size"
+            app:layout_constraintEnd_toStartOf="@+genreId/gl_vertical_end"
+            app:layout_constraintStart_toStartOf="@genreId/tv_release_date"
+            app:layout_constraintTop_toBottomOf="@genreId/tv_release_date"
+            tools:text="Original Title" />
+
+        <TextView
+            android:genreId="@+genreId/text_genres"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_margin"
             android:textSize="@dimen/overview_text_size"
-            app:layout_constraintEnd_toStartOf="@+id/gl_vertical_end"
-            app:layout_constraintStart_toStartOf="@id/tv_release_date"
-            app:layout_constraintTop_toBottomOf="@id/text_title"
+            app:layout_constraintEnd_toStartOf="@+genreId/gl_vertical_end"
+            app:layout_constraintStart_toStartOf="@genreId/tv_release_date"
+            app:layout_constraintTop_toBottomOf="@genreId/text_title"
             tools:text="Fiction, Horror" />
 
         <android.support.constraint.Barrier
-            android:id="@+id/barrier"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
-            app:constraint_referenced_ids="text_title,image_poster" />
+            android:layout_marginBottom="@dimen/double_margin"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:constraint_referenced_ids="text_genres,image_poster" />
+
+        <android.support.constraint.Barrier
+            android:genreId="@+genreId/barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="text_genres,image_poster"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/double_margin"
+            app:layout_constraintTop_toBottomOf="@genreId/barrier"/>
 
         <android.support.constraint.Guideline
-            android:id="@+id/gl_vertical_start"
+            android:genreId="@+genreId/gl_vertical_start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_begin="@dimen/double_margin" />
 
         <android.support.constraint.Guideline
-            android:id="@+id/gl_vertical_end"
+            android:genreId="@+genreId/gl_vertical_end"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"

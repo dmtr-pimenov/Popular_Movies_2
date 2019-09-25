@@ -1,109 +1,107 @@
 package com.example.android.popularmovies.data.model;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.Index;
+import android.arch.persistence.room.PrimaryKey;
+
 import java.util.List;
-import com.google.gson.annotations.Expose;
+
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * This Entity is used for Network and DB Operation
+ */
+
+@Entity(tableName = "movie_detail", indices = {
+        @Index(value = {"id"}, unique = true),
+        @Index(value = {"vote_average"}),
+        @Index(value = {"popularity"})
+})
 public class MovieDetail {
 
-    @SerializedName("adult")
-    @Expose
-    private Boolean adult;
-
-    @SerializedName("backdrop_path")
-    @Expose
-    private String backdropPath;
+    @PrimaryKey(autoGenerate = false)
+    @SerializedName("id")
+    private Long id;
 
     @SerializedName("budget")
-    @Expose
     private Integer budget;
 
+    @Ignore
     @SerializedName("genres")
-    @Expose
     private List<Genre> genres = null;
 
     @SerializedName("homepage")
-    @Expose
     private String homepage;
 
-    @SerializedName("id")
-    @Expose
-    private Integer id;
-
     @SerializedName("original_language")
-    @Expose
+    @ColumnInfo(name = "original_language")
     private String originalLanguage;
 
+    @ColumnInfo(name = "original_title")
     @SerializedName("original_title")
-    @Expose
     private String originalTitle;
 
     @SerializedName("overview")
-    @Expose
     private String overview;
 
     @SerializedName("popularity")
-    @Expose
     private Double popularity;
 
+    @ColumnInfo(name = "poster_path")
     @SerializedName("poster_path")
-    @Expose
     private String posterPath;
 
     @SerializedName("release_date")
-    @Expose
     private String releaseDate;
 
     @SerializedName("revenue")
-    @Expose
     private Integer revenue;
 
     @SerializedName("runtime")
-    @Expose
     private Integer runtime;
 
-    @SerializedName("spoken_languages")
-    @Expose
-    private List<SpokenLanguage> spokenLanguages = null;
-
     @SerializedName("status")
-    @Expose
     private String status;
 
     @SerializedName("tagline")
-    @Expose
     private String tagline;
 
     @SerializedName("title")
-    @Expose
     private String title;
 
-    @SerializedName("video")
-    @Expose
-    private Boolean video;
-
+    @ColumnInfo(name = "vote_average")
     @SerializedName("vote_average")
-    @Expose
     private Double voteAverage;
 
+    @ColumnInfo(name = "")
     @SerializedName("vote_count")
-    @Expose
     private Integer voteCount;
 
-    public Boolean getAdult() {
-        return adult;
-    }
-
-    public void setAdult(Boolean adult) {
-        this.adult = adult;
-    }
-
-    public String getBackdropPath() {
-        return backdropPath;
-    }
-
-    public void setBackdropPath(String backdropPath) {
-        this.backdropPath = backdropPath;
+    // Constructor used by Room to create MovieDetail instance
+    public MovieDetail(Long id, Integer budget, String homepage,
+                       String originalLanguage, String originalTitle, String overview,
+                       Double popularity, String posterPath, String releaseDate, Integer revenue,
+                       Integer runtime, String status, String tagline,
+                       String title, Double voteAverage, Integer voteCount) {
+        this.budget = budget;
+        this.genres = genres;
+        this.homepage = homepage;
+        this.id = id;
+        this.originalLanguage = originalLanguage;
+        this.originalTitle = originalTitle;
+        this.overview = overview;
+        this.popularity = popularity;
+        this.posterPath = posterPath;
+        this.releaseDate = releaseDate;
+        this.revenue = revenue;
+        this.runtime = runtime;
+        this.status = status;
+        this.tagline = tagline;
+        this.title = title;
+        this.voteAverage = voteAverage;
+        this.voteCount = voteCount;
     }
 
     public Integer getBudget() {
@@ -130,11 +128,11 @@ public class MovieDetail {
         this.homepage = homepage;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -202,14 +200,6 @@ public class MovieDetail {
         this.runtime = runtime;
     }
 
-    public List<SpokenLanguage> getSpokenLanguages() {
-        return spokenLanguages;
-    }
-
-    public void setSpokenLanguages(List<SpokenLanguage> spokenLanguages) {
-        this.spokenLanguages = spokenLanguages;
-    }
-
     public String getStatus() {
         return status;
     }
@@ -232,14 +222,6 @@ public class MovieDetail {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public Boolean getVideo() {
-        return video;
-    }
-
-    public void setVideo(Boolean video) {
-        this.video = video;
     }
 
     public Double getVoteAverage() {

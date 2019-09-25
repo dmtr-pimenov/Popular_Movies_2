@@ -1,14 +1,40 @@
 package com.example.android.popularmovies.data.model;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Index;
+import android.arch.persistence.room.PrimaryKey;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import static android.arch.persistence.room.ForeignKey.CASCADE;
+
+/**
+ * This Entity is used for Network and DB Operation
+ */
+
+@Entity(tableName = "backdrop", indices = {
+        @Index(value = {"id"}, unique = true),
+        @Index(value = {"movie_id"})},
+        foreignKeys = @ForeignKey(entity = MovieDetail.class, parentColumns = "id",
+                childColumns = "movie_id", onDelete = CASCADE)
+)
 public class Backdrop {
 
+    @PrimaryKey(autoGenerate = true)
+    private Long id;
+
+    @ColumnInfo(name = "movie_id")
+    private Long movieId;
+
+    @ColumnInfo(name = "aspect_ratio")
     @SerializedName("aspect_ratio")
     @Expose
     private Double aspectRatio;
 
+    @ColumnInfo(name = "file_path")
     @SerializedName("file_path")
     @Expose
     private String filePath;
@@ -17,21 +43,36 @@ public class Backdrop {
     @Expose
     private Integer height;
 
-    @SerializedName("iso_639_1")
-    @Expose
-    private Object iso6391;
-
-    @SerializedName("vote_average")
-    @Expose
-    private Double voteAverage;
-
-    @SerializedName("vote_count")
-    @Expose
-    private Integer voteCount;
-
     @SerializedName("width")
     @Expose
     private Integer width;
+
+    // Constructor used by Room to create Backdrop instance
+    public Backdrop(Long id, Long movieId, Double aspectRatio, String filePath,
+                    Integer height, Integer width) {
+        this.id = id;
+        this.movieId = movieId;
+        this.aspectRatio = aspectRatio;
+        this.filePath = filePath;
+        this.height = height;
+        this.width = width;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getMovieId() {
+        return movieId;
+    }
+
+    public void setMovieId(Long movieId) {
+        this.movieId = movieId;
+    }
 
     public Double getAspectRatio() {
         return aspectRatio;
@@ -55,30 +96,6 @@ public class Backdrop {
 
     public void setHeight(Integer height) {
         this.height = height;
-    }
-
-    public Object getIso6391() {
-        return iso6391;
-    }
-
-    public void setIso6391(Object iso6391) {
-        this.iso6391 = iso6391;
-    }
-
-    public Double getVoteAverage() {
-        return voteAverage;
-    }
-
-    public void setVoteAverage(Double voteAverage) {
-        this.voteAverage = voteAverage;
-    }
-
-    public Integer getVoteCount() {
-        return voteCount;
-    }
-
-    public void setVoteCount(Integer voteCount) {
-        this.voteCount = voteCount;
     }
 
     public Integer getWidth() {

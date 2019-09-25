@@ -24,14 +24,17 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.android.popularmovies.R;
+import com.example.android.popularmovies.data.model.Language;
 import com.example.android.popularmovies.data.model.Movie;
 import com.example.android.popularmovies.data.model.Resource;
 import com.example.android.popularmovies.ui.adapter.MovieListAdapter;
 import com.example.android.popularmovies.ui.factory.MainViewModelFactory;
+import com.example.android.popularmovies.util.AssetsUtil;
 import com.example.android.popularmovies.util.InjectorUtil;
 import com.example.android.popularmovies.util.NetworkUtils;
 
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity
         implements MovieListAdapter.ListItemClickListener {
@@ -119,6 +122,9 @@ public class MainActivity extends AppCompatActivity
         } else {
             setupViewModel(savedInstanceState);
         }
+        // todo remove in production
+        Map<String, Language> languagesFromAssets = AssetsUtil.getLanguagesFromAssets(this);
+        Log.d(TAG, "onCreate: " + languagesFromAssets.size());
     }
 
     /**
@@ -318,7 +324,8 @@ public class MainActivity extends AppCompatActivity
         // create an Intent to launch movie detail activity
         Intent startMovieDetailActivity = new Intent(this, MovieDetailActivity.class);
         // put serialized movie into extra bundle
-        startMovieDetailActivity.putExtra(MovieDetailActivity.EXTRA_MOVIE_DATA, movie);
+        startMovieDetailActivity.putExtra(MovieDetailActivity.EXTRA_MOVIE_ID, movie.getId());
+        startMovieDetailActivity.putExtra(MovieDetailActivity.EXTRA_MOVIE_TITLE, movie.getTitle());
         // start activity with transition
         ActivityOptionsCompat options;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP &&

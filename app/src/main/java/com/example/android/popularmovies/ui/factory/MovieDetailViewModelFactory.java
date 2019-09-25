@@ -12,17 +12,17 @@ public class MovieDetailViewModelFactory extends ViewModelProvider.NewInstanceFa
 
     @NonNull
     private final AppRepository mRepository;
-    private final Movie mMovie;
+    private final long mMovieId;
 
-    public MovieDetailViewModelFactory(@NonNull Movie movie,
+    public MovieDetailViewModelFactory(long movieId,
                                        @NonNull AppRepository repository) {
         mRepository = repository;
-        mMovie = movie;
+        mMovieId = movieId;
     }
 
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         //noinspection unchecked
-        return (T) new MovieDetailViewModel(mMovie, mRepository);
+        return (T) new MovieDetailViewModel(mMovieId, mRepository);
     }
 }

@@ -1,17 +1,15 @@
 package com.example.android.popularmovies.data.model;
 
-import java.util.List;
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 public class BackdropCollection {
 
     @SerializedName("id")
-    @Expose
     private Integer id;
 
     @SerializedName("backdrops")
-    @Expose
     private List<Backdrop> backdrops = null;
 
     public Integer getId() {

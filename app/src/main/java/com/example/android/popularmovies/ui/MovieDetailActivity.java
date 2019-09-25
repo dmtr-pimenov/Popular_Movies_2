@@ -48,7 +48,8 @@ import java.util.List;
 
 public class MovieDetailActivity extends AppCompatActivity implements ReviewListAdapter.OnLinkClickListener {
 
-    public static final String EXTRA_MOVIE_DATA = "EXTRA_MOVIE_DATA";
+    public static final String EXTRA_MOVIE_ID = "EXTRA_MOVIE_ID";
+    public static final String EXTRA_MOVIE_TITLE = "EXTRA_MOVIE_TITLE";
     public static final String YOUTUBE_BASE_URI = "https://youtube.com/watch?v=";
     private static final String TAG = MovieDetailActivity.class.getSimpleName();
     private ActivityMovieDetailBinding mBinding;
@@ -65,7 +66,7 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
         super.onCreate(savedInstanceState);
 
         Intent startIntent = getIntent();
-        if (!startIntent.hasExtra(EXTRA_MOVIE_DATA)) {
+        if (!startIntent.hasExtra(EXTRA_MOVIE_ID)) {
             Log.e(TAG, "Incredible! No movie information");
             finish();
             return;
@@ -79,20 +80,21 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        Movie movie = startIntent.getParcelableExtra(EXTRA_MOVIE_DATA);
+        long movieId = startIntent.getLongExtra(EXTRA_MOVIE_ID, -1);
+        String movieTitle = startIntent.getStringExtra(EXTRA_MOVIE_TITLE);
 
-        setTitle(movie.getTitle());
+        setTitle(movieTitle);
 
-        setupViewModel(movie);
+        setupViewModel(movieId);
 
         setupAppBarListener();
-        setupImageViews(movie);
+//        setupImageViews(movie);
 //        setupRatingViews(movie);
         setupBackdropViewPager();
         setupViewPager();
 
-        mBinding.detailedInfo.textTitle.setText(movie.getTitle());
-        mBinding.detailedInfo.tvReleaseDate.setText(formatDate(movie.getReleaseDate()));
+        mBinding.detailedInfo.textTitle.setText(movieTitle);
+//        mBinding.detailedInfo.tvReleaseDate.setText(formatDate(movie.getReleaseDate()));
 
         mBinding.detailedInfo.checkFavoriteMovie.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,9 +129,9 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
         }
     }
 
-    private void setupViewModel(Movie movie) {
+    private void setupViewModel(long movieId) {
 
-        MovieDetailViewModelFactory factory = InjectorUtil.provideMovieDetailViewModelFactory(this, movie);
+        MovieDetailViewModelFactory factory = InjectorUtil.provideMovieDetailViewModelFactory(this, movieId);
         mViewModel = ViewModelProviders.of(this, factory).get(MovieDetailViewModel.class);
 
         mViewModel.getBackdropCollection().observe(this, new Observer<Resource<List<Backdrop>>>() {
@@ -245,7 +247,6 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
         // poster image
         String posterUrl = NetworkApi.getPosterUrl(movie.getPosterPath(), NetworkApi.PosterSize.W185);
         Picasso.with(this).load(posterUrl)
-                .placeholder(placeholder)
                 .error(error)
                 .into(mBinding.detailedInfo.imagePoster);
     }

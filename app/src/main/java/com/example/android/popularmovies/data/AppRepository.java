@@ -79,11 +79,15 @@ public class AppRepository {
         MovieDao movieDao = mAppDatabase.getMovieDao();
         LiveData<List<Movie>> res;
         if (getMostPopularStringArgValue().equals(sortMode)) {
-            res = movieDao.loadAllMoviesByPopularity();
+            // TODO: 19.09.2019 uncomment it
+//            res = movieDao.loadAllMoviesByPopularity();
         } else {
-            res = movieDao.loadAllMoviesByRating();
+            // TODO: 19.09.2019
+//            res = movieDao.loadAllMoviesByRating();
         }
-        return res;
+        // TODO: 19.09.2019 uncomment it
+//        return res;
+        return null;
     }
 
     /**
@@ -91,9 +95,13 @@ public class AppRepository {
      * @param id
      * @return
      */
+
+    // // TODO: 19.09.2019 looks like you can return LiveData<Boolean> instead of LiveData<Long>
     public LiveData<Long> dbIsFavoriteMovie(long id) {
         MovieDao movieDao = mAppDatabase.getMovieDao();
-        return movieDao.isFavoriteMovie(id);
+        // TODO: 19.09.2019 uncomment it
+//        return movieDao.isFavoriteMovie(id);
+        return null;
     }
 
     public LiveData<List<TrailerMinimal>> dbLoadAllTrailers(Long movieId) {
@@ -111,7 +119,8 @@ public class AppRepository {
         mAppExecutors.diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                movieDao.deleteMovie(movie);
+                // TODO: 19.09.2019 uncomment it
+//                movieDao.deleteMovie(movie);
             }
         });
     }
@@ -128,7 +137,8 @@ public class AppRepository {
         mAppExecutors.diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                movieDao.insertMovieAndChildren(movie, trailers, reviews);
+                // TODO: 19.09.2019 uncomment it
+//                movieDao.insertMovieAndChildren(movie, trailers, reviews);
             }
         });
     }
@@ -179,16 +189,9 @@ public class AppRepository {
         mMovieQuery.enqueue(moviesPageCallback);
     }
 
-    public LiveData<Resource<BackdropCollection>> retrieveBackdropCollection(@Nullable String movieId) {
+    public LiveData<Resource<BackdropCollection>> retrieveBackdropCollection(long movieId) {
 
         final MutableLiveData<Resource<BackdropCollection>> observedData = new MutableLiveData<>();
-
-        if (movieId == null) {
-            Log.e(TAG, "retrieveBackdropCollection: NULL Movie ID");
-            Resource<BackdropCollection> result = Resource.error("Null Movie ID", null);
-            observedData.setValue(result);
-            return observedData;
-        }
 
         Callback<BackdropCollection> backdropCallback = new Callback<BackdropCollection>() {
             @MainThread
@@ -221,16 +224,9 @@ public class AppRepository {
         return observedData;
     }
 
-    public LiveData<Resource<TrailerCollection>> retrieveTrailerCollection(@Nullable String movieId) {
+    public LiveData<Resource<TrailerCollection>> retrieveTrailerCollection(long movieId) {
 
         final MutableLiveData<Resource<TrailerCollection>> observedData = new MutableLiveData<>();
-
-        if (movieId == null) {
-            Log.e(TAG, "retrieveTrailerCollection: NULL Movie ID");
-            Resource<TrailerCollection> result = Resource.error("Null Movie ID", null);
-            observedData.setValue(result);
-            return observedData;
-        }
 
         Log.d(TAG, "retrieveTrailersList. Movie ID: " + movieId);
 
@@ -266,16 +262,9 @@ public class AppRepository {
         return observedData;
     }
 
-    public LiveData<Resource<ReviewCollection>> retrieveReviewCollection(@Nullable String movieId) {
+    public LiveData<Resource<ReviewCollection>> retrieveReviewCollection(long movieId) {
 
         final MutableLiveData<Resource<ReviewCollection>> observedData = new MutableLiveData<>();
-
-        if (movieId == null) {
-            Log.e(TAG, "retrieveReviewCollection: NULL Movie ID");
-            Resource<ReviewCollection> result = Resource.error("Null Movie ID", null);
-            observedData.setValue(result);
-            return observedData;
-        }
 
         Log.d(TAG, "retrieveReviewCollection. Movie ID: " + movieId);
 

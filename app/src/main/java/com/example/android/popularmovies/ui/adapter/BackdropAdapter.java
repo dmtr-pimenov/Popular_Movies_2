@@ -54,12 +54,10 @@ public class BackdropAdapter extends PagerAdapter {
         String filePath = mBackdropList.get(position).getFilePath();
         String backdropUrl = NetworkApi.getBackdropUrl(filePath, NetworkApi.BackdropSize.W780);
 
-        Drawable placeholder = ContextCompat.getDrawable(mContext, R.drawable.ic_file_download);
         Drawable error = ContextCompat.getDrawable(mContext, R.drawable.ic_error);
 
         // show backdrop image
         Picasso.with(mContext).load(backdropUrl)
-                .placeholder(placeholder)
                 .error(error)
                 .into(imageView);
 

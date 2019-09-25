@@ -5,7 +5,7 @@
     tools:context=".ui.MainActivity">
 
     <item
-        android:id="@+id/action_settings"
+        android:genreId="@+genreId/action_settings"
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never" />

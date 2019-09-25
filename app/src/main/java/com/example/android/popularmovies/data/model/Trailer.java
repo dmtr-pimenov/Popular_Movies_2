@@ -1,55 +1,54 @@
 package com.example.android.popularmovies.data.model;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Index;
+import android.arch.persistence.room.PrimaryKey;
+
 import com.google.gson.annotations.SerializedName;
 
+import static android.arch.persistence.room.ForeignKey.CASCADE;
+
+/**
+ * This Entity is used for Network and DB Operation
+ */
+
+@Entity(
+        tableName = "trailer",
+        foreignKeys = @ForeignKey(entity = MovieDetail.class, parentColumns = "id",
+                childColumns = "movie_id", onDelete = CASCADE),
+        indices = {@Index(value = {"movie_id"})}
+)
 public class Trailer {
 
+    @PrimaryKey(autoGenerate = false)
     @SerializedName("id")
     private String id;
-
-    @SerializedName("iso_639_1")
-    private String iso6391;
-
-    @SerializedName("iso_3166_1")
-    private String iso31661;
 
     @SerializedName("key")
     private String key;
 
+    @ColumnInfo(name = "movie_id")
+    private Long movieId;
+
     @SerializedName("name")
     private String name;
 
-    @SerializedName("site")
-    private String site;
-
-    @SerializedName("size")
-    private Integer size;
-
-    @SerializedName("type")
-    private String type;
+    // Constructor used by Room to create Review instance
+    public Trailer(String id, String key, Long movieId, String name) {
+        this.id = id;
+        this.key = key;
+        this.movieId = movieId;
+        this.name = name;
+    }
 
     public String getId() {
-         return id;
+        return id;
     }
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getIso6391() {
-        return iso6391;
-    }
-
-    public void setIso6391(String iso6391) {
-        this.iso6391 = iso6391;
-    }
-
-    public String getIso31661() {
-        return iso31661;
-    }
-
-    public void setIso31661(String iso31661) {
-        this.iso31661 = iso31661;
     }
 
     public String getKey() {
@@ -60,35 +59,19 @@ public class Trailer {
         this.key = key;
     }
 
+    public Long getMovieId() {
+        return movieId;
+    }
+
+    public void setMovieId(Long movieId) {
+        this.movieId = movieId;
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getSite() {
-        return site;
-    }
-
-    public void setSite(String site) {
-        this.site = site;
-    }
-
-    public Integer getSize() {
-        return size;
-    }
-
-    public void setSize(Integer size) {
-        this.size = size;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 }

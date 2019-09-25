@@ -33,17 +33,21 @@
 
     <!-- formatters -->
     <string name="json_date_format">
-        <xliff:g id="data">yyyy-MM-dd</xliff:g>
+        <xliff:g genreId="data">yyyy-MM-dd</xliff:g>
     </string>
 
     <string name="display_date_format">
-        <xliff:g id="data">MMMM yyyy</xliff:g>
+        <xliff:g genreId="data">MMMM yyyy</xliff:g>
     </string>
 
     <!-- TabLayout labels -->
     <string name="label_movie_info">INFO</string>
     <string name="label_movie_trailers">TRAILERS</string>
     <string name="label_movie_reviews">REVIEWS</string>
+
+    <!--  Movie Info Fragment  -->
+    <string name="label_language">Language</string>
+    <string name="label_runtime">Runtime</string>
 
 
 </resources>

@@ -31,8 +31,8 @@ public class InjectorUtil {
     }
 
     public static MovieDetailViewModelFactory provideMovieDetailViewModelFactory(
-            Context context, Movie movie) {
+            Context context, long movieId) {
         AppRepository repository = provideRepository(context);
-        return new MovieDetailViewModelFactory(movie, repository);
+        return new MovieDetailViewModelFactory(movieId, repository);
     }
 }
