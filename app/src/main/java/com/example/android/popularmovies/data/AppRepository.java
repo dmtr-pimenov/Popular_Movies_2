@@ -6,20 +6,20 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.MainThread;
-import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.data.database.AppDatabase;
 import com.example.android.popularmovies.data.database.MovieDao;
 import com.example.android.popularmovies.data.model.BackdropCollection;
-import com.example.android.popularmovies.data.model.Movie;
+import com.example.android.popularmovies.data.model.Genre;
+import com.example.android.popularmovies.data.model.MovieDetail;
 import com.example.android.popularmovies.data.model.MoviesPage;
 import com.example.android.popularmovies.data.model.Resource;
+import com.example.android.popularmovies.data.model.Review;
 import com.example.android.popularmovies.data.model.ReviewCollection;
-import com.example.android.popularmovies.data.model.ReviewMinimal;
+import com.example.android.popularmovies.data.model.Trailer;
 import com.example.android.popularmovies.data.model.TrailerCollection;
-import com.example.android.popularmovies.data.model.TrailerMinimal;
 import com.example.android.popularmovies.data.network.NetworkApi;
 import com.example.android.popularmovies.util.AppExecutors;
 
@@ -75,19 +75,15 @@ public class AppRepository {
     //
     // **********************************************
 
-    public LiveData<List<Movie>> dbLoadAllMovies(String sortMode) {
+    public LiveData<List<MovieDetail>> dbLoadAllMovies(String sortMode) {
         MovieDao movieDao = mAppDatabase.getMovieDao();
-        LiveData<List<Movie>> res;
+        LiveData<List<MovieDetail>> res;
         if (getMostPopularStringArgValue().equals(sortMode)) {
-            // TODO: 19.09.2019 uncomment it
-//            res = movieDao.loadAllMoviesByPopularity();
+            res = movieDao.loadAllMoviesByPopularity();
         } else {
-            // TODO: 19.09.2019
-//            res = movieDao.loadAllMoviesByRating();
+            res = movieDao.loadAllMoviesByRating();
         }
-        // TODO: 19.09.2019 uncomment it
-//        return res;
-        return null;
+        return res;
     }
 
     /**
@@ -104,23 +100,22 @@ public class AppRepository {
         return null;
     }
 
-    public LiveData<List<TrailerMinimal>> dbLoadAllTrailers(Long movieId) {
+    public LiveData<List<Trailer>> dbLoadAllTrailers(Long movieId) {
         MovieDao movieDao = mAppDatabase.getMovieDao();
         return movieDao.loadAllTrailers(movieId);
     }
 
-    public LiveData<List<ReviewMinimal>> dbLoadAllReviews(Long movieId) {
+    public LiveData<List<Review>> dbLoadAllReviews(Long movieId) {
         MovieDao movieDao = mAppDatabase.getMovieDao();
         return movieDao.loadAllReviews(movieId);
     }
 
-    public void dbDeleteMovie(final Movie movie) {
+    public void dbDeleteMovie(final MovieDetail movie) {
         final MovieDao movieDao = mAppDatabase.getMovieDao();
         mAppExecutors.diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                // TODO: 19.09.2019 uncomment it
-//                movieDao.deleteMovie(movie);
+                movieDao.deleteMovie(movie);
             }
         });
     }
@@ -131,14 +126,13 @@ public class AppRepository {
      * @param trailers
      * @param reviews
      */
-    public void dbInsertMovie(final Movie movie, final List<TrailerMinimal> trailers,
-                              final List<ReviewMinimal> reviews) {
+    public void dbInsertMovie(final MovieDetail movie, final List<Trailer> trailers,
+                              final List<Review> reviews, final List<Genre> genres) {
         final MovieDao movieDao = mAppDatabase.getMovieDao();
         mAppExecutors.diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                // TODO: 19.09.2019 uncomment it
-//                movieDao.insertMovieAndChildren(movie, trailers, reviews);
+                movieDao.insertMovieAndChildren(movie, trailers, reviews, genres);
             }
         });
     }
