@@ -14,6 +14,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -122,9 +123,6 @@ public class MainActivity extends AppCompatActivity
         } else {
             setupViewModel(savedInstanceState);
         }
-        // todo remove in production
-        Map<String, Language> languagesFromAssets = AssetsUtil.getLanguagesFromAssets(this);
-        Log.d(TAG, "onCreate: " + languagesFromAssets.size());
     }
 
     /**
