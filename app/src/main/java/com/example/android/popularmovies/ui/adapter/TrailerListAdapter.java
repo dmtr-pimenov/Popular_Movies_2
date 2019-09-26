@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.android.popularmovies.R;
-import com.example.android.popularmovies.data.model.TrailerMinimal;
+import com.example.android.popularmovies.data.model.Trailer;
 
 import java.util.List;
 
@@ -16,9 +16,9 @@ public class TrailerListAdapter extends BaseAdapter {
 
     Context mContext;
     LayoutInflater mInflater;
-    List<TrailerMinimal> mItems;
+    List<Trailer> mItems;
 
-    public TrailerListAdapter(Context context, List<TrailerMinimal> trailers) {
+    public TrailerListAdapter(Context context, List<Trailer> trailers) {
         mContext = context;
         mItems = trailers;
         mInflater = LayoutInflater.from(mContext);

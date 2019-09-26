@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
         <android.support.v7.widget.AppCompatImageView
-            android:genreId="@+genreId/image_backdrop"
+            android:id="@+id/image_backdrop"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"

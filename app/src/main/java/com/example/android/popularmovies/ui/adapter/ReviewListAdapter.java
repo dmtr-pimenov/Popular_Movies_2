@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.android.popularmovies.R;
-import com.example.android.popularmovies.data.model.ReviewMinimal;
+import com.example.android.popularmovies.data.model.Review;
 
 import java.util.List;
 
@@ -25,10 +25,10 @@ public class ReviewListAdapter extends BaseAdapter implements View.OnClickListen
 
     private final Context mContext;
     private final LayoutInflater mInflater;
-    private final List<ReviewMinimal> mItems;
+    private final List<Review> mItems;
     private final OnLinkClickListener mListener;
 
-    public ReviewListAdapter(Context context, List<ReviewMinimal> reviews, OnLinkClickListener listener) {
+    public ReviewListAdapter(Context context, List<Review> reviews, OnLinkClickListener listener) {
         mContext = context;
         mItems = reviews;
         mInflater = LayoutInflater.from(mContext);

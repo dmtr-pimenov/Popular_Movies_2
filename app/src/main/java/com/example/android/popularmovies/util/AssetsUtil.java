@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.SparseArray;
 
-import com.example.android.popularmovies.data.model.Genre;
 import com.example.android.popularmovies.data.model.Language;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -40,12 +39,12 @@ public class AssetsUtil {
         try {
             is = context.getAssets().open(GENRES_FILE);
             reader = new JsonReader(new InputStreamReader(is, "UTF-8"));
-            Type GENRE_LIST_TYPE = new TypeToken<List<Genre>>() {
+            Type GENRE_LIST_TYPE = new TypeToken<List<GenreName>>() {
             }.getType();
 
-            List<Genre> genres = new Gson().fromJson(reader, GENRE_LIST_TYPE);
-            for (Genre g : genres) {
-                result.put(g.getGenreId(), g.getName());
+            List<GenreName> genres = new Gson().fromJson(reader, GENRE_LIST_TYPE);
+            for (GenreName g : genres) {
+                result.put(g.getId(), g.getName());
             }
             return result;
 
@@ -66,6 +65,28 @@ public class AssetsUtil {
                 }
             } catch (Exception e) {
             }
+        }
+    }
+
+    private class GenreName {
+
+        private int id;
+        private String name;
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
         }
     }
 

@@ -16,7 +16,7 @@
         android:padding="@dimen/default_margin" />
 
     <TextView
-        android:genreId="@+genreId/tv_trailer_name"
+        android:id="@+id/tv_trailer_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 

@@ -1,7 +1,9 @@
 package com.example.android.popularmovies.data;
 
+import android.arch.core.util.Function;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Transformations;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -13,6 +15,7 @@ import com.example.android.popularmovies.data.database.AppDatabase;
 import com.example.android.popularmovies.data.database.MovieDao;
 import com.example.android.popularmovies.data.model.BackdropCollection;
 import com.example.android.popularmovies.data.model.Genre;
+import com.example.android.popularmovies.data.model.Movie;
 import com.example.android.popularmovies.data.model.MovieDetail;
 import com.example.android.popularmovies.data.model.MoviesPage;
 import com.example.android.popularmovies.data.model.Resource;
@@ -23,6 +26,7 @@ import com.example.android.popularmovies.data.model.TrailerCollection;
 import com.example.android.popularmovies.data.network.NetworkApi;
 import com.example.android.popularmovies.util.AppExecutors;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -75,7 +79,7 @@ public class AppRepository {
     //
     // **********************************************
 
-    public LiveData<List<MovieDetail>> dbLoadAllMovies(String sortMode) {
+    public LiveData<List<Movie>> dbLoadAllMovies(String sortMode) {
         MovieDao movieDao = mAppDatabase.getMovieDao();
         LiveData<List<MovieDetail>> res;
         if (getMostPopularStringArgValue().equals(sortMode)) {
@@ -83,7 +87,18 @@ public class AppRepository {
         } else {
             res = movieDao.loadAllMoviesByRating();
         }
-        return res;
+        return Transformations.map(res,
+                new Function<List<MovieDetail>, List<Movie>>() {
+                    @Override
+                    public List<Movie> apply(List<MovieDetail> input) {
+                        List<Movie> res = new ArrayList<>(input.size());
+                        for (MovieDetail md : input) {
+                            res.add(new Movie(md.getId(), md.getTitle(), md.getPosterPath()));
+                        }
+                        return null;
+                    }
+                }
+        );
     }
 
     /**

@@ -25,6 +25,7 @@ public class Review {
 
     @PrimaryKey(autoGenerate = false)
     @SerializedName("id")
+    @NonNull
     private String id;
 
     @SerializedName("author")

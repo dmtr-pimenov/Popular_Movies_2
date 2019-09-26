@@ -75,7 +75,7 @@ public class MovieDetail {
     @SerializedName("vote_average")
     private Double voteAverage;
 
-    @ColumnInfo(name = "")
+    @ColumnInfo(name = "vote_count")
     @SerializedName("vote_count")
     private Integer voteCount;
 

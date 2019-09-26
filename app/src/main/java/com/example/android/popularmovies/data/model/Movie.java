@@ -17,6 +17,12 @@ public class Movie {
     @SerializedName("poster_path")
     private String posterPath;
 
+    public Movie(Long id, String title, String posterPath) {
+        this.id = id;
+        this.title = title;
+        this.posterPath = posterPath;
+    }
+
     public Long getId() {
         return id;
     }

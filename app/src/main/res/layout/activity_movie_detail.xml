@@ -10,7 +10,7 @@
         tools:context=".ui.MovieDetailActivity">
 
         <android.support.design.widget.AppBarLayout
-            android:genreId="@+genreId/app_bar"
+            android:id="@+id/app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/AppTheme.AppBarOverlay">
@@ -23,15 +23,15 @@
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 app:titleEnabled="true"
                 app:expandedTitleTextAppearance="@style/CollapsingToolbarLayoutExpandedTextStyle"
-                app:toolbarId="@+genreId/toolbar">
+                app:toolbarId="@+id/toolbar">
 
                 <include
-                    android:genreId="@+genreId/detailed_info"
+                    android:id="@+id/detailed_info"
                     layout="@layout/layout_movie_detail"
                     app:foo="@{1}" />
 
                 <android.support.v7.widget.Toolbar
-                    android:genreId="@+genreId/toolbar"
+                    android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     android:layout_marginTop="24dp"
@@ -44,7 +44,7 @@
             </android.support.design.widget.CollapsingToolbarLayout>
 
             <android.support.design.widget.TabLayout
-                android:genreId="@+genreId/tab_fragment"
+                android:id="@+id/tab_fragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimaryLight"
@@ -53,7 +53,7 @@
         </android.support.design.widget.AppBarLayout>
 
         <android.support.v4.view.ViewPager
-            android:genreId="@+genreId/view_pager_fragment"
+            android:id="@+id/view_pager_fragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />

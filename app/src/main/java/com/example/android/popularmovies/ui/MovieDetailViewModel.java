@@ -13,11 +13,10 @@ import com.example.android.popularmovies.data.model.BackdropCollection;
 import com.example.android.popularmovies.data.model.Movie;
 import com.example.android.popularmovies.data.model.MovieDetail;
 import com.example.android.popularmovies.data.model.Resource;
+import com.example.android.popularmovies.data.model.Review;
 import com.example.android.popularmovies.data.model.ReviewCollection;
-import com.example.android.popularmovies.data.model.ReviewMinimal;
+import com.example.android.popularmovies.data.model.Trailer;
 import com.example.android.popularmovies.data.model.TrailerCollection;
-import com.example.android.popularmovies.data.model.TrailerMinimal;
-import com.example.android.popularmovies.util.Converter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +28,8 @@ public class MovieDetailViewModel extends ViewModel {
     private final AppRepository mRepository;
     private final long mMovieId;
 
-    private LiveData<Resource<List<TrailerMinimal>>> mTrailerCollection;
-    private LiveData<Resource<List<ReviewMinimal>>> mReviewCollection;
+    private LiveData<Resource<List<Trailer>>> mTrailerCollection;
+    private LiveData<Resource<List<Review>>> mReviewCollection;
     private LiveData<Resource<List<Backdrop>>> mBackdropCollection;
     private LiveData<MovieDetail> mMovieDetail;
 
@@ -90,22 +89,21 @@ public class MovieDetailViewModel extends ViewModel {
     private void setupTrailersRetrieving() {
         if (mRepository.isFavoriteSelection()) {
             mTrailerCollection = Transformations.map(mRepository.dbLoadAllTrailers(mMovieId),
-                    new Function<List<TrailerMinimal>, Resource<List<TrailerMinimal>>>() {
+                    new Function<List<Trailer>, Resource<List<Trailer>>>() {
                         @Override
-                        public Resource<List<TrailerMinimal>> apply(List<TrailerMinimal> input) {
-                            Resource<List<TrailerMinimal>> res = Resource.success(input);
+                        public Resource<List<Trailer>> apply(List<Trailer> input) {
+                            Resource<List<Trailer>> res = Resource.success(input);
                             return res;
                         }
                     });
         } else {
             mTrailerCollection = Transformations.map(mRepository.retrieveTrailerCollection(mMovieId),
-                    new Function<Resource<TrailerCollection>, Resource<List<TrailerMinimal>>>() {
+                    new Function<Resource<TrailerCollection>, Resource<List<Trailer>>>() {
                         @Override
-                        public Resource<List<TrailerMinimal>> apply(Resource<TrailerCollection> input) {
-                            Resource<List<TrailerMinimal>> res;
+                        public Resource<List<Trailer>> apply(Resource<TrailerCollection> input) {
+                            Resource<List<Trailer>> res;
                             if (input.status == Resource.Status.SUCCESS) {
-                                List<TrailerMinimal> l =
-                                        Converter.convertTrailer2TrailerMinimal(mMovieId, input.data.getResults());
+                                List<Trailer> l = input.data.getResults();
                                 res = Resource.success(l);
                             } else {
                                 res = Resource.error(input.message, null);
@@ -119,22 +117,21 @@ public class MovieDetailViewModel extends ViewModel {
     private void setupReviewsRetrieving() {
         if (mRepository.isFavoriteSelection()) {
             mReviewCollection = Transformations.map(mRepository.dbLoadAllReviews(mMovieId),
-                    new Function<List<ReviewMinimal>, Resource<List<ReviewMinimal>>>() {
+                    new Function<List<Review>, Resource<List<Review>>>() {
                         @Override
-                        public Resource<List<ReviewMinimal>> apply(List<ReviewMinimal> input) {
-                            Resource<List<ReviewMinimal>> res = Resource.success(input);
+                        public Resource<List<Review>> apply(List<Review> input) {
+                            Resource<List<Review>> res = Resource.success(input);
                             return res;
                         }
                     });
         } else {
             mReviewCollection = Transformations.map(mRepository.retrieveReviewCollection(mMovieId),
-                    new Function<Resource<ReviewCollection>, Resource<List<ReviewMinimal>>>() {
+                    new Function<Resource<ReviewCollection>, Resource<List<Review>>>() {
                         @Override
-                        public Resource<List<ReviewMinimal>> apply(Resource<ReviewCollection> input) {
-                            Resource<List<ReviewMinimal>> res;
+                        public Resource<List<Review>> apply(Resource<ReviewCollection> input) {
+                            Resource<List<Review>> res;
                             if (input.status == Resource.Status.SUCCESS) {
-                                List<ReviewMinimal> l =
-                                        Converter.convertReview2ReviewMinimal(mMovieId, input.data.getResults());
+                                List<Review> l = input.data.getResults();
                                 res = Resource.success(l);
                             } else {
                                 res = Resource.error(input.message, null);
@@ -147,11 +144,11 @@ public class MovieDetailViewModel extends ViewModel {
 
     public void addMovieToFavorites() {
         Log.d(TAG, "addMovieToFavorites");
-        List<TrailerMinimal> trailers = new ArrayList<>();
+        List<Trailer> trailers = new ArrayList<>();
         if (mTrailerCollection.getValue().status == Resource.Status.SUCCESS) {
             trailers.addAll(mTrailerCollection.getValue().data);
         }
-        List<ReviewMinimal> reviews = new ArrayList<>();
+        List<Review> reviews = new ArrayList<>();
         if (mReviewCollection.getValue().status == Resource.Status.SUCCESS) {
             reviews.addAll(mReviewCollection.getValue().data);
         }
@@ -188,11 +185,11 @@ public class MovieDetailViewModel extends ViewModel {
         return mBackdropCollection;
     }
 
-    public LiveData<Resource<List<TrailerMinimal>>> getTrailerCollection() {
+    public LiveData<Resource<List<Trailer>>> getTrailerCollection() {
         return mTrailerCollection;
     }
 
-    public LiveData<Resource<List<ReviewMinimal>>> getReviewCollection() {
+    public LiveData<Resource<List<Review>>> getReviewCollection() {
         return mReviewCollection;
     }
 

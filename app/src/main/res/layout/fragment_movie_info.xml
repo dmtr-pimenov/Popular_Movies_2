@@ -18,7 +18,7 @@
             android:layout_height="wrap_content">
 
             <android.support.v7.widget.AppCompatImageView
-                android:genreId="@+genreId/image_tmdb_logo"
+                android:id="@+id/image_tmdb_logo"
                 android:layout_width="@dimen/pictogram_size"
                 android:layout_height="@dimen/pictogram_size"
                 android:layout_marginStart="@dimen/default_margin"
@@ -29,102 +29,102 @@
                 app:srcCompat="@drawable/ic_themvdb_logo" />
 
             <TextView
-                android:genreId="@+genreId/text_rating_text"
+                android:id="@+id/text_rating_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/default_margin"
-                app:layout_constraintStart_toEndOf="@genreId/image_tmdb_logo"
-                app:layout_constraintTop_toTopOf="@genreId/image_tmdb_logo"
+                app:layout_constraintStart_toEndOf="@id/image_tmdb_logo"
+                app:layout_constraintTop_toTopOf="@id/image_tmdb_logo"
                 android:textStyle="bold"
                 tools:text="4.2/10" />
 
             <RatingBar
-                android:genreId="@+genreId/rating_movie_rating"
+                android:id="@+id/rating_movie_rating"
                 style="?android:ratingBarStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:isIndicator="true"
                 android:numStars="5"
                 android:stepSize="1"
-                app:layout_constraintBottom_toBottomOf="@genreId/image_tmdb_logo"
-                app:layout_constraintStart_toEndOf="@genreId/image_tmdb_logo"
+                app:layout_constraintBottom_toBottomOf="@id/image_tmdb_logo"
+                app:layout_constraintStart_toEndOf="@id/image_tmdb_logo"
                 android:layout_marginStart="@dimen/default_margin"
-                app:layout_constraintTop_toTopOf="@+genreId/text_rating_str"
+                app:layout_constraintTop_toTopOf="@+id/text_rating_str"
                 tools:rating="5" />
 
             <android.support.constraint.Guideline
-                android:genreId="@+genreId/guideline_language"
+                android:id="@+id/guideline_language"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.33" />
 
             <android.support.v7.widget.AppCompatImageView
-                android:genreId="@+genreId/image_language"
+                android:id="@+id/image_language"
                 android:layout_width="@dimen/pictogram_size"
                 android:layout_height="@dimen/pictogram_size"
                 android:layout_marginStart="@dimen/default_margin"
                 android:layout_marginTop="@dimen/default_margin"
                 android:scaleType="fitCenter"
-                app:layout_constraintStart_toStartOf="@genreId/guideline_language"
+                app:layout_constraintStart_toStartOf="@id/guideline_language"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_language" />
 
             <TextView
-                android:genreId="@+genreId/language_label"
+                android:id="@+id/language_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/default_margin"
-                app:layout_constraintStart_toEndOf="@genreId/image_language"
-                app:layout_constraintTop_toTopOf="@genreId/image_language"
+                app:layout_constraintStart_toEndOf="@id/image_language"
+                app:layout_constraintTop_toTopOf="@id/image_language"
                 android:textStyle="bold"
                 android:text="@string/label_language" />
 
             <TextView
-                android:genreId="@+genreId/text_language"
+                android:id="@+id/text_language"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/default_margin"
-                app:layout_constraintStart_toEndOf="@genreId/image_language"
-                app:layout_constraintBottom_toBottomOf="@genreId/image_language"
+                app:layout_constraintStart_toEndOf="@id/image_language"
+                app:layout_constraintBottom_toBottomOf="@id/image_language"
                 android:textStyle="bold"
                 tools:text="English" />
 
             <android.support.constraint.Guideline
-                android:genreId="@+genreId/guideline_runtime"
+                android:id="@+id/guideline_runtime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.67" />
 
             <android.support.v7.widget.AppCompatImageView
-                android:genreId="@+genreId/image_runtime"
+                android:id="@+id/image_runtime"
                 android:layout_width="@dimen/pictogram_size"
                 android:layout_height="@dimen/pictogram_size"
                 android:layout_marginStart="@dimen/default_margin"
                 android:layout_marginTop="@dimen/default_margin"
                 android:scaleType="fitCenter"
-                app:layout_constraintStart_toStartOf="@genreId/guideline_runtime"
+                app:layout_constraintStart_toStartOf="@id/guideline_runtime"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_av_timer" />
 
             <TextView
-                android:genreId="@+genreId/runtime_label"
+                android:id="@+id/runtime_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/default_margin"
-                app:layout_constraintStart_toEndOf="@genreId/image_runtime"
-                app:layout_constraintTop_toTopOf="@genreId/image_runtime"
+                app:layout_constraintStart_toEndOf="@id/image_runtime"
+                app:layout_constraintTop_toTopOf="@id/image_runtime"
                 android:textStyle="bold"
                 android:text="@string/label_runtime" />
 
             <TextView
-                android:genreId="@+genreId/text_runtime"
+                android:id="@+id/text_runtime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/default_margin"
-                app:layout_constraintStart_toEndOf="@genreId/image_runtime"
-                app:layout_constraintBottom_toBottomOf="@genreId/image_runtime"
+                app:layout_constraintStart_toEndOf="@id/image_runtime"
+                app:layout_constraintBottom_toBottomOf="@id/image_runtime"
                 android:textStyle="bold"
                 tools:text="1h 35m" />
 
@@ -136,7 +136,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginStart="@dimen/default_margin"
                 android:layout_marginEnd="@dimen/default_margin"
-                app:layout_constraintTop_toBottomOf="@genreId/image_tmdb_logo"
+                app:layout_constraintTop_toBottomOf="@id/image_tmdb_logo"
                 android:layout_marginTop="@dimen/default_margin"/>
 
         </android.support.constraint.ConstraintLayout>
