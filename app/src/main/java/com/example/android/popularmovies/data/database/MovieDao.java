@@ -64,10 +64,10 @@ public abstract class MovieDao {
     public abstract void insertGenres(List<Genre> entities);
 
     @Transaction
-    public void insertMovieAndChildren(MovieDetail movie,
-                                       List<Trailer> trailers,
-                                       List<Review> reviews,
-                                       List<Genre> genres) {
+    public void insertMovie(MovieDetail movie,
+                            List<Trailer> trailers,
+                            List<Review> reviews,
+                            List<Genre> genres) {
         insertMovie(movie);
         insertTrailers(trailers);
         insertReviews(reviews);

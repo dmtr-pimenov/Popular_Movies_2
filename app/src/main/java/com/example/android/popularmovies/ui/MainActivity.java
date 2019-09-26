@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.android.popularmovies.BuildConfig;
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.data.model.Language;
 import com.example.android.popularmovies.data.model.Movie;
@@ -33,6 +34,7 @@ import com.example.android.popularmovies.ui.factory.MainViewModelFactory;
 import com.example.android.popularmovies.util.AssetsUtil;
 import com.example.android.popularmovies.util.InjectorUtil;
 import com.example.android.popularmovies.util.NetworkUtils;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 import java.util.Map;
@@ -122,6 +124,11 @@ public class MainActivity extends AppCompatActivity
             return;
         } else {
             setupViewModel(savedInstanceState);
+        }
+
+        if (BuildConfig.DEBUG) {
+            Picasso picasso = Picasso.with(this);
+            picasso.setIndicatorsEnabled(true);
         }
     }
 

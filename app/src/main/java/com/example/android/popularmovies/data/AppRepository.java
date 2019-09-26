@@ -147,7 +147,7 @@ public class AppRepository {
         mAppExecutors.diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                movieDao.insertMovieAndChildren(movie, trailers, reviews, genres);
+                movieDao.insertMovie(movie, trailers, reviews, genres);
             }
         });
     }
