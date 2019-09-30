@@ -6,12 +6,13 @@ import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 import android.util.Log;
 
+import com.example.android.popularmovies.data.model.Backdrop;
 import com.example.android.popularmovies.data.model.Genre;
 import com.example.android.popularmovies.data.model.MovieDetail;
 import com.example.android.popularmovies.data.model.Review;
 import com.example.android.popularmovies.data.model.Trailer;
 
-@Database(entities = {MovieDetail.class, Genre.class, Trailer.class, Review.class},
+@Database(entities = {MovieDetail.class, Genre.class, Trailer.class, Review.class, Backdrop.class},
         version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     

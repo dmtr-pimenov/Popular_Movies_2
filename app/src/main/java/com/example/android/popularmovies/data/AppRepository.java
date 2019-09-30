@@ -17,6 +17,7 @@ import android.util.Log;
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.data.database.AppDatabase;
 import com.example.android.popularmovies.data.database.MovieDao;
+import com.example.android.popularmovies.data.model.Backdrop;
 import com.example.android.popularmovies.data.model.BackdropCollection;
 import com.example.android.popularmovies.data.model.Genre;
 import com.example.android.popularmovies.data.model.Movie;
@@ -96,7 +97,7 @@ public class AppRepository {
         return res;
     }
 
-    class LiveDataMerger extends MediatorLiveData<MovieDetail> {
+    private class LiveDataMerger extends MediatorLiveData<MovieDetail> {
 
         boolean mMoveDetailIsNull = false;
         MovieDetail mMovieDetail = null;
@@ -172,6 +173,11 @@ public class AppRepository {
         return movieDao.loadAllReviews(movieId);
     }
 
+    public LiveData<List<Backdrop>> dbLoadAllBackdrops(Long movieId) {
+        MovieDao movieDao = mAppDatabase.getMovieDao();
+        return movieDao.loadAllBackdrops(movieId);
+    }
+
     public void dbDeleteMovieById(final long id) {
         final MovieDao movieDao = mAppDatabase.getMovieDao();
         mAppExecutors.diskIO().execute(new Runnable() {
@@ -190,12 +196,13 @@ public class AppRepository {
      * @param reviews
      */
     public void dbInsertMovie(final MovieDetail movie, final List<Trailer> trailers,
-                              final List<Review> reviews, final List<Genre> genres) {
+                              final List<Review> reviews, final List<Genre> genres,
+                              final List<Backdrop> backdrops) {
         final MovieDao movieDao = mAppDatabase.getMovieDao();
         mAppExecutors.diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                movieDao.insertMovie(movie, trailers, reviews, genres);
+                movieDao.insertMovie(movie, trailers, reviews, genres, backdrops);
             }
         });
     }

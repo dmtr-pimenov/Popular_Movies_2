@@ -10,6 +10,7 @@ import android.util.Log;
 import com.example.android.popularmovies.data.AppRepository;
 import com.example.android.popularmovies.data.model.Backdrop;
 import com.example.android.popularmovies.data.model.BackdropCollection;
+import com.example.android.popularmovies.data.model.Genre;
 import com.example.android.popularmovies.data.model.Movie;
 import com.example.android.popularmovies.data.model.MovieDetail;
 import com.example.android.popularmovies.data.model.Resource;
@@ -73,10 +74,14 @@ public class MovieDetailViewModel extends ViewModel {
 
     private void setupBackdropRetrieving() {
         if (mRepository.isFavoriteSelection()) {
-
-            mBackdropCollection = new MutableLiveData<>();
-            ((MutableLiveData) mBackdropCollection).setValue(Resource.error("Error", null));
-
+            mBackdropCollection = Transformations.map(mRepository.dbLoadAllBackdrops(mMovieId),
+                    new Function<List<Backdrop>, Resource<List<Backdrop>>>() {
+                        @Override
+                        public Resource<List<Backdrop>> apply(List<Backdrop> input) {
+                            Resource<List<Backdrop>> res = Resource.success(input);
+                            return res;
+                        }
+                    });
         } else {
             mBackdropCollection = Transformations.map(mRepository.retrieveBackdropCollection(mMovieId),
                     new Function<Resource<BackdropCollection>, Resource<List<Backdrop>>>() {
@@ -151,6 +156,7 @@ public class MovieDetailViewModel extends ViewModel {
         }
     }
 
+    // todo don't forget to disable checkbox Add to Favorite if MoveDetail retrieved with error
     public void addMovieToFavorites() {
         Log.d(TAG, "addMovieToFavorites");
         List<Trailer> trailers = new ArrayList<>();
@@ -161,12 +167,19 @@ public class MovieDetailViewModel extends ViewModel {
         if (mReviewCollection.getValue().status == Resource.Status.SUCCESS) {
             reviews.addAll(mReviewCollection.getValue().data);
         }
-//        mRepository.dbInsertMovie(mMovie, trailers, reviews);
+
+        List<Backdrop> backdrops = new ArrayList<>();
+        if (mBackdropCollection.getValue().status == Resource.Status.SUCCESS) {
+            backdrops.addAll(mBackdropCollection.getValue().data);
+        }
+
+        MovieDetail movie = mMovieDetail.getValue().data;
+        mRepository.dbInsertMovie(movie, trailers, reviews, movie.getGenres(), backdrops);
     }
 
     public void removeMovieFromFavorites() {
         Log.d(TAG, "removeMovieFromFavorites");
-//        mRepository.dbDeleteMovie(mMovie);
+        mRepository.dbDeleteMovieById(mMovieId);
     }
 
     public boolean isTrailerListCollapsed() {
@@ -185,11 +198,6 @@ public class MovieDetailViewModel extends ViewModel {
         mReviewListCollapsed = reviewListCollapsed;
     }
 
-    public Movie getMovie() {
-//        return mMovie;
-        return null;
-    }
-
     public LiveData<Resource<List<Backdrop>>> getBackdropCollection() {
         return mBackdropCollection;
     }
@@ -200,6 +208,10 @@ public class MovieDetailViewModel extends ViewModel {
 
     public LiveData<Resource<List<Review>>> getReviewCollection() {
         return mReviewCollection;
+    }
+
+    public String getGenresString() {
+        throw new UnsupportedOperationException("getGenresString not implemented yet");
     }
 
     public LiveData<Boolean> isFavorite() {
