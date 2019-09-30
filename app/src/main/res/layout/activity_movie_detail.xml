@@ -3,6 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="movieDetail"
+            type="com.example.android.popularmovies.data.model.MovieDetail" />
+
+        <variable
+            name="viewModel"
+            type="com.example.android.popularmovies.ui.MovieDetailViewModel" />
+    </data>
+
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -26,9 +36,10 @@
                 app:toolbarId="@+id/toolbar">
 
                 <include
-                    android:id="@+id/detailed_info"
+                    android:id="@+id/detail_info"
                     layout="@layout/layout_movie_detail"
-                    app:foo="@{1}" />
+                    app:movieDetail="@{movieDetail}"
+                    app:viewModel="@{viewModel}"/>
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"

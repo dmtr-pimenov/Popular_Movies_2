@@ -4,7 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="foo" type="int"/>
+        <variable
+            name="movieDetail"
+            type="com.example.android.popularmovies.data.model.MovieDetail" />
+        <variable
+            name="viewModel"
+            type="com.example.android.popularmovies.ui.MovieDetailViewModel" />
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -63,7 +68,7 @@
             tools:src="@tools:sample/avatars"/>
 
         <TextView
-            android:id="@+id/tv_release_date"
+            android:id="@+id/text_release_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/default_margin"
@@ -71,50 +76,49 @@
             android:textSize="@dimen/overview_text_size"
             app:layout_constraintStart_toEndOf="@id/image_poster"
             app:layout_constraintTop_toBottomOf="@id/view_pager_backdrops"
+            app:releaseDate="@{movieDetail.releaseDate}"
             tools:text="March, 2018" />
 
         <TextView
             android:id="@+id/text_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/default_margin"
             android:textColor="?attr/editTextColor"
+            android:layout_marginTop="@dimen/small_margin"
             android:textSize="@dimen/title_text_size"
             app:layout_constraintEnd_toStartOf="@+id/gl_vertical_end"
-            app:layout_constraintStart_toStartOf="@id/tv_release_date"
-            app:layout_constraintTop_toBottomOf="@id/tv_release_date"
-            tools:text="Original Title" />
+            app:layout_constraintStart_toStartOf="@id/text_release_date"
+            app:layout_constraintTop_toBottomOf="@id/text_release_date"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:text="@{movieDetail.title}"
+            tools:text="Title" />
 
         <TextView
             android:id="@+id/text_tag_line"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/default_margin"
             android:textColor="?attr/editTextColor"
-            android:textSize="@dimen/title_text_size"
+            android:textSize="@dimen/tagline_text_size"
             app:layout_constraintEnd_toStartOf="@+id/gl_vertical_end"
-            app:layout_constraintStart_toStartOf="@id/tv_release_date"
-            app:layout_constraintTop_toBottomOf="@id/tv_release_date"
-            tools:text="Original Title" />
+            app:layout_constraintStart_toStartOf="@id/text_release_date"
+            app:layout_constraintTop_toBottomOf="@id/text_title"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:text="@{movieDetail.tagline}"
+            tools:text="Tagline" />
 
         <TextView
             android:id="@+id/text_genres"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/default_margin"
+            android:layout_marginTop="@dimen/small_margin"
             android:textSize="@dimen/overview_text_size"
             app:layout_constraintEnd_toStartOf="@+id/gl_vertical_end"
-            app:layout_constraintStart_toStartOf="@id/tv_release_date"
-            app:layout_constraintTop_toBottomOf="@id/text_title"
+            app:layout_constraintStart_toStartOf="@id/text_release_date"
+            app:layout_constraintTop_toBottomOf="@id/text_tag_line"
+            android:text="@{viewModel.getGenresString(movieDetail.genres)}"
             tools:text="Fiction, Horror" />
-
-        <android.support.constraint.Barrier
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierDirection="bottom"
-            android:layout_marginBottom="@dimen/double_margin"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:constraint_referenced_ids="text_genres,image_poster" />
 
         <android.support.constraint.Barrier
             android:id="@+id/barrier"

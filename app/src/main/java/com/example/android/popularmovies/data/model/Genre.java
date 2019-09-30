@@ -24,9 +24,11 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
 public class Genre {
 
     @PrimaryKey(autoGenerate = true)
-    private Long id;
+    @ColumnInfo(name = "id")
+    private Long entityId;
 
-    @SerializedName("genreId")
+    @SerializedName("id")
+    @ColumnInfo(name = "genre_id")
     private Integer genreId;
 
     @ColumnInfo(name = "movie_id")
@@ -39,18 +41,18 @@ public class Genre {
     }
 
     // Constructor used by Room to create Backdrop instance
-    public Genre(Long id, Integer genreId, Long movieId) {
-        this.id = id;
+    public Genre(Long entityId, Integer genreId, Long movieId) {
+        this.entityId = entityId;
         this.genreId = genreId;
         this.movieId = movieId;
     }
 
-    public Long getId() {
-        return id;
+    public Long getEntityId() {
+        return entityId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setEntityId(Long id) {
+        this.entityId = id;
     }
 
     public Integer getGenreId() {

@@ -12,11 +12,12 @@
     <string name="error_loading_trailer_collection">Error loading trailers</string>
     <string name="error_loading_backdrop_collection">Error loading backdrops</string>
     <string name="error_loading_review_collection">Error loading reviews</string>
+    <string name="error_loading_movie_info">Error loading Movie Information</string>
     <string name="error_no_player">No appropriate Application to show trailer</string>
     <string name="empty_review_list">Empty review list</string>
     <string name="empty_trailer_list">Empty trailer list</string>
-    <string name="added_to_favorites">Movie added to Favorite Collection</string>
-    <string name="removed_from_favorites">Movie removed from Favorite Collection</string>
+    <string name="added_to_favorites">Movie was added to Favorite Collection</string>
+    <string name="removed_from_favorites">Movie was removed from Favorite Collection</string>
 
     <!-- Menu -->
     <string name="action_settings">Settings</string>
@@ -36,8 +37,8 @@
         <xliff:g genreId="data">yyyy-MM-dd</xliff:g>
     </string>
 
-    <string name="display_date_format">
-        <xliff:g genreId="data">MMMM yyyy</xliff:g>
+    <string name="release_date_format">
+        <xliff:g genreId="data">MMMM, yyyy</xliff:g>
     </string>
 
     <!-- TabLayout labels -->

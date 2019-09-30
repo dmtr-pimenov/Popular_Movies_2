@@ -1,5 +1,7 @@
 package com.example.android.popularmovies.data.model;
 
+import android.arch.persistence.room.ColumnInfo;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -15,6 +17,7 @@ public class Movie {
     private String title;
 
     @SerializedName("poster_path")
+    @ColumnInfo(name = "poster_path")
     private String posterPath;
 
     public Movie(Long id, String title, String posterPath) {

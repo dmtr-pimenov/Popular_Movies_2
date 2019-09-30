@@ -7,6 +7,7 @@ import android.databinding.DataBindingUtil;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.AppBarLayout;
@@ -23,7 +24,7 @@ import android.widget.Toast;
 
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.data.model.Backdrop;
-import com.example.android.popularmovies.data.model.Movie;
+import com.example.android.popularmovies.data.model.MovieDetail;
 import com.example.android.popularmovies.data.model.Resource;
 import com.example.android.popularmovies.data.network.NetworkApi;
 import com.example.android.popularmovies.databinding.ActivityMovieDetailBinding;
@@ -34,9 +35,6 @@ import com.example.android.popularmovies.ui.factory.MovieDetailViewModelFactory;
 import com.example.android.popularmovies.util.InjectorUtil;
 import com.squareup.picasso.Picasso;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 public class MovieDetailActivity extends AppCompatActivity implements ReviewListAdapter.OnLinkClickListener {
@@ -81,15 +79,11 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
         setupViewModel(movieId);
 
         setupAppBarListener();
-//        setupImageViews(movie);
-//        setupRatingViews(movie);
         setupBackdropViewPager();
-        setupViewPager();
+        setupFragmentViewPager();
 
-        mBinding.detailedInfo.textTitle.setText(movieTitle);
-//        mBinding.detailedInfo.tvReleaseDate.setText(formatDate(movie.getReleaseDate()));
-
-        mBinding.detailedInfo.checkFavoriteMovie.setOnClickListener(new View.OnClickListener() {
+        mBinding.detailInfo.textTitle.setText(movieTitle);
+        mBinding.detailInfo.checkFavoriteMovie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 processCheckBoxOnClick();
@@ -127,6 +121,19 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
         MovieDetailViewModelFactory factory = InjectorUtil.provideMovieDetailViewModelFactory(this, movieId);
         mViewModel = ViewModelProviders.of(this, factory).get(MovieDetailViewModel.class);
 
+        mViewModel.getMovieDetail().observe(this, new Observer<Resource<MovieDetail>>() {
+            @Override
+            public void onChanged(@Nullable Resource<MovieDetail> movieDetailResource) {
+                mViewModel.getMovieDetail().removeObserver(this);
+                MovieDetail movieDetail = movieDetailResource.data;
+                if (movieDetailResource.status == Resource.Status.SUCCESS && movieDetail != null) {
+                    populateUi(movieDetailResource.data, mViewModel);
+                } else {
+                    showToastMessage(R.string.error_loading_movie_info);
+                }
+            }
+        });
+
         mViewModel.getBackdropCollection().observe(this, new Observer<Resource<List<Backdrop>>>() {
             @Override
             public void onChanged(@Nullable Resource<List<Backdrop>> backdropCollectionResource) {
@@ -138,7 +145,7 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
                     mViewModel.getBackdropCollection().removeObserver(this);
                     BackdropAdapter adapter = new BackdropAdapter(MovieDetailActivity.this,
                             backdropCollectionResource.data);
-                    mBinding.detailedInfo.viewPagerBackdrops.setAdapter(adapter);
+                    mBinding.detailInfo.viewPagerBackdrops.setAdapter(adapter);
                 }
             }
         });
@@ -184,9 +191,15 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
             public void onChanged(@Nullable Boolean isFavorite) {
                 mViewModel.isFavorite().removeObserver(this);
                 Log.d(TAG, "Movie is favorite: " + isFavorite);
-                mBinding.detailedInfo.checkFavoriteMovie.setChecked(isFavorite);
+                mBinding.detailInfo.checkFavoriteMovie.setChecked(isFavorite);
             }
         });
+    }
+
+    private void populateUi(@NonNull MovieDetail movieDetail, MovieDetailViewModel viewModel) {
+        mBinding.setMovieDetail(movieDetail);
+        mBinding.setViewModel(viewModel);
+        setupPosterImage(movieDetail);
     }
 
     /**
@@ -195,7 +208,7 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
      * otherwise The Movie will be removed form DB
      */
     private void processCheckBoxOnClick() {
-        boolean isFavorite = mBinding.detailedInfo.checkFavoriteMovie.isChecked();
+        boolean isFavorite = mBinding.detailInfo.checkFavoriteMovie.isChecked();
         Log.d(TAG, "processCheckBoxOnClick: " + isFavorite);
         int messageId;
 
@@ -211,7 +224,7 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
         showToastMessage(messageId);
     }
 
-    private void setupViewPager() {
+    private void setupFragmentViewPager() {
         MovieFragmentAdapter adapter = new MovieFragmentAdapter(this, getSupportFragmentManager());
         mBinding.viewPagerFragment.setAdapter(adapter);
         mBinding.tabFragment.setupWithViewPager(mBinding.viewPagerFragment);
@@ -219,8 +232,8 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
 
     private void setupBackdropViewPager() {
 
-        TabLayout tabLayout = mBinding.detailedInfo.tablayoutBackdropIndicator;
-        ViewPager viewPager = mBinding.detailedInfo.viewPagerBackdrops;
+        TabLayout tabLayout = mBinding.detailInfo.tablayoutBackdropIndicator;
+        ViewPager viewPager = mBinding.detailInfo.viewPagerBackdrops;
         tabLayout.setupWithViewPager(viewPager);
 
         LinearLayout tabStrip = (LinearLayout) tabLayout.getChildAt(0);
@@ -228,20 +241,19 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
             tabStrip.getChildAt(i).setClickable(false);
         }
         mViewPagerChanger = new ViewPagerChanger(this,
-                mBinding.detailedInfo.viewPagerBackdrops, 3000);
+                mBinding.detailInfo.viewPagerBackdrops, 3000);
         mViewPagerChanger.start();
     }
 
-    private void setupImageViews(Movie movie) {
+    private void setupPosterImage(@NonNull  MovieDetail movieDetail) {
 
-        Drawable placeholder = ContextCompat.getDrawable(this, R.drawable.ic_file_download);
         Drawable error = ContextCompat.getDrawable(this, R.drawable.ic_error);
 
         // poster image
-        String posterUrl = NetworkApi.getPosterUrl(movie.getPosterPath(), NetworkApi.PosterSize.W185);
+        String posterUrl = NetworkApi.getPosterUrl(movieDetail.getPosterPath(), NetworkApi.PosterSize.W185);
         Picasso.with(this).load(posterUrl)
                 .error(error)
-                .into(mBinding.detailedInfo.imagePoster);
+                .into(mBinding.detailInfo.imagePoster);
     }
 
 /*
@@ -259,33 +271,6 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
         mBinding.textRatingStr.setText(ratingString);
     }
 */
-
-    // todo move this method to Util class
-
-    /**
-     * Convert String representation of Release date to
-     * short form representation
-     *
-     * @param releaseDate String representation of the Release Date. Format yyyy-MM-dd. Example: 2018-10-19
-     * @return String representation of the Release Date. Format MMMM yyyy. Example: march 2018
-     */
-    private String formatDate(String releaseDate) {
-        String result;
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat();
-            int jsonDateFormat = R.string.json_date_format;
-            sdf.applyPattern(getString(jsonDateFormat));
-            Date date = sdf.parse(releaseDate);
-
-            int displayData = R.string.display_date_format;
-            sdf.applyPattern(getString(displayData));
-            result = sdf.format(date);
-
-        } catch (ParseException ex) {
-            result = "parse error";
-        }
-        return result;
-    }
 
     private void setupAppBarListener() {
         mBinding.appBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {

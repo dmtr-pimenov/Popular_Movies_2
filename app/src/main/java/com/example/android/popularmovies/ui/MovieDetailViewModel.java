@@ -44,12 +44,6 @@ public class MovieDetailViewModel extends ViewModel {
         Log.d(TAG, "MovieDetailViewModel has been created");
         mMovieId = movieId;
         mRepository = repository;
-        // run asynchronously trailers & reviews fetching
-        // find out if the movie marked as favorite (stored in the database)
-        // we have to transform Long value to Boolean value
-        // if Long != null it means that user marked this movie as favorite
-        // and movie is stored in database
-        // if Long == null - movie is not favorite
         mIsFavorite = mRepository.dbIsFavoriteMovie(mMovieId);
         loadMovieDetail();
         setupBackdropRetrieving();
@@ -198,6 +192,10 @@ public class MovieDetailViewModel extends ViewModel {
         mReviewListCollapsed = reviewListCollapsed;
     }
 
+    public LiveData<Resource<MovieDetail>> getMovieDetail() {
+        return mMovieDetail;
+    }
+
     public LiveData<Resource<List<Backdrop>>> getBackdropCollection() {
         return mBackdropCollection;
     }
@@ -215,14 +213,14 @@ public class MovieDetailViewModel extends ViewModel {
         for (Genre g : genres) {
             String gName = mRepository.getGenreById(g.getGenreId());
             if (gName != null) {
-                sb.append(gName + ",");
+                sb.append(" " + gName + ",");
             }
         }
         String res = "";
         int len = sb.length();
-        // remove comma
+        // remove last comma
         if (sb.length() > 0) {
-            res = sb.substring(0, len - 1);
+            res = sb.substring(0, len - 1).trim();
         }
         return res;
     }

@@ -57,7 +57,7 @@ public abstract class MovieDao {
     public abstract void insertReviews(List<Review> entities);
 
     // Genre related methods
-    @Query("select g.* from genre as g where g.movie_id = :movieId")
+    @Query("select g.* from genre as g where g.movie_id = :movieId order by g.genre_id")
     public abstract LiveData<List<Genre>> loadAllGenres(long movieId);
 
     @Insert
