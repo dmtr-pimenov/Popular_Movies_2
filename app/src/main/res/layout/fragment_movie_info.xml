@@ -52,12 +52,21 @@
                 app:layout_constraintTop_toTopOf="@+id/text_rating_str"
                 tools:rating="5" />
 
+            <android.support.constraint.Barrier
+                android:id="@+id/barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="end"
+                app:constraint_referenced_ids="rating_movie_rating,text_rating_text"/>
+
+<!--
             <android.support.constraint.Guideline
                 android:id="@+id/guideline_language"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.33" />
+-->
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/image_language"
@@ -66,7 +75,7 @@
                 android:layout_marginStart="@dimen/default_margin"
                 android:layout_marginTop="@dimen/default_margin"
                 android:scaleType="fitCenter"
-                app:layout_constraintStart_toStartOf="@id/guideline_language"
+                app:layout_constraintStart_toStartOf="@id/barrier"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_language" />
 
