@@ -23,7 +23,7 @@ public interface RawMovieDbApi {
                                    @Query("page") int page);
 
     @GET("3/movie/{id}")
-    Call<MovieDetail> getMovieDetail(@Path("id") String movieId,
+    Call<MovieDetail> getMovieDetail(@Path("id") long movieId,
                                      @Query("api_key") String apiKey);
 
     @GET("3/movie/{id}/videos")

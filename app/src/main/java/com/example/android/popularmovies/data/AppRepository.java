@@ -49,6 +49,7 @@ public class AppRepository {
     private final AppDatabase mAppDatabase;
     private final NetworkApi mNetworkApi;
 
+    private Call<MovieDetail> mMovieDetailQuery;
     private Call<MoviesPage> mMovieQuery;
     private Call<TrailerCollection> mTrailerQuery;
     private Call<ReviewCollection> mReviewQuery;
@@ -145,6 +146,7 @@ public class AppRepository {
 
     /**
      * Checks if a Movie exists in th Database
+     *
      * @param id
      * @return
      */
@@ -182,6 +184,7 @@ public class AppRepository {
 
     /**
      * Inserts a Movie, Trailers and Reviews into Database
+     *
      * @param movie
      * @param trailers
      * @param reviews
@@ -202,6 +205,41 @@ public class AppRepository {
     // Network API related methods
     //
     // **********************************************
+
+    public LiveData<Resource<MovieDetail>> retriveMoveDetail(long movieId) {
+
+        final MutableLiveData<Resource<MovieDetail>> observedData = new MutableLiveData<>();
+
+        Callback<MovieDetail> callback = new Callback<MovieDetail>() {
+
+            @MainThread
+            @Override
+            public void onResponse(Call<MovieDetail> call, Response<MovieDetail> response) {
+                MovieDetail body = response.body();
+                Resource<MovieDetail> result;
+                if (body != null) {
+                    result = Resource.success(body);
+                } else {
+                    result = Resource.error("Empty body", null);
+                }
+                observedData.setValue(result);
+            }
+
+            @MainThread
+            @Override
+            public void onFailure(Call<MovieDetail> call, Throwable t) {
+                if (!call.isCanceled()) {
+                    Resource<MovieDetail> result = Resource.error("error", null);
+                    observedData.setValue(result);
+                    t.printStackTrace();
+                }
+            }
+        };
+
+        mMovieDetailQuery = mNetworkApi.getMovieDetail(movieId);
+        mMovieDetailQuery.enqueue(callback);
+        return observedData;
+    }
 
     public LiveData<Resource<MoviesPage>> retrieveFirstMoviePage(String sortMode) {
         mNetworkMoviesPage = new MutableLiveData<>();
@@ -358,6 +396,11 @@ public class AppRepository {
      * Cancels the Retrofit requests if active
      */
     public void cancelRetrofitRequest() {
+
+        if (mMovieDetailQuery != null && mMovieDetailQuery.isExecuted()) {
+            mMovieDetailQuery.cancel();
+        }
+
         if (mMovieQuery != null && mMovieQuery.isExecuted()) {
             mMovieQuery.cancel();
         }

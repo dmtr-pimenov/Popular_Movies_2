@@ -31,7 +31,7 @@ public class MovieDetailViewModel extends ViewModel {
     private LiveData<Resource<List<Trailer>>> mTrailerCollection;
     private LiveData<Resource<List<Review>>> mReviewCollection;
     private LiveData<Resource<List<Backdrop>>> mBackdropCollection;
-    private LiveData<MovieDetail> mMovieDetail;
+    private LiveData<Resource<MovieDetail>> mMovieDetail;
 
     private LiveData<Boolean> mIsFavorite;
 
@@ -50,9 +50,25 @@ public class MovieDetailViewModel extends ViewModel {
         // and movie is stored in database
         // if Long == null - movie is not favorite
         mIsFavorite = mRepository.dbIsFavoriteMovie(mMovieId);
+        loadMovieDetail();
         setupBackdropRetrieving();
         setupTrailersRetrieving();
         setupReviewsRetrieving();
+    }
+
+    private void loadMovieDetail() {
+        if (mRepository.isFavoriteSelection()) {
+            Transformations.map(mRepository.dbLoadMovieDetailById(mMovieId),
+                    new Function<MovieDetail, Resource<MovieDetail>>() {
+                        @Override
+                        public Resource<MovieDetail> apply(MovieDetail input) {
+                            Resource<MovieDetail> res = Resource.success(input);
+                            return res;
+                        }
+                    });
+        } else {
+            mMovieDetail = mRepository.retriveMoveDetail(mMovieId);
+        }
     }
 
     private void setupBackdropRetrieving() {

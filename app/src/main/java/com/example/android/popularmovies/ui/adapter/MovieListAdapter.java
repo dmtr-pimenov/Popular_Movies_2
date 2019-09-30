@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.data.model.Movie;
@@ -119,7 +120,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
 
         MoviesAdapterViewHolder(View view) {
             super(view);
-            moviePoster = view.findViewById(R.id.iv_movie_poster);
+            moviePoster = view.findViewById(R.id.image_movie_poster);
             view.setOnClickListener(this);
         }
 
@@ -141,7 +142,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         public void onClick(View v) {
             Movie movie = mMovieList.get(getAdapterPosition());
             if (movie != null) {
-                ImageView moviePoster = v.findViewById(R.id.iv_movie_poster);
+                ImageView moviePoster = v.findViewById(R.id.image_movie_poster);
                 mOnClickListener.onListItemClick(mMovieList.get(getAdapterPosition()), moviePoster);
             }
         }

@@ -130,7 +130,7 @@ public class NetworkApi {
      * @param movieId
      * @return
      */
-    public Call<MovieDetail> getMovieDetail(String movieId) {
+    public Call<MovieDetail> getMovieDetail(long movieId) {
         return mRawMovieDbApi.getMovieDetail(movieId, BuildConfig.MOVEDB_API_KEY);
     }
 
