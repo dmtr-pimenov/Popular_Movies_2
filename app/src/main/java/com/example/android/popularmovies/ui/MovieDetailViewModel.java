@@ -11,6 +11,7 @@ import com.example.android.popularmovies.data.AppRepository;
 import com.example.android.popularmovies.data.model.Backdrop;
 import com.example.android.popularmovies.data.model.BackdropCollection;
 import com.example.android.popularmovies.data.model.Genre;
+import com.example.android.popularmovies.data.model.Language;
 import com.example.android.popularmovies.data.model.MovieDetail;
 import com.example.android.popularmovies.data.model.Resource;
 import com.example.android.popularmovies.data.model.Review;
@@ -213,7 +214,9 @@ public class MovieDetailViewModel extends ViewModel {
         StringBuilder sb = new StringBuilder();
         for (Genre g : genres) {
             String gName = mRepository.getGenreById(g.getGenreId());
-            sb.append(gName + ",");
+            if (gName != null) {
+                sb.append(gName + ",");
+            }
         }
         String res = "";
         int len = sb.length();
@@ -222,6 +225,10 @@ public class MovieDetailViewModel extends ViewModel {
             res = sb.substring(0, len - 1);
         }
         return res;
+    }
+
+    public Language getLanguageByCode(String code) {
+        return mRepository.getLanguageByCode(code);
     }
 
     public LiveData<Boolean> isFavorite() {
