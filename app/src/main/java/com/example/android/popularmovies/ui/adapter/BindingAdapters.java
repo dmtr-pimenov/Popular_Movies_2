@@ -2,6 +2,7 @@ package com.example.android.popularmovies.ui.adapter;
 
 import android.content.Context;
 import android.databinding.BindingAdapter;
+import android.os.Build;
 import android.widget.TextView;
 
 import com.example.android.popularmovies.R;
@@ -27,7 +28,14 @@ public class BindingAdapters {
 
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(date);
-                String monthName = calendar.getDisplayName(Calendar.MONTH, Calendar.LONG_STANDALONE, Locale.getDefault());
+
+                int style;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    style = Calendar.LONG_STANDALONE;
+                } else {
+                    style = Calendar.LONG;
+                }
+                String monthName = calendar.getDisplayName(Calendar.MONTH, style, Locale.getDefault());
                 result = monthName + ", " + calendar.get(Calendar.YEAR);
             } catch (ParseException ex) {
                 result = "date parse error";
