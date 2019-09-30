@@ -18,7 +18,7 @@ public class InjectorUtil {
         // Repository should be created in Application Context, not in Activity
         Context appContext = context.getApplicationContext();
 
-        AppExecutors appExecutors = AppExecutors.getInstance();
+        IAppExecutors appExecutors = AppExecutors.getInstance();
         AppDatabase appDatabase = AppDatabase.getInstance(appContext);
         NetworkApi networkApi = NetworkApi.getMovieDbApi();
 

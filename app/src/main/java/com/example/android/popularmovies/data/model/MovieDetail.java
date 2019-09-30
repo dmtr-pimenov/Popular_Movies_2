@@ -62,9 +62,6 @@ public class MovieDetail {
     @SerializedName("runtime")
     private Integer runtime;
 
-    @SerializedName("status")
-    private String status;
-
     @SerializedName("tagline")
     private String tagline;
 
@@ -80,13 +77,11 @@ public class MovieDetail {
     private Integer voteCount;
 
     // Constructor used by Room to create MovieDetail instance
-    public MovieDetail(Long id, Integer budget, String homepage,
-                       String originalLanguage, String originalTitle, String overview,
-                       Double popularity, String posterPath, String releaseDate, Integer revenue,
-                       Integer runtime, String status, String tagline,
-                       String title, Double voteAverage, Integer voteCount) {
+    public MovieDetail(Long id, String homepage, String originalLanguage,
+                       String title, String originalTitle, String overview, String tagline,
+                       String posterPath, String releaseDate, Integer budget, Integer revenue,
+                       Integer runtime, Double popularity, Double voteAverage, Integer voteCount) {
         this.budget = budget;
-        this.genres = genres;
         this.homepage = homepage;
         this.id = id;
         this.originalLanguage = originalLanguage;
@@ -97,7 +92,6 @@ public class MovieDetail {
         this.releaseDate = releaseDate;
         this.revenue = revenue;
         this.runtime = runtime;
-        this.status = status;
         this.tagline = tagline;
         this.title = title;
         this.voteAverage = voteAverage;
@@ -198,14 +192,6 @@ public class MovieDetail {
 
     public void setRuntime(Integer runtime) {
         this.runtime = runtime;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public String getTagline() {

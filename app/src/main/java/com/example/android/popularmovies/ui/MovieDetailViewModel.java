@@ -49,14 +49,7 @@ public class MovieDetailViewModel extends ViewModel {
         // if Long != null it means that user marked this movie as favorite
         // and movie is stored in database
         // if Long == null - movie is not favorite
-        mIsFavorite = Transformations.map(mRepository.dbIsFavoriteMovie(mMovieId),
-                new Function<Long, Boolean>() {
-                    @Override
-                    public Boolean apply(Long movieId) {
-                        return movieId != null;
-                    }
-                }
-        );
+        mIsFavorite = mRepository.dbIsFavoriteMovie(mMovieId);
         setupBackdropRetrieving();
         setupTrailersRetrieving();
         setupReviewsRetrieving();

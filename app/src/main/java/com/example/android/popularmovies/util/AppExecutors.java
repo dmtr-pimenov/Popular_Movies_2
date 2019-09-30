@@ -30,7 +30,7 @@ import java.util.concurrent.Executors;
  * Grouping tasks like this avoids the effects of task starvation (e.g. disk reads don't wait behind
  * webservice requests).
  */
-public class AppExecutors {
+public class AppExecutors implements IAppExecutors {
 
     private static final String TAG = AppExecutors.class.getSimpleName();
 
@@ -47,7 +47,7 @@ public class AppExecutors {
         this.mainThread = mainThread;
     }
 
-    public static AppExecutors getInstance() {
+    public static IAppExecutors getInstance() {
         // Double-checked locking
         if (sInstance == null) {
             synchronized (LOCK) {

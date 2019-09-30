@@ -2,12 +2,16 @@ package com.example.android.popularmovies.data;
 
 import android.arch.core.util.Function;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.Transformations;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.MainThread;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.example.android.popularmovies.R;
@@ -24,9 +28,8 @@ import com.example.android.popularmovies.data.model.ReviewCollection;
 import com.example.android.popularmovies.data.model.Trailer;
 import com.example.android.popularmovies.data.model.TrailerCollection;
 import com.example.android.popularmovies.data.network.NetworkApi;
-import com.example.android.popularmovies.util.AppExecutors;
+import com.example.android.popularmovies.util.IAppExecutors;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -38,11 +41,11 @@ public class AppRepository {
     private static final String TAG = AppRepository.class.getSimpleName();
 
     private static final Object LOCK = new Object();
-    private static AppRepository sInstance = null;
+    private static volatile AppRepository sInstance = null;
 
     private final Context mContext;
 
-    private final AppExecutors mAppExecutors;
+    private final IAppExecutors mAppExecutors;
     private final AppDatabase mAppDatabase;
     private final NetworkApi mNetworkApi;
 
@@ -53,14 +56,14 @@ public class AppRepository {
 
     private MutableLiveData<Resource<MoviesPage>> mNetworkMoviesPage;
 
-    private AppRepository(Context context, AppExecutors appExecutors, AppDatabase appDatabase, NetworkApi networkApi) {
+    private AppRepository(Context context, IAppExecutors appExecutors, AppDatabase appDatabase, NetworkApi networkApi) {
         mContext = context;
         mAppExecutors = appExecutors;
         mAppDatabase = appDatabase;
         mNetworkApi = networkApi;
     }
 
-    public static AppRepository getInstance(Context mContext, AppExecutors appExecutors,
+    public static AppRepository getInstance(Context mContext, IAppExecutors appExecutors,
                                             AppDatabase appDatabase, NetworkApi networkApi) {
         if (sInstance == null) {
             synchronized (LOCK) {
@@ -79,26 +82,65 @@ public class AppRepository {
     //
     // **********************************************
 
+    public LiveData<MovieDetail> dbLoadMovieDetailById(long id) {
+
+        MovieDao movieDao = mAppDatabase.getMovieDao();
+        LiveData<MovieDetail> movieDetail = movieDao.loadMovieDetailById(id);
+        LiveData<List<Genre>> genresList = movieDao.loadAllGenres(id);
+
+        LiveDataMerger res = new LiveDataMerger();
+        res.addMovieDetail(movieDetail);
+        res.addGenres(genresList);
+
+        return res;
+    }
+
+    class LiveDataMerger extends MediatorLiveData<MovieDetail> {
+
+        boolean mMoveDetailIsNull = false;
+        MovieDetail mMovieDetail = null;
+        List<Genre> mGenres = null;
+
+        public void update() {
+            if ((mMovieDetail != null || mMoveDetailIsNull) && mGenres != null) {
+                if (mMovieDetail != null) {
+                    mMovieDetail.setGenres(mGenres);
+                }
+                setValue(mMovieDetail);
+            }
+        }
+
+        public void addMovieDetail(LiveData<MovieDetail> movieDetailLiveData) {
+            addSource(movieDetailLiveData, new Observer<MovieDetail>() {
+                @Override
+                public void onChanged(@Nullable MovieDetail o) {
+                    mMovieDetail = o;
+                    mMoveDetailIsNull = o == null;
+                    update();
+                }
+            });
+        }
+
+        public void addGenres(LiveData<List<Genre>> listLiveData) {
+            addSource(listLiveData, new Observer<List<Genre>>() {
+                @Override
+                public void onChanged(@Nullable List<Genre> o) {
+                    mGenres = o;
+                    update();
+                }
+            });
+        }
+    }
+
     public LiveData<List<Movie>> dbLoadAllMovies(String sortMode) {
         MovieDao movieDao = mAppDatabase.getMovieDao();
-        LiveData<List<MovieDetail>> res;
+        LiveData<List<Movie>> res;
         if (getMostPopularStringArgValue().equals(sortMode)) {
             res = movieDao.loadAllMoviesByPopularity();
         } else {
             res = movieDao.loadAllMoviesByRating();
         }
-        return Transformations.map(res,
-                new Function<List<MovieDetail>, List<Movie>>() {
-                    @Override
-                    public List<Movie> apply(List<MovieDetail> input) {
-                        List<Movie> res = new ArrayList<>(input.size());
-                        for (MovieDetail md : input) {
-                            res.add(new Movie(md.getId(), md.getTitle(), md.getPosterPath()));
-                        }
-                        return null;
-                    }
-                }
-        );
+        return res;
     }
 
     /**
@@ -107,12 +149,15 @@ public class AppRepository {
      * @return
      */
 
-    // // TODO: 19.09.2019 looks like you can return LiveData<Boolean> instead of LiveData<Long>
-    public LiveData<Long> dbIsFavoriteMovie(long id) {
+    public LiveData<Boolean> dbIsFavoriteMovie(long id) {
         MovieDao movieDao = mAppDatabase.getMovieDao();
-        // TODO: 19.09.2019 uncomment it
-//        return movieDao.isFavoriteMovie(id);
-        return null;
+        LiveData<Long> favoriteMovie = movieDao.isFavoriteMovie(id);
+        return Transformations.map(favoriteMovie, new Function<Long, Boolean>() {
+            @Override
+            public Boolean apply(Long input) {
+                return input != null;
+            }
+        });
     }
 
     public LiveData<List<Trailer>> dbLoadAllTrailers(Long movieId) {
@@ -125,12 +170,12 @@ public class AppRepository {
         return movieDao.loadAllReviews(movieId);
     }
 
-    public void dbDeleteMovie(final MovieDetail movie) {
+    public void dbDeleteMovieById(final long id) {
         final MovieDao movieDao = mAppDatabase.getMovieDao();
         mAppExecutors.diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                movieDao.deleteMovie(movie);
+                movieDao.deleteMovieById(id);
             }
         });
     }
