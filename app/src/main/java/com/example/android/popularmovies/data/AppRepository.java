@@ -14,12 +14,14 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.example.android.popularmovies.MyApplication;
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.data.database.AppDatabase;
 import com.example.android.popularmovies.data.database.MovieDao;
 import com.example.android.popularmovies.data.model.Backdrop;
 import com.example.android.popularmovies.data.model.BackdropCollection;
 import com.example.android.popularmovies.data.model.Genre;
+import com.example.android.popularmovies.data.model.Language;
 import com.example.android.popularmovies.data.model.Movie;
 import com.example.android.popularmovies.data.model.MovieDetail;
 import com.example.android.popularmovies.data.model.MoviesPage;
@@ -452,5 +454,19 @@ public class AppRepository {
 
     private String getMostPopularStringArgValue() {
         return mContext.getString(R.string.pref_most_popular_value);
+    }
+
+    // **********************************************
+    //
+    // Reference date related methods
+    //
+    // **********************************************
+
+    public String getGenreById(int id) {
+        return ((MyApplication) mContext.getApplicationContext()).getGenresArray().get(id);
+    }
+
+    public Language getLanguageByCode(String code639_1) {
+        return ((MyApplication) mContext.getApplicationContext()).getLanguageMap().get(code639_1);
     }
 }

@@ -26,6 +26,7 @@ public class AssetsUtilTest {
         assertNotNull(genres.get(14));
         assertEquals("Science Fiction", genres.get(878));
         assertEquals("Fantasy", genres.get(14));
+        assertNull(genres.get(-1));
     }
 
     @Test
@@ -37,5 +38,6 @@ public class AssetsUtilTest {
         assertNotNull(languages.get("ru"));
         assertEquals("English", languages.get("en").getName());
         assertEquals("Russian", languages.get("ru").getName());
+        assertNull(languages.get("zzz"));
     }
 }

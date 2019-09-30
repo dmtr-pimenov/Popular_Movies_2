@@ -9,6 +9,7 @@ import android.support.test.runner.AndroidJUnit4;
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.TestUtil;
 import com.example.android.popularmovies.data.database.AppDatabase;
+import com.example.android.popularmovies.data.model.Backdrop;
 import com.example.android.popularmovies.data.model.Genre;
 import com.example.android.popularmovies.data.model.Movie;
 import com.example.android.popularmovies.data.model.MovieDetail;
@@ -79,9 +80,12 @@ public class AppDbRepositoryTest {
         MovieDetail movieDetail2 = createMovie(id2, popularity2, voteAverage2);
 
         mRepository.dbInsertMovie(movieDetail1, Collections.<Trailer>emptyList(),
-                Collections.<Review>emptyList(), Collections.<Genre>emptyList());
+                Collections.<Review>emptyList(), Collections.<Genre>emptyList(),
+                Collections.<Backdrop>emptyList());
+
         mRepository.dbInsertMovie(movieDetail2, Collections.<Trailer>emptyList(),
-                Collections.<Review>emptyList(), Collections.<Genre>emptyList());
+                Collections.<Review>emptyList(), Collections.<Genre>emptyList(),
+                Collections.<Backdrop>emptyList());
 
         // sort mode by popular
         String sortMode = mContext.getResources().getString(R.string.pref_most_popular_value);
@@ -120,7 +124,8 @@ public class AppDbRepositoryTest {
         MovieDetail movieDetail = createMovie(id, 12, 55);
 
         mRepository.dbInsertMovie(movieDetail, Collections.<Trailer>emptyList(),
-                Collections.<Review>emptyList(), Collections.<Genre>emptyList());
+                Collections.<Review>emptyList(), Collections.<Genre>emptyList(),
+                Collections.<Backdrop>emptyList());
 
         LiveData<Boolean> booleanLiveData = mRepository.dbIsFavoriteMovie(id);
         Boolean res = TestUtil.getOrAwaitValue(booleanLiveData);
@@ -145,7 +150,8 @@ public class AppDbRepositoryTest {
         MovieDetail movieDetail1 = createMovie(id, 1, 1);
 
         mRepository.dbInsertMovie(movieDetail1, trailers,
-                Collections.<Review>emptyList(), Collections.<Genre>emptyList());
+                Collections.<Review>emptyList(), Collections.<Genre>emptyList(),
+                Collections.<Backdrop>emptyList());
 
         LiveData<List<Trailer>> result = mRepository.dbLoadAllTrailers(id);
         List<Trailer> list = TestUtil.getOrAwaitValue(result);
@@ -172,7 +178,8 @@ public class AppDbRepositoryTest {
         MovieDetail movieDetail1 = createMovie(id, 1, 1);
 
         mRepository.dbInsertMovie(movieDetail1, Collections.<Trailer>emptyList(),
-                reviewList, Collections.<Genre>emptyList());
+                reviewList, Collections.<Genre>emptyList(),
+                Collections.<Backdrop>emptyList());
 
         LiveData<List<Review>> result = mRepository.dbLoadAllReviews(id);
         List<Review> list = TestUtil.getOrAwaitValue(result);
@@ -201,7 +208,8 @@ public class AppDbRepositoryTest {
         List<Genre> genres = Arrays.asList(g1, g2);
 
         mRepository.dbInsertMovie(m, Collections.<Trailer>emptyList(),
-                Collections.<Review>emptyList(), genres);
+                Collections.<Review>emptyList(), genres,
+                Collections.<Backdrop>emptyList());
 
         LiveData<MovieDetail> movieDetailLiveData = mRepository.dbLoadMovieDetailById(id);
         MovieDetail movieDetail = TestUtil.getOrAwaitValue(movieDetailLiveData);
@@ -232,7 +240,8 @@ public class AppDbRepositoryTest {
 
         MovieDetail m = createMovie(id, popularity, voteAverage);
         mRepository.dbInsertMovie(m, Collections.<Trailer>emptyList(),
-                Collections.<Review>emptyList(), Collections.<Genre>emptyList());
+                Collections.<Review>emptyList(), Collections.<Genre>emptyList(),
+                Collections.<Backdrop>emptyList());
 
         mRepository.dbDeleteMovieById(id);
 

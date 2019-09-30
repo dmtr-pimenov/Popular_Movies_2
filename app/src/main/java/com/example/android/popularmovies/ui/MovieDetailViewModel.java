@@ -2,16 +2,15 @@ package com.example.android.popularmovies.ui;
 
 import android.arch.core.util.Function;
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.example.android.popularmovies.data.AppRepository;
 import com.example.android.popularmovies.data.model.Backdrop;
 import com.example.android.popularmovies.data.model.BackdropCollection;
 import com.example.android.popularmovies.data.model.Genre;
-import com.example.android.popularmovies.data.model.Movie;
 import com.example.android.popularmovies.data.model.MovieDetail;
 import com.example.android.popularmovies.data.model.Resource;
 import com.example.android.popularmovies.data.model.Review;
@@ -210,8 +209,19 @@ public class MovieDetailViewModel extends ViewModel {
         return mReviewCollection;
     }
 
-    public String getGenresString() {
-        throw new UnsupportedOperationException("getGenresString not implemented yet");
+    public String getGenresString(@NonNull List<Genre> genres) {
+        StringBuilder sb = new StringBuilder();
+        for (Genre g : genres) {
+            String gName = mRepository.getGenreById(g.getGenreId());
+            sb.append(gName + ",");
+        }
+        String res = "";
+        int len = sb.length();
+        // remove comma
+        if (sb.length() > 0) {
+            res = sb.substring(0, len - 1);
+        }
+        return res;
     }
 
     public LiveData<Boolean> isFavorite() {
