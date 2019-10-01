@@ -14,7 +14,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -26,18 +25,15 @@ import android.widget.TextView;
 
 import com.example.android.popularmovies.BuildConfig;
 import com.example.android.popularmovies.R;
-import com.example.android.popularmovies.data.model.Language;
 import com.example.android.popularmovies.data.model.Movie;
 import com.example.android.popularmovies.data.model.Resource;
 import com.example.android.popularmovies.ui.adapter.MovieListAdapter;
 import com.example.android.popularmovies.ui.factory.MainViewModelFactory;
-import com.example.android.popularmovies.util.AssetsUtil;
 import com.example.android.popularmovies.util.InjectorUtil;
 import com.example.android.popularmovies.util.NetworkUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity
         implements MovieListAdapter.ListItemClickListener {

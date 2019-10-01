@@ -4,9 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="movieDetail"
             type="com.example.android.popularmovies.data.model.MovieDetail" />
+
         <variable
             name="viewModel"
             type="com.example.android.popularmovies.ui.MovieDetailViewModel" />
@@ -46,11 +48,12 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:button="@drawable/check_box_selector"
-            android:checked="true"
+            android:checked="@{viewModel.isFavorite()}"
             android:elevation="@dimen/standard_elevation"
             app:layout_constraintBottom_toBottomOf="@+id/view_pager_backdrops"
             app:layout_constraintEnd_toStartOf="@+id/gl_vertical_end"
-            app:layout_constraintTop_toBottomOf="@+id/view_pager_backdrops" />
+            app:layout_constraintTop_toBottomOf="@+id/view_pager_backdrops"
+            android:onClick="processCheckBoxOnClick"/>
 
         <ImageView
             android:id="@+id/image_poster"
@@ -65,7 +68,7 @@
             app:layout_constraintDimensionRatio="w,185:278"
             app:layout_constraintStart_toStartOf="@id/gl_vertical_start"
             app:layout_constraintTop_toBottomOf="@id/view_pager_backdrops"
-            tools:src="@tools:sample/avatars"/>
+            tools:src="@tools:sample/avatars" />
 
         <TextView
             android:id="@+id/text_release_date"
@@ -131,7 +134,7 @@
         <Space
             android:layout_width="wrap_content"
             android:layout_height="@dimen/double_margin"
-            app:layout_constraintTop_toBottomOf="@id/barrier"/>
+            app:layout_constraintTop_toBottomOf="@id/barrier" />
 
         <android.support.constraint.Guideline
             android:id="@+id/gl_vertical_start"

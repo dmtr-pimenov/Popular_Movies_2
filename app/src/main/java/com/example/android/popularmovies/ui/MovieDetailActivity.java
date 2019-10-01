@@ -19,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -64,6 +65,8 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
         }
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_movie_detail);
+        // TODO: 01.10.2019
+        mBinding.setLifecycleOwner(this);
 
         setSupportActionBar(mBinding.toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -83,10 +86,19 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
         setupFragmentViewPager();
 
         mBinding.detailInfo.textTitle.setText(movieTitle);
+/*
         mBinding.detailInfo.checkFavoriteMovie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 processCheckBoxOnClick();
+            }
+        });
+*/
+
+        mBinding.detailInfo.checkFavoriteMovie.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Log.d(TAG, "onCheckedChanged: " + isChecked);
             }
         });
 
@@ -186,6 +198,7 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
          * For this we ask ViewModel to check if the Movie exists in the local Db
          */
 
+/*
         mViewModel.isFavorite().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable Boolean isFavorite) {
@@ -194,6 +207,7 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
                 mBinding.detailInfo.checkFavoriteMovie.setChecked(isFavorite);
             }
         });
+*/
     }
 
     private void populateUi(@NonNull MovieDetail movieDetail, MovieDetailViewModel viewModel) {
@@ -207,7 +221,7 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
      * the Movie will be added into DB
      * otherwise The Movie will be removed form DB
      */
-    private void processCheckBoxOnClick() {
+    public void processCheckBoxOnClick(View v) {
         boolean isFavorite = mBinding.detailInfo.checkFavoriteMovie.isChecked();
         Log.d(TAG, "processCheckBoxOnClick: " + isFavorite);
         int messageId;
