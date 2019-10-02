@@ -19,7 +19,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -27,6 +26,8 @@ import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.data.model.Backdrop;
 import com.example.android.popularmovies.data.model.MovieDetail;
 import com.example.android.popularmovies.data.model.Resource;
+import com.example.android.popularmovies.data.model.Review;
+import com.example.android.popularmovies.data.model.Trailer;
 import com.example.android.popularmovies.data.network.NetworkApi;
 import com.example.android.popularmovies.databinding.ActivityMovieDetailBinding;
 import com.example.android.popularmovies.ui.adapter.BackdropAdapter;
@@ -65,7 +66,6 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
         }
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_movie_detail);
-        // TODO: 01.10.2019
         mBinding.setLifecycleOwner(this);
 
         setSupportActionBar(mBinding.toolbar);
@@ -84,23 +84,6 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
         setupAppBarListener();
         setupBackdropViewPager();
         setupFragmentViewPager();
-
-        mBinding.detailInfo.textTitle.setText(movieTitle);
-/*
-        mBinding.detailInfo.checkFavoriteMovie.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                processCheckBoxOnClick();
-            }
-        });
-*/
-
-        mBinding.detailInfo.checkFavoriteMovie.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Log.d(TAG, "onCheckedChanged: " + isChecked);
-            }
-        });
 
         isFavoriteMode = mViewModel.isFavoriteMode();
     }
@@ -154,7 +137,6 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
                         backdropCollectionResource.status == Resource.Status.ERROR) {
                     showToastMessage(R.string.error_loading_backdrop_collection);
                 } else {
-                    mViewModel.getBackdropCollection().removeObserver(this);
                     BackdropAdapter adapter = new BackdropAdapter(MovieDetailActivity.this,
                             backdropCollectionResource.data);
                     mBinding.detailInfo.viewPagerBackdrops.setAdapter(adapter);
@@ -162,52 +144,29 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
             }
         });
 
-/*
-        mViewModel.getTrailerCollection().observe(this, new Observer<Resource<List<TrailerMinimal>>>() {
-        // todo remove observer
+        mViewModel.getTrailerCollection().observe(this, new Observer<Resource<List<Trailer>>>() {
             @Override
-            public void onChanged(@Nullable Resource<List<TrailerMinimal>> trailerCollectionResource) {
+            public void onChanged(@Nullable Resource<List<Trailer>> trailerCollectionResource) {
                 mViewModel.getTrailerCollection().removeObserver(this);
                 if (trailerCollectionResource == null ||
                         trailerCollectionResource.status == Resource.Status.ERROR) {
                     showToastMessage(R.string.error_loading_trailer_collection);
-                } else {
-                    setupTrailerList(trailerCollectionResource.data);
                 }
+                Log.d(TAG, "Trailer list received");
             }
         });
 
-        mViewModel.getReviewCollection().observe(this, new Observer<Resource<List<ReviewMinimal>>>() {
-        // todo remove observer
+        mViewModel.getReviewCollection().observe(this, new Observer<Resource<List<Review>>>() {
             @Override
-            public void onChanged(@Nullable Resource<List<ReviewMinimal>> reviewCollectionResource) {
+            public void onChanged(@Nullable Resource<List<Review>> reviewCollectionResource) {
                 mViewModel.getReviewCollection().removeObserver(this);
                 if (reviewCollectionResource == null ||
                         reviewCollectionResource.status == Resource.Status.ERROR) {
                     showToastMessage(R.string.error_loading_review_collection);
-                } else {
-                    setupReviewList(reviewCollectionResource.data);
                 }
+                Log.d(TAG, "Review list received");
             }
         });
-*/
-
-        /*
-         * If the App gets the Data from network we have to inform
-         * user whether the Movie already added into the local Database or not
-         * For this we ask ViewModel to check if the Movie exists in the local Db
-         */
-
-/*
-        mViewModel.isFavorite().observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(@Nullable Boolean isFavorite) {
-                mViewModel.isFavorite().removeObserver(this);
-                Log.d(TAG, "Movie is favorite: " + isFavorite);
-                mBinding.detailInfo.checkFavoriteMovie.setChecked(isFavorite);
-            }
-        });
-*/
     }
 
     private void populateUi(@NonNull MovieDetail movieDetail, MovieDetailViewModel viewModel) {
@@ -217,7 +176,7 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
     }
 
     /**
-     * If user clicks on the favorite checkbox and Movie is not local database
+     * If user clicks on the favorite checkbox and Movie is not in local database
      * the Movie will be added into DB
      * otherwise The Movie will be removed form DB
      */

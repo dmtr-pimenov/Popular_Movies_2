@@ -15,7 +15,7 @@ import java.util.Locale;
 
 public class BindingAdapters {
 
-    @BindingAdapter("app:releaseDate")
+    @BindingAdapter("releaseDate")
     public static void setReleaseDate(TextView textView, String releaseDate) {
         if (releaseDate != null) {
             String result;

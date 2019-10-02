@@ -20,7 +20,6 @@ import com.example.android.popularmovies.data.model.Trailer;
 import com.example.android.popularmovies.data.model.TrailerCollection;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class MovieDetailViewModel extends ViewModel {
@@ -63,7 +62,7 @@ public class MovieDetailViewModel extends ViewModel {
                         }
                     });
         } else {
-            mMovieDetail = mRepository.retriveMoveDetail(mMovieId);
+            mMovieDetail = mRepository.retrieveMoveDetail(mMovieId);
         }
     }
 
@@ -154,7 +153,7 @@ public class MovieDetailViewModel extends ViewModel {
     // todo don't forget to disable checkbox Add to Favorite if MoveDetail retrieved with error
     public void addMovieToFavorites() {
         Log.d(TAG, "addMovieToFavorites");
-/*
+
         List<Trailer> trailers = new ArrayList<>();
         if (mTrailerCollection.getValue().status == Resource.Status.SUCCESS) {
             trailers.addAll(mTrailerCollection.getValue().data);
@@ -168,11 +167,9 @@ public class MovieDetailViewModel extends ViewModel {
         if (mBackdropCollection.getValue().status == Resource.Status.SUCCESS) {
             backdrops.addAll(mBackdropCollection.getValue().data);
         }
-*/
 
         MovieDetail movie = mMovieDetail.getValue().data;
-//        mRepository.dbInsertMovie(movie, trailers, reviews, movie.getGenres(), backdrops);
-        mRepository.dbInsertMovie(movie, Collections.<Trailer>emptyList(), Collections.<Review>emptyList(), movie.getGenres(), Collections.<Backdrop>emptyList());
+        mRepository.dbInsertMovie(movie, trailers, reviews, movie.getGenres(), backdrops);
     }
 
     public void removeMovieFromFavorites() {

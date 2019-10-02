@@ -214,7 +214,7 @@ public class AppRepository {
     //
     // **********************************************
 
-    public LiveData<Resource<MovieDetail>> retriveMoveDetail(long movieId) {
+    public LiveData<Resource<MovieDetail>> retrieveMoveDetail(long movieId) {
 
         final MutableLiveData<Resource<MovieDetail>> observedData = new MutableLiveData<>();
 
