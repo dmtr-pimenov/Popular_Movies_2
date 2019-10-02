@@ -21,7 +21,7 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
                 childColumns = "movie_id", onDelete = CASCADE),
         indices = {@Index(value = {"movie_id"})}
 )
-public class Trailer {
+public class Trailer implements IIdSetter {
 
     @PrimaryKey(autoGenerate = false)
     @SerializedName("id")

@@ -6,9 +6,11 @@ import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Transaction;
+import android.support.annotation.NonNull;
 
 import com.example.android.popularmovies.data.model.Backdrop;
 import com.example.android.popularmovies.data.model.Genre;
+import com.example.android.popularmovies.data.model.IIdSetter;
 import com.example.android.popularmovies.data.model.Movie;
 import com.example.android.popularmovies.data.model.MovieDetail;
 import com.example.android.popularmovies.data.model.Review;
@@ -71,16 +73,25 @@ public abstract class MovieDao {
     public abstract void insertBackdrops(List<Backdrop> entities);
 
     @Transaction
-    public void insertMovie(MovieDetail movie,
-                            List<Trailer> trailers,
-                            List<Review> reviews,
-                            List<Genre> genres,
-                            List<Backdrop> backdrops
+    public void insertMovie(@NonNull MovieDetail movie,
+                            @NonNull List<Trailer> trailers,
+                            @NonNull List<Review> reviews,
+                            @NonNull List<Genre> genres,
+                            @NonNull List<Backdrop> backdrops
     ) {
         insertMovie(movie);
+        setMovieId(movie.getId(), trailers, reviews, genres, backdrops);
         insertTrailers(trailers);
         insertReviews(reviews);
         insertGenres(genres);
         insertBackdrops(backdrops);
+    }
+
+    private void setMovieId(Long movieId, List<? extends IIdSetter>... collections) {
+        for (List<? extends IIdSetter> c : collections) {
+            for (IIdSetter entity : c) {
+                entity.setMovieId(movieId);
+            }
+        }
     }
 }

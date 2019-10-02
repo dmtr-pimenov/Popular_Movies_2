@@ -21,7 +21,7 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
         foreignKeys = @ForeignKey(entity = MovieDetail.class, parentColumns = "id",
                 childColumns = "movie_id", onDelete = CASCADE)
 )
-public class Backdrop {
+public class Backdrop implements IIdSetter {
 
     @PrimaryKey(autoGenerate = true)
     private Long id;
