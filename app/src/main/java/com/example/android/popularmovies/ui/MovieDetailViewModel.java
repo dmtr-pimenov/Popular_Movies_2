@@ -4,13 +4,11 @@ import android.arch.core.util.Function;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.example.android.popularmovies.data.AppRepository;
 import com.example.android.popularmovies.data.model.Backdrop;
 import com.example.android.popularmovies.data.model.BackdropCollection;
-import com.example.android.popularmovies.data.model.Genre;
 import com.example.android.popularmovies.data.model.Language;
 import com.example.android.popularmovies.data.model.MovieDetail;
 import com.example.android.popularmovies.data.model.Resource;
@@ -18,6 +16,7 @@ import com.example.android.popularmovies.data.model.Review;
 import com.example.android.popularmovies.data.model.ReviewCollection;
 import com.example.android.popularmovies.data.model.Trailer;
 import com.example.android.popularmovies.data.model.TrailerCollection;
+import com.example.android.popularmovies.ui.factory.MovieLoadingWatcher;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,9 +32,9 @@ public class MovieDetailViewModel extends ViewModel {
     private LiveData<Resource<List<Review>>> mReviewCollection;
     private LiveData<Resource<List<Backdrop>>> mBackdropCollection;
     private LiveData<Resource<MovieDetail>> mMovieDetail;
+    private MovieLoadingWatcher mMovieLoadingWatcher = new MovieLoadingWatcher();
 
     private LiveData<Boolean> mIsFavorite;
-
 
     private boolean mTrailerListCollapsed = true;
     private boolean mReviewListCollapsed = true;
@@ -45,6 +44,11 @@ public class MovieDetailViewModel extends ViewModel {
         mMovieId = movieId;
         mRepository = repository;
         mIsFavorite = mRepository.dbIsFavoriteMovie(mMovieId);
+
+        if (mRepository.isFavoriteMode()) {
+            mMovieLoadingWatcher.forceTrue();
+        }
+
         loadMovieDetail();
         setupBackdropRetrieving();
         setupTrailersRetrieving();
@@ -52,7 +56,7 @@ public class MovieDetailViewModel extends ViewModel {
     }
 
     private void loadMovieDetail() {
-        if (mRepository.isFavoriteSelection()) {
+        if (mRepository.isFavoriteMode()) {
             mMovieDetail = Transformations.map(mRepository.dbLoadMovieDetailById(mMovieId),
                     new Function<MovieDetail, Resource<MovieDetail>>() {
                         @Override
@@ -62,12 +66,19 @@ public class MovieDetailViewModel extends ViewModel {
                         }
                     });
         } else {
-            mMovieDetail = mRepository.retrieveMoveDetail(mMovieId);
+            mMovieDetail = Transformations.map(mRepository.retrieveMoveDetail(mMovieId),
+                    new Function<Resource<MovieDetail>, Resource<MovieDetail>>() {
+                        @Override
+                        public Resource<MovieDetail> apply(Resource<MovieDetail> input) {
+                            mMovieLoadingWatcher.movieLoaded();
+                            return input;
+                        }
+                    });
         }
     }
 
     private void setupBackdropRetrieving() {
-        if (mRepository.isFavoriteSelection()) {
+        if (mRepository.isFavoriteMode()) {
             mBackdropCollection = Transformations.map(mRepository.dbLoadAllBackdrops(mMovieId),
                     new Function<List<Backdrop>, Resource<List<Backdrop>>>() {
                         @Override
@@ -88,6 +99,7 @@ public class MovieDetailViewModel extends ViewModel {
                             } else {
                                 res = Resource.error(input.message, null);
                             }
+                            mMovieLoadingWatcher.backdropsLoaded();
                             return res;
                         }
                     });
@@ -95,7 +107,7 @@ public class MovieDetailViewModel extends ViewModel {
     }
 
     private void setupTrailersRetrieving() {
-        if (mRepository.isFavoriteSelection()) {
+        if (mRepository.isFavoriteMode()) {
             mTrailerCollection = Transformations.map(mRepository.dbLoadAllTrailers(mMovieId),
                     new Function<List<Trailer>, Resource<List<Trailer>>>() {
                         @Override
@@ -116,6 +128,7 @@ public class MovieDetailViewModel extends ViewModel {
                             } else {
                                 res = Resource.error(input.message, null);
                             }
+                            mMovieLoadingWatcher.trailersLoaded();
                             return res;
                         }
                     });
@@ -123,7 +136,7 @@ public class MovieDetailViewModel extends ViewModel {
     }
 
     private void setupReviewsRetrieving() {
-        if (mRepository.isFavoriteSelection()) {
+        if (mRepository.isFavoriteMode()) {
             mReviewCollection = Transformations.map(mRepository.dbLoadAllReviews(mMovieId),
                     new Function<List<Review>, Resource<List<Review>>>() {
                         @Override
@@ -144,6 +157,7 @@ public class MovieDetailViewModel extends ViewModel {
                             } else {
                                 res = Resource.error(input.message, null);
                             }
+                            mMovieLoadingWatcher.reviewsLoaded();
                             return res;
                         }
                     });
@@ -209,23 +223,6 @@ public class MovieDetailViewModel extends ViewModel {
         return mReviewCollection;
     }
 
-    public String getGenresString(@NonNull List<Genre> genres) {
-        StringBuilder sb = new StringBuilder();
-        for (Genre g : genres) {
-            String gName = mRepository.getGenreById(g.getGenreId());
-            if (gName != null) {
-                sb.append(" " + gName + ",");
-            }
-        }
-        String res = "";
-        int len = sb.length();
-        // remove last comma
-        if (sb.length() > 0) {
-            res = sb.substring(0, len - 1).trim();
-        }
-        return res;
-    }
-
     public Language getLanguageByCode(String code) {
         return mRepository.getLanguageByCode(code);
     }
@@ -234,8 +231,12 @@ public class MovieDetailViewModel extends ViewModel {
         return mIsFavorite;
     }
 
+    public LiveData<Boolean> isMovieInformationLoaded() {
+        return mMovieLoadingWatcher.isMovieInformationLoaded();
+    }
+
     public boolean isFavoriteMode() {
-        return mRepository.isFavoriteSelection();
+        return mRepository.isFavoriteMode();
     }
 
     // finalization

@@ -30,6 +30,7 @@ import com.example.android.popularmovies.data.model.ReviewCollection;
 import com.example.android.popularmovies.data.model.Trailer;
 import com.example.android.popularmovies.data.model.TrailerCollection;
 import com.example.android.popularmovies.data.network.NetworkApi;
+import com.example.android.popularmovies.ui.CustomMediatorLiveData;
 import com.example.android.popularmovies.util.IAppExecutors;
 
 import java.util.List;
@@ -94,11 +95,12 @@ public class AppRepository {
         LiveDataMerger res = new LiveDataMerger();
         res.addMovieDetail(movieDetail);
         res.addGenres(genresList);
+        res.removeAllSources();
 
         return res;
     }
 
-    private class LiveDataMerger extends MediatorLiveData<MovieDetail> {
+    private class LiveDataMerger extends CustomMediatorLiveData<MovieDetail> {
 
         boolean mMoveDetailIsNull = false;
         MovieDetail mMovieDetail = null;
@@ -439,7 +441,7 @@ public class AppRepository {
                 mContext.getString(R.string.default_sort_mode));
     }
 
-    public boolean isFavoriteSelection() {
+    public boolean isFavoriteMode() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         return preferences.getBoolean(mContext.getString(R.string.pref_favorite_key),
                 mContext.getResources().getBoolean(R.bool.pref_favorite_default));
@@ -457,7 +459,7 @@ public class AppRepository {
 
     // **********************************************
     //
-    // Reference date related methods
+    // Reference data related methods
     //
     // **********************************************
 

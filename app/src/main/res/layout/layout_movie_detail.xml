@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="movieDetail"
             type="com.example.android.popularmovies.data.model.MovieDetail" />
@@ -49,11 +51,12 @@
             android:layout_marginBottom="8dp"
             android:button="@drawable/check_box_selector"
             android:checked="@{viewModel.isFavorite()}"
+            android:visibility="@{viewModel.isMovieInformationLoaded() ? View.VISIBLE : View.INVISIBLE}"
             android:elevation="@dimen/standard_elevation"
             app:layout_constraintBottom_toBottomOf="@+id/view_pager_backdrops"
             app:layout_constraintEnd_toStartOf="@+id/gl_vertical_end"
             app:layout_constraintTop_toBottomOf="@+id/view_pager_backdrops"
-            android:onClick="processCheckBoxOnClick"/>
+            android:onClick="processCheckBoxOnClick" />
 
         <ImageView
             android:id="@+id/image_poster"
@@ -120,7 +123,7 @@
             app:layout_constraintEnd_toStartOf="@+id/gl_vertical_end"
             app:layout_constraintStart_toStartOf="@id/text_release_date"
             app:layout_constraintTop_toBottomOf="@id/text_tag_line"
-            android:text="@{viewModel.getGenresString(movieDetail.genres)}"
+            app:genres="@{movieDetail.genres}"
             tools:text="Fiction, Horror" />
 
         <android.support.constraint.Barrier

@@ -46,7 +46,7 @@ public class MainViewModel extends AndroidViewModel {
         mMovieCollection = new CustomMediatorLiveData<>();
 
         mSortMode = mRepository.getSortMode();
-        mLoadFavoriteMovie = mRepository.isFavoriteSelection();
+        mLoadFavoriteMovie = mRepository.isFavoriteMode();
 
         Log.d(TAG, "MainViewModel has been created");
     }
@@ -138,7 +138,7 @@ public class MainViewModel extends AndroidViewModel {
         mMovieList = new ArrayList<>();
         mSortMode = mRepository.getSortMode();
 
-        mLoadFavoriteMovie = mRepository.isFavoriteSelection();
+        mLoadFavoriteMovie = mRepository.isFavoriteMode();
 
         mMovieCollection.removeAllSources();
         if (!mLoadFavoriteMovie) {
@@ -163,7 +163,7 @@ public class MainViewModel extends AndroidViewModel {
     }
 
     public boolean isFavoriteMode() {
-        return mRepository.isFavoriteSelection();
+        return mRepository.isFavoriteMode();
     }
 
     @Override

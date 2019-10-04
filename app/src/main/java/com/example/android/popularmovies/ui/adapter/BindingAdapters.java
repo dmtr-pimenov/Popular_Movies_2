@@ -1,16 +1,23 @@
 package com.example.android.popularmovies.ui.adapter;
 
+import android.app.Application;
 import android.content.Context;
 import android.databinding.BindingAdapter;
 import android.os.Build;
+import android.support.annotation.Nullable;
+import android.util.SparseArray;
 import android.widget.TextView;
 
+import com.example.android.popularmovies.MyApplication;
 import com.example.android.popularmovies.R;
+import com.example.android.popularmovies.data.AppRepository;
+import com.example.android.popularmovies.data.model.Genre;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class BindingAdapters {
@@ -42,5 +49,28 @@ public class BindingAdapters {
             }
             textView.setText(result);
         }
+    }
+
+    @BindingAdapter("genres")
+    public static void setGenres(TextView textView, @Nullable List<Genre> genres) {
+        if (genres == null) {
+            return;
+        }
+        StringBuilder sb = new StringBuilder();
+        MyApplication myApplication = (MyApplication) textView.getContext().getApplicationContext();
+        SparseArray<String> genresArray = myApplication.getGenresArray();
+        for (Genre g : genres) {
+            String gName = genresArray.get(g.getGenreId());
+            if (gName != null) {
+                sb.append(" " + gName + ",");
+            }
+        }
+        String res = "";
+        int len = sb.length();
+        // remove last comma
+        if (sb.length() > 0) {
+            res = sb.substring(0, len - 1).trim();
+        }
+        textView.setText(res);
     }
 }
