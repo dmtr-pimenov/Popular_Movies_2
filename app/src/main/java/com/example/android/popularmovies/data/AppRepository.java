@@ -95,12 +95,11 @@ public class AppRepository {
         LiveDataMerger res = new LiveDataMerger();
         res.addMovieDetail(movieDetail);
         res.addGenres(genresList);
-        res.removeAllSources();
 
         return res;
     }
 
-    private class LiveDataMerger extends CustomMediatorLiveData<MovieDetail> {
+    private class LiveDataMerger extends MediatorLiveData<MovieDetail> {
 
         boolean mMoveDetailIsNull = false;
         MovieDetail mMovieDetail = null;
