@@ -6,15 +6,20 @@ import android.databinding.BindingAdapter;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.util.SparseArray;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.android.popularmovies.MyApplication;
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.data.AppRepository;
 import com.example.android.popularmovies.data.model.Genre;
+import com.example.android.popularmovies.data.model.Language;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -72,5 +77,44 @@ public class BindingAdapters {
             res = sb.substring(0, len - 1).trim();
         }
         textView.setText(res);
+    }
+
+    @BindingAdapter("ratingString")
+    public static void setRating(TextView textView, @Nullable Double voteAverage) {
+        if (voteAverage != null) {
+            NumberFormat numberInstance = DecimalFormat.getNumberInstance();
+            numberInstance.setMaximumFractionDigits(1);
+            String ratingString = numberInstance.format(voteAverage) + "/10";
+            textView.setText(ratingString);
+        }
+    }
+
+    @BindingAdapter("stars")
+    public static void setStars(RatingBar ratingBar, @Nullable Double voteAverage) {
+        if (voteAverage != null) {
+            float numStars = ratingBar.getNumStars();
+            float rating = voteAverage.floatValue() * numStars / 10f;
+            ratingBar.setRating(rating);
+        }
+    }
+
+    @BindingAdapter("language")
+    public static void setLanguage(TextView textView, @Nullable String langCode) {
+        if (langCode != null) {
+            MyApplication myApplication = (MyApplication) textView.getContext().getApplicationContext();
+            Language language = myApplication.getLanguageMap().get(langCode);
+            if (language != null) {
+                textView.setText(language.getName());
+            }
+        }
+    }
+
+    @BindingAdapter("runtime")
+    public static void setRuntime(TextView textView, @Nullable Integer runtime) {
+        if (runtime != null) {
+            String formatStr = textView.getContext().getString(R.string.runtime_format);
+            String res = String.format(formatStr, runtime / 60, runtime % 60);
+            textView.setText(res);
+        }
     }
 }

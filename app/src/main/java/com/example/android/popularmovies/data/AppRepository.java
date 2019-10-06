@@ -30,7 +30,6 @@ import com.example.android.popularmovies.data.model.ReviewCollection;
 import com.example.android.popularmovies.data.model.Trailer;
 import com.example.android.popularmovies.data.model.TrailerCollection;
 import com.example.android.popularmovies.data.network.NetworkApi;
-import com.example.android.popularmovies.ui.CustomMediatorLiveData;
 import com.example.android.popularmovies.util.IAppExecutors;
 
 import java.util.List;

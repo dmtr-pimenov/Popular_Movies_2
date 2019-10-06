@@ -34,11 +34,16 @@
 
     <!-- formatters -->
     <string name="json_date_format">
-        <xliff:g genreId="data">yyyy-MM-dd</xliff:g>
+        <xliff:g id="data">yyyy-MM-dd</xliff:g>
     </string>
 
     <string name="release_date_format">
-        <xliff:g genreId="data">MMMM, yyyy</xliff:g>
+        <xliff:g id="data">MMMM, yyyy</xliff:g>
+    </string>
+
+    <string name="runtime_format">
+        <xliff:g id="hours">%1$d</xliff:g>h
+        <xliff:g id="minutes">%2$d</xliff:g>m
     </string>
 
     <!-- TabLayout labels -->

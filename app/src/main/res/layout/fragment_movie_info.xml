@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="movieDetail"
+            type="com.example.android.popularmovies.data.model.MovieDetail" />
     </data>
 
     <android.support.v4.widget.NestedScrollView
@@ -36,6 +38,7 @@
                 app:layout_constraintStart_toEndOf="@id/image_tmdb_logo"
                 app:layout_constraintTop_toTopOf="@id/image_tmdb_logo"
                 android:textStyle="bold"
+                app:ratingString="@{movieDetail.voteAverage}"
                 tools:text="4.2/10" />
 
             <RatingBar
@@ -45,12 +48,13 @@
                 android:layout_height="wrap_content"
                 android:isIndicator="true"
                 android:numStars="5"
-                android:stepSize="1"
+                android:stepSize="0.5"
                 app:layout_constraintBottom_toBottomOf="@id/image_tmdb_logo"
                 app:layout_constraintStart_toEndOf="@id/image_tmdb_logo"
                 android:layout_marginStart="@dimen/default_margin"
                 app:layout_constraintTop_toTopOf="@+id/text_rating_str"
-                tools:rating="5" />
+                app:stars="@{movieDetail.voteAverage}"
+                tools:rating="2.5" />
 
             <android.support.constraint.Barrier
                 android:id="@+id/barrier"
@@ -58,15 +62,6 @@
                 android:layout_height="wrap_content"
                 app:barrierDirection="end"
                 app:constraint_referenced_ids="rating_movie_rating,text_rating_text"/>
-
-<!--
-            <android.support.constraint.Guideline
-                android:id="@+id/guideline_language"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.33" />
--->
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/image_language"
@@ -97,6 +92,7 @@
                 app:layout_constraintStart_toEndOf="@id/image_language"
                 app:layout_constraintBottom_toBottomOf="@id/image_language"
                 android:textStyle="bold"
+                app:language="@{movieDetail.originalLanguage}"
                 tools:text="English" />
 
             <android.support.constraint.Guideline
@@ -135,9 +131,11 @@
                 app:layout_constraintStart_toEndOf="@id/image_runtime"
                 app:layout_constraintBottom_toBottomOf="@id/image_runtime"
                 android:textStyle="bold"
+                app:runtime="@{movieDetail.runtime}"
                 tools:text="1h 35m" />
 
             <ImageView
+                android:id="@+id/divider"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:background="@color/colorLightGrayDivider"

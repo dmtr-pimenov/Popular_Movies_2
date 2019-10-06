@@ -1,29 +1,29 @@
 package com.example.android.popularmovies.ui;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
-import android.net.Uri;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.android.popularmovies.R;
+import com.example.android.popularmovies.data.model.MovieDetail;
+import com.example.android.popularmovies.data.model.Resource;
+import com.example.android.popularmovies.databinding.FragmentMovieInfoBinding;
 
 public class MovieInfoFragment extends Fragment {
 
     private MovieDetailViewModel mViewModel;
+    private FragmentMovieInfoBinding mBinding;
 
     public MovieInfoFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     */
     public static MovieInfoFragment newInstance() {
         MovieInfoFragment fragment = new MovieInfoFragment();
         fragment.setArguments(new Bundle());
@@ -33,13 +33,25 @@ public class MovieInfoFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        mViewModel = ViewModelProviders.of(getActivity()).get(MovieDetailViewModel.class);
+        mViewModel = ViewModelProviders.of(getActivity()).get(MovieDetailViewModel.class);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_movie_info, container, false);
+        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_movie_info, container, false);
+        View v = mBinding.getRoot();
+
+        mViewModel.getMovieDetail().observe(this, new Observer<Resource<MovieDetail>>() {
+            @Override
+            public void onChanged(@Nullable Resource<MovieDetail> movieDetailResource) {
+                if (movieDetailResource.status == Resource.Status.SUCCESS) {
+                    mViewModel.getMovieDetail().removeObserver(this);
+                    mBinding.setMovieDetail(movieDetailResource.data);
+                }
+            }
+        });
+
+        return v;
     }
 }

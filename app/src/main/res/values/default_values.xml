@@ -6,6 +6,4 @@
     <bool name="pref_favorite_default">false</bool>
     <bool name="pref_transition_default">true</bool>
 
-    <!-- to calculate number of movie stars -->
-    <integer name="max_rating_value">10</integer>
 </resources>
