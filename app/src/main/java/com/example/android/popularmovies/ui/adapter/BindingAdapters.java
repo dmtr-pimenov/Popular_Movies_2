@@ -1,6 +1,5 @@
 package com.example.android.popularmovies.ui.adapter;
 
-import android.app.Application;
 import android.content.Context;
 import android.databinding.BindingAdapter;
 import android.os.Build;
@@ -11,15 +10,14 @@ import android.widget.TextView;
 
 import com.example.android.popularmovies.MyApplication;
 import com.example.android.popularmovies.R;
-import com.example.android.popularmovies.data.AppRepository;
 import com.example.android.popularmovies.data.model.Genre;
 import com.example.android.popularmovies.data.model.Language;
 
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Duration;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -29,8 +27,8 @@ public class BindingAdapters {
 
     @BindingAdapter("releaseDate")
     public static void setReleaseDate(TextView textView, String releaseDate) {
+        String result = "N/A";
         if (releaseDate != null) {
-            String result;
             Context context = textView.getContext().getApplicationContext();
             try {
                 SimpleDateFormat sdf = new SimpleDateFormat();
@@ -52,8 +50,29 @@ public class BindingAdapters {
             } catch (ParseException ex) {
                 result = "date parse error";
             }
-            textView.setText(result);
         }
+        textView.setText(result);
+    }
+
+    @BindingAdapter("releaseDateFull")
+    public static void setReleaseDateFull(TextView textView, String releaseDate) {
+        String result = "N/A";
+        if (releaseDate != null) {
+            Context context = textView.getContext().getApplicationContext();
+            try {
+                SimpleDateFormat sdf = new SimpleDateFormat();
+                int jsonDateFormat = R.string.json_date_format;
+                sdf.applyPattern(context.getString(jsonDateFormat));
+                Date date = sdf.parse(releaseDate);
+
+                DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT);
+                result = dateFormat.format(date);
+
+            } catch (ParseException ex) {
+                result = "date parse error";
+            }
+        }
+        textView.setText(result);
     }
 
     @BindingAdapter("genres")
@@ -106,15 +125,28 @@ public class BindingAdapters {
             if (language != null) {
                 textView.setText(language.getName());
             }
+        } else {
+            textView.setText("N/A");
         }
     }
 
     @BindingAdapter("runtime")
     public static void setRuntime(TextView textView, @Nullable Integer runtime) {
+        String result = "N/A";
         if (runtime != null) {
             String formatStr = textView.getContext().getString(R.string.runtime_format);
-            String res = String.format(formatStr, runtime / 60, runtime % 60);
-            textView.setText(res);
+            result = String.format(formatStr, runtime / 60, runtime % 60);
         }
+        textView.setText(result);
+    }
+
+    @BindingAdapter("money")
+    public static void setMoney(TextView textView, @Nullable Integer money) {
+        String result = "N/A";
+        if (money != null && money != 0) {
+            NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
+            result = formatter.format(money);
+        }
+        textView.setText(result);
     }
 }

@@ -54,6 +54,11 @@
     <!--  Movie Info Fragment  -->
     <string name="label_language">Language</string>
     <string name="label_runtime">Runtime</string>
+    <string name="label_original_title">Original title:</string>
+    <string name="label_release_date">Release date:</string>
+    <string name="label_budget">Budget:</string>
+    <string name="label_revenue">Revenue:</string>
+    <string name="label_home_page">Home page:</string>
 
 
 </resources>

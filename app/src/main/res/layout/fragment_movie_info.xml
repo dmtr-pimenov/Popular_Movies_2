@@ -4,6 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <import type="android.text.TextUtils" />
+
         <variable
             name="movieDetail"
             type="com.example.android.popularmovies.data.model.MovieDetail" />
@@ -23,7 +26,7 @@
                 android:id="@+id/image_tmdb_logo"
                 android:layout_width="@dimen/pictogram_size"
                 android:layout_height="@dimen/pictogram_size"
-                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginStart="@dimen/double_margin"
                 android:layout_marginTop="@dimen/default_margin"
                 android:scaleType="fitCenter"
                 app:layout_constraintStart_toStartOf="parent"
@@ -61,7 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:barrierDirection="end"
-                app:constraint_referenced_ids="rating_movie_rating,text_rating_text"/>
+                app:constraint_referenced_ids="rating_movie_rating,text_rating_text" />
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/image_language"
@@ -144,10 +147,134 @@
                 android:layout_marginStart="@dimen/default_margin"
                 android:layout_marginEnd="@dimen/default_margin"
                 app:layout_constraintTop_toBottomOf="@id/image_tmdb_logo"
-                android:layout_marginTop="@dimen/default_margin"/>
+                android:layout_marginTop="@dimen/default_margin" />
+
+            <TextView
+                android:id="@+id/text_overview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_margin="@dimen/double_margin"
+                app:layout_constraintTop_toBottomOf="@id/divider"
+                tools:text="Here will be very, very long text"
+                android:text="@{movieDetail.overview}" />
+
+            <TextView
+                android:id="@+id/text_original_title_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/double_margin"
+                android:layout_marginStart="@dimen/double_margin"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_overview"
+                android:textStyle="bold"
+                android:text="@string/label_original_title" />
+
+            <TextView
+                android:id="@+id/text_original_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/double_margin"
+                android:layout_marginStart="@dimen/small_margin"
+                android:layout_marginEnd="@dimen/double_margin"
+                app:layout_constraintStart_toEndOf="@id/text_original_title_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_overview"
+                android:text="@{movieDetail.originalTitle}"
+                tools:text="Original Title" />
+
+            <TextView
+                android:id="@+id/text_release_date_full_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin"
+                android:layout_marginStart="@dimen/double_margin"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_original_title"
+                android:text="@string/label_release_date"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/text_release_date_full"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin"
+                android:layout_marginStart="@dimen/small_margin"
+                app:layout_constraintStart_toEndOf="@id/text_release_date_full_label"
+                app:layout_constraintTop_toBottomOf="@id/text_original_title"
+                app:releaseDateFull="@{movieDetail.releaseDate}"
+                tools:text="2014-12-21" />
+
+            <TextView
+                android:id="@+id/text_budget_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin"
+                android:layout_marginStart="@dimen/double_margin"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_release_date_full_label"
+                android:text="@string/label_budget"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/text_budget"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin"
+                android:layout_marginStart="@dimen/small_margin"
+                app:layout_constraintStart_toEndOf="@id/text_budget_label"
+                app:layout_constraintTop_toBottomOf="@id/text_release_date_full_label"
+                app:money="@{movieDetail.budget}"
+                tools:text="1000 000" />
+
+            <TextView
+                android:id="@+id/text_revenue_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin"
+                android:layout_marginStart="@dimen/double_margin"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_budget_label"
+                android:text="@string/label_revenue"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/text_revenue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin"
+                android:layout_marginStart="@dimen/small_margin"
+                app:layout_constraintStart_toEndOf="@id/text_revenue_label"
+                app:layout_constraintTop_toBottomOf="@id/text_budget_label"
+                app:money="@{movieDetail.revenue}"
+                tools:text="10 000 000" />
+
+            <TextView
+                android:id="@+id/text_homepage_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin"
+                android:layout_marginStart="@dimen/double_margin"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_revenue_label"
+                android:text="@string/label_home_page"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/text_homepage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin"
+                android:layout_marginStart="@dimen/small_margin"
+                android:autoLink="web"
+                app:layout_constraintStart_toEndOf="@id/text_homepage_label"
+                app:layout_constraintTop_toBottomOf="@id/text_revenue_label"
+                android:layout_marginEnd="@dimen/double_margin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:text='@{TextUtils.isEmpty(movieDetail.homepage) ? "N/A" : movieDetail.homepage}'
+                tools:text="www.google.com" />
 
         </android.support.constraint.ConstraintLayout>
-
-
     </android.support.v4.widget.NestedScrollView>
 </layout>
