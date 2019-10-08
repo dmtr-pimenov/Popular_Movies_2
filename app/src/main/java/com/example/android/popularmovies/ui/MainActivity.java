@@ -223,6 +223,8 @@ public class MainActivity extends AppCompatActivity
      */
     public void onTryAgainButtonPressed(View view) {
         if (NetworkUtils.isOnline(this)) {
+            // hide Error layout
+            mErrorLayout.setVisibility(View.INVISIBLE);
             loadFirstPage();
         }
     }
@@ -296,8 +298,6 @@ public class MainActivity extends AppCompatActivity
         // hide RecyclerView
         mMovieListRecyclerView.setVisibility(View.INVISIBLE);
         mMovieListRecyclerView.getLayoutManager().scrollToPosition(0);
-        // hide Error layout
-        mErrorLayout.setVisibility(View.INVISIBLE);
         // show loading indicator
         mLoadingIndicator.setVisibility(View.VISIBLE);
         // clear data. it's useful for example if we change sort order
