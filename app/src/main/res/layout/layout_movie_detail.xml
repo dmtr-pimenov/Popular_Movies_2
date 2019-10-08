@@ -60,6 +60,11 @@
 
         <ImageView
             android:id="@+id/image_poster"
+            android:background="@color/colorPrimaryLight"
+            android:paddingStart="1dp"
+            android:paddingEnd="1dp"
+            android:paddingTop="1dp"
+            android:paddingBottom="1dp"
             android:layout_width="0dp"
             android:layout_height="@dimen/poster_height_detail_view"
             android:adjustViewBounds="false"
