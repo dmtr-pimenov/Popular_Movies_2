@@ -172,6 +172,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_SETTINGS) {
             if (resultCode == SettingsActivity.RESULT_PREF_CHANGED) {
                 Log.d(TAG, "onActivityResult: " + "Preferences has been changed");
