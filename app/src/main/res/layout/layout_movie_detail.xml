@@ -16,11 +16,11 @@
             type="com.example.android.popularmovies.ui.MovieDetailViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.google.android.material.tabs.TabLayout
+        <android.support.design.widget.TabLayout
             android:id="@+id/tablayout_backdrop_indicator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
             app:tabPaddingEnd="@dimen/default_margin"
             app:tabPaddingStart="@dimen/default_margin" />
 
-        <androidx.viewpager.widget.ViewPager
+        <android.support.v4.view.ViewPager
             android:id="@+id/view_pager_backdrops"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -126,7 +126,7 @@
             app:genres="@{movieDetail.genres}"
             tools:text="Fiction, Horror" />
 
-        <androidx.constraintlayout.widget.Barrier
+        <android.support.constraint.Barrier
             android:id="@+id/barrier"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -139,19 +139,19 @@
             android:layout_height="@dimen/double_margin"
             app:layout_constraintTop_toBottomOf="@id/barrier" />
 
-        <androidx.constraintlayout.widget.Guideline
+        <android.support.constraint.Guideline
             android:id="@+id/gl_vertical_start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_begin="@dimen/double_margin" />
 
-        <androidx.constraintlayout.widget.Guideline
+        <android.support.constraint.Guideline
             android:id="@+id/gl_vertical_end"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_end="@dimen/double_margin" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
 </layout>

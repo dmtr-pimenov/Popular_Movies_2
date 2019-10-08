@@ -1,12 +1,12 @@
 package com.example.android.popularmovies.data.database;
 
-import androidx.lifecycle.LiveData;
-import androidx.room.Dao;
-import androidx.room.Delete;
-import androidx.room.Insert;
-import androidx.room.Query;
-import androidx.room.Transaction;
-import androidx.annotation.NonNull;
+import android.arch.lifecycle.LiveData;
+import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
+import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Transaction;
+import android.support.annotation.NonNull;
 
 import com.example.android.popularmovies.data.model.Backdrop;
 import com.example.android.popularmovies.data.model.Genre;

@@ -1,21 +1,21 @@
 package com.example.android.popularmovies.ui;
 
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import androidx.databinding.DataBindingUtil;
+import android.databinding.DataBindingUtil;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.tabs.TabLayout;
-import androidx.core.content.ContextCompat;
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -228,6 +228,22 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
                 .error(error)
                 .into(mBinding.detailInfo.imagePoster);
     }
+
+/*
+    private void setupRatingViews(Movie movie) {
+        Float voteAverage = movie.getVoteAverage();
+        if (voteAverage == null) {
+            voteAverage = 0f;
+        }
+        float numStars = mBinding.ratingMovieRating.getNumStars();
+        float maxRating = (float) getResources().getInteger(R.integer.max_rating_value);
+        float rating = voteAverage * numStars / maxRating;
+        mBinding.ratingMovieRating.setRating(rating);
+
+        String ratingString = DecimalFormat.getNumberInstance().format(voteAverage) + "/10";
+        mBinding.textRatingStr.setText(ratingString);
+    }
+*/
 
     private void setupAppBarListener() {
         mBinding.appBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {

@@ -1,6 +1,6 @@
 package com.example.android.popularmovies.data.model;
 
-import androidx.room.ColumnInfo;
+import android.arch.persistence.room.ColumnInfo;
 
 import com.google.gson.annotations.SerializedName;
 

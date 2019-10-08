@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <style name="AppTheme.TransparentStatusBar" parent="AppTheme.NoActionBar">
-        <item name="windowActionBarOverlay">false</item>
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowLayoutInDisplayCutoutMode">never</item>
-    </style>
-</resources>

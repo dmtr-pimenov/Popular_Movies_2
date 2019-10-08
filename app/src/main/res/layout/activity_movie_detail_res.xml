@@ -10,25 +10,25 @@
         android:layout_height="wrap_content"
         tools:context=".ui.MovieDetailActivity">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <androidx.constraintlayout.widget.Guideline
+            <android.support.constraint.Guideline
                 android:id="@+id/gl_vertical_start"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintGuide_begin="@dimen/double_margin" />
 
-            <androidx.constraintlayout.widget.Guideline
+            <android.support.constraint.Guideline
                 android:id="@+id/gl_vertical_end"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintGuide_end="@dimen/double_margin" />
 
-            <com.google.android.material.tabs.TabLayout
+            <android.support.design.widget.TabLayout
                 android:id="@+id/tablayout_backdrop_indicator"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
                 app:tabPaddingEnd="8dp"
                 app:tabPaddingStart="8dp" />
 
-            <androidx.viewpager.widget.ViewPager
+            <android.support.v4.view.ViewPager
                 android:id="@+id/view_pager_backdrops"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -121,7 +121,7 @@
                 app:layout_constraintTop_toBottomOf="@id/text_rating_str"
                 tools:text="Original Title" />
 
-            <androidx.constraintlayout.widget.Barrier
+            <android.support.constraint.Barrier
                 android:id="@+id/barrier"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -158,7 +158,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/gl_vertical_end"
                 app:layout_constraintTop_toBottomOf="@+id/view_pager_backdrops" />
 
-            <androidx.cardview.widget.CardView
+            <android.support.v7.widget.CardView
                 android:id="@+id/cardview_1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -206,9 +206,9 @@
 
                 </LinearLayout>
 
-            </androidx.cardview.widget.CardView>
+            </android.support.v7.widget.CardView>
 
-            <androidx.cardview.widget.CardView
+            <android.support.v7.widget.CardView
                 android:id="@+id/cardview_2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -241,7 +241,7 @@
 
                 </LinearLayout>
 
-            </androidx.cardview.widget.CardView>
+            </android.support.v7.widget.CardView>
 
             <com.example.android.popularmovies.ui.NonScrollListView
                 android:id="@+id/lv_reviews"
@@ -261,6 +261,6 @@
                 android:layout_marginTop="@dimen/small_margin"
                 app:layout_constraintTop_toBottomOf="@id/lv_reviews" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </android.support.constraint.ConstraintLayout>
     </ScrollView>
 </layout>

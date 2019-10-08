@@ -1,10 +1,10 @@
 package com.example.android.popularmovies.data;
 
-import androidx.lifecycle.LiveData;
-import androidx.room.Room;
+import android.arch.lifecycle.LiveData;
+import android.arch.persistence.room.Room;
 import android.content.Context;
-import androidx.test.platform.app.InstrumentationRegistry;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.TestUtil;

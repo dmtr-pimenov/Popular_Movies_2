@@ -1,7 +1,7 @@
 package com.example.android.popularmovies.data.network;
 
 
-import androidx.annotation.Nullable;
+import android.support.annotation.Nullable;
 
 import java.io.IOException;
 import java.net.InetAddress;
