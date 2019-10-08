@@ -19,7 +19,8 @@
             android:layout_height="@dimen/poster_height"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
-            tools:src="@tools:sample/avatars" />
+            tools:src="@tools:sample/avatars"
+            android:transitionName="@string/transition_poster" />
     </RelativeLayout>
 
 </android.support.v7.widget.CardView>
