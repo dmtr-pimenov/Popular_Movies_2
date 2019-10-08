@@ -1,7 +1,7 @@
 package com.example.android.popularmovies;
 
 import android.app.Application;
-import android.support.v7.app.AppCompatDelegate;
+import androidx.appcompat.app.AppCompatDelegate;
 import android.util.SparseArray;
 
 import com.example.android.popularmovies.data.model.Language;

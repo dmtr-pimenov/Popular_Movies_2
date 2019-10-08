@@ -1,8 +1,8 @@
 package com.example.android.popularmovies.ui.factory;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
-import android.support.annotation.MainThread;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.annotation.MainThread;
 
 public class MovieLoadingWatcher {
     private boolean mMovieLoaded = false;

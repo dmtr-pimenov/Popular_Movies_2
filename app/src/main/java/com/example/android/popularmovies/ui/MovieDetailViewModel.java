@@ -1,9 +1,9 @@
 package com.example.android.popularmovies.ui;
 
-import android.arch.core.util.Function;
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Transformations;
-import android.arch.lifecycle.ViewModel;
+import androidx.arch.core.util.Function;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Transformations;
+import androidx.lifecycle.ViewModel;
 import android.util.Log;
 
 import com.example.android.popularmovies.data.AppRepository;

@@ -12,17 +12,17 @@
             type="com.example.android.popularmovies.data.model.MovieDetail" />
     </data>
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
         tools:context=".ui.ReviewsFragment">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <android.support.v7.widget.AppCompatImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/image_tmdb_logo"
                 android:layout_width="@dimen/pictogram_size"
                 android:layout_height="@dimen/pictogram_size"
@@ -59,14 +59,14 @@
                 app:stars="@{movieDetail.voteAverage}"
                 tools:rating="2.5" />
 
-            <android.support.constraint.Barrier
+            <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/barrier"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:barrierDirection="end"
                 app:constraint_referenced_ids="rating_movie_rating,text_rating_text" />
 
-            <android.support.v7.widget.AppCompatImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/image_language"
                 android:layout_width="@dimen/pictogram_size"
                 android:layout_height="@dimen/pictogram_size"
@@ -98,14 +98,14 @@
                 app:language="@{movieDetail.originalLanguage}"
                 tools:text="English" />
 
-            <android.support.constraint.Guideline
+            <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_runtime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.67" />
 
-            <android.support.v7.widget.AppCompatImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/image_runtime"
                 android:layout_width="@dimen/pictogram_size"
                 android:layout_height="@dimen/pictogram_size"
@@ -275,6 +275,6 @@
                 app:text='@{TextUtils.isEmpty(movieDetail.homepage) ? "N/A" : movieDetail.homepage}'
                 tools:text="www.google.com" />
 
-        </android.support.constraint.ConstraintLayout>
-    </android.support.v4.widget.NestedScrollView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 </layout>
