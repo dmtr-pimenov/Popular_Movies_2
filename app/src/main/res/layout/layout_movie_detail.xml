@@ -60,7 +60,6 @@
 
         <ImageView
             android:id="@+id/image_poster"
-            android:background="@color/colorPrimaryLight"
             android:paddingStart="1dp"
             android:paddingEnd="1dp"
             android:paddingTop="1dp"
