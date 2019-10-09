@@ -17,6 +17,7 @@ import com.example.android.popularmovies.data.model.Trailer;
 import com.example.android.popularmovies.databinding.FragmentTrailersBinding;
 import com.example.android.popularmovies.ui.MovieDetailViewModel;
 import com.example.android.popularmovies.ui.adapter.TrailerListAdapter;
+import com.example.android.popularmovies.util.MarginItemDecorator;
 
 import java.util.List;
 
@@ -78,6 +79,8 @@ public class TrailersFragment extends Fragment {
         mBinding.recyclerViewTrailers.setLayoutManager(layoutManager);
         TrailerListAdapter adapter = new TrailerListAdapter(getContext(), data);
         mBinding.recyclerViewTrailers.setAdapter(adapter);
+//        mBinding.recyclerViewTrailers
+//                .addItemDecoration(new MarginItemDecorator((int) getContext().getResources().getDimension(R.dimen.double_margin)));
         mBinding.recyclerViewTrailers.setVisibility(View.VISIBLE);
     }
 
