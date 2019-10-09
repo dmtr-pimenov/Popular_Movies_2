@@ -85,10 +85,10 @@ public class MovieDetailActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            if (isMovieDeleted && isFavoriteMode) {
+            if ((isMovieDeleted && isFavoriteMode) || isPosterPartiallyInvisible()) {
                 finish();
             } else {
-                onBackPressed();
+                super.onBackPressed();
             }
             return true;
         }
@@ -97,11 +97,25 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (isMovieDeleted && isFavoriteMode) {
+        if ((isMovieDeleted && isFavoriteMode) || isPosterPartiallyInvisible()) {
             finish();
         } else {
             super.onBackPressed();
         }
+    }
+
+    private boolean isPosterPartiallyInvisible() {
+        int[] location = new int[2];
+        int height = mBinding.detailInfo.imagePoster.getHeight();
+        mBinding.detailInfo.imagePoster.getLocationInWindow(location);
+        int top = location[1];
+        boolean partiallyInvisible;
+        if (top < 0 && Math.abs(top) >= height / 4) {
+            partiallyInvisible = true;
+        } else {
+            partiallyInvisible = false;
+        }
+        return partiallyInvisible;
     }
 
     private void setupViewModel(long movieId) {

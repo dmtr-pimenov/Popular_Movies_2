@@ -295,10 +295,10 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void loadFirstPage() {
-        // hide RecyclerView
         if (mErrorLayout.getVisibility() == View.VISIBLE) {
             mErrorLayout.setVisibility(View.INVISIBLE);
         }
+        // hide RecyclerView
         mMovieListRecyclerView.setVisibility(View.INVISIBLE);
         mMovieListRecyclerView.getLayoutManager().scrollToPosition(0);
         // show loading indicator
