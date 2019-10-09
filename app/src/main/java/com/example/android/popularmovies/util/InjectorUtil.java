@@ -5,7 +5,6 @@ import android.content.Context;
 
 import com.example.android.popularmovies.data.AppRepository;
 import com.example.android.popularmovies.data.database.AppDatabase;
-import com.example.android.popularmovies.data.model.Movie;
 import com.example.android.popularmovies.data.network.NetworkApi;
 import com.example.android.popularmovies.ui.factory.MainViewModelFactory;
 import com.example.android.popularmovies.ui.factory.MovieDetailViewModelFactory;

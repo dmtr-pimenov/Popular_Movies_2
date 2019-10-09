@@ -186,7 +186,7 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     /**
      * If user clicks on the favorite checkbox and Movie is not in local database
-     * the Movie will be added into DB
+     * then Movie will be added into DB
      * otherwise The Movie will be removed form DB
      */
     public void processCheckBoxOnClick(View v) {
@@ -268,103 +268,6 @@ public class MovieDetailActivity extends AppCompatActivity {
             }
         });
     }
-
-/*
-    private void setupTrailerList(final List<TrailerMinimal> trailerList) {
-
-        final ListView trailers = mBinding.lvTrailers;
-        TrailerListAdapter adapter =
-                new TrailerListAdapter(this, trailerList);
-        trailers.setAdapter(adapter);
-
-        trailers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TrailerMinimal item = (TrailerMinimal) trailers.getAdapter().getItem(position);
-                showTrailer(item);
-            }
-        });
-
-        if (mViewModel.isTrailerListCollapsed()) {
-            mBinding.lvTrailers.setVisibility(View.GONE);
-        } else {
-            mBinding.lvTrailers.setVisibility(View.VISIBLE);
-        }
-
-        mBinding.cardview1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (trailerList.size() == 0) {
-                    showToastMessage(R.string.empty_trailer_list);
-                    return;
-                }
-
-                boolean listState = mViewModel.isTrailerListCollapsed();
-                // as result of the imageView click collapse button should
-                // change state of button itself
-                // and ListView visibility
-                if (listState) {
-                    // list is in collapsed state, will have state - expanded
-                    mBinding.lvTrailers.setVisibility(View.VISIBLE);
-                    mBinding.ivTrailerCollapseButton.setImageResource(R.drawable.ic_keyboard_arrow_up);
-                    mViewModel.setTrailerListCollapsed(false);
-
-                } else {
-                    // list is in expanded state, will have state - collapsed
-                    mBinding.lvTrailers.setVisibility(View.GONE);
-                    mBinding.ivTrailerCollapseButton.setImageResource(R.drawable.ic_keyboard_arrow_down);
-                    mViewModel.setTrailerListCollapsed(true);
-                }
-            }
-        });
-    }
-*/
-
-/*
-    private void setupReviewList(final List<ReviewMinimal> reviewList) {
-
-        final ListView reviews = mBinding.lvReviews;
-        ReviewListAdapter adapter =
-                new ReviewListAdapter(this, reviewList, this);
-        reviews.setAdapter(adapter);
-
-        if (mViewModel.isReviewListCollapsed()) {
-            mBinding.lvReviews.setVisibility(View.GONE);
-        } else {
-            mBinding.lvReviews.setVisibility(View.VISIBLE);
-        }
-
-        mBinding.cardview2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (reviewList.size() == 0) {
-                    showToastMessage(R.string.empty_review_list);
-                    return;
-                }
-
-                boolean listState = mViewModel.isReviewListCollapsed();
-                // as result of the imageView click collapse button should
-                // change state of button itself
-                // and ListView visibility
-                if (listState) {
-                    // list is in collapsed state, will have state - expanded
-                    mBinding.lvReviews.setVisibility(View.VISIBLE);
-                    mBinding.ivReviewCollapseButton.setImageResource(R.drawable.ic_keyboard_arrow_up);
-                    mViewModel.setReviewListCollapsed((false));
-
-                } else {
-                    // list is in expanded state, will have state - collapsed
-                    mBinding.lvReviews.setVisibility(View.GONE);
-                    mBinding.ivReviewCollapseButton.setImageResource(R.drawable.ic_keyboard_arrow_down);
-                    mViewModel.setReviewListCollapsed(true);
-                }
-            }
-        });
-    }
-*/
-
     /**
      * Helper method
      *

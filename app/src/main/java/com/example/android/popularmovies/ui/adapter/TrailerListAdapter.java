@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.popularmovies.R;
-import com.example.android.popularmovies.data.model.Movie;
 import com.example.android.popularmovies.data.model.Trailer;
 import com.example.android.popularmovies.data.network.NetworkApi;
 import com.squareup.picasso.Picasso;

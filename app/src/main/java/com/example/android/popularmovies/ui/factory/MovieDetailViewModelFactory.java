@@ -5,7 +5,6 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 
 import com.example.android.popularmovies.data.AppRepository;
-import com.example.android.popularmovies.data.model.Movie;
 import com.example.android.popularmovies.ui.MovieDetailViewModel;
 
 public class MovieDetailViewModelFactory extends ViewModelProvider.NewInstanceFactory {
