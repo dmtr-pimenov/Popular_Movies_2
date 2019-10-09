@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.popularmovies.R;
+import com.example.android.popularmovies.data.model.Movie;
 import com.example.android.popularmovies.data.model.Trailer;
 import com.example.android.popularmovies.data.network.NetworkApi;
 import com.squareup.picasso.Picasso;
@@ -22,10 +23,13 @@ public class TrailerListAdapter extends RecyclerView.Adapter<TrailerListAdapter.
     private Context mContext;
     LayoutInflater mInflater;
 
-    public TrailerListAdapter(Context context, @NonNull List<Trailer> trailers) {
+    private ListItemClickListener mClickListener;
+
+    public TrailerListAdapter(Context context, @NonNull List<Trailer> trailers, ListItemClickListener listener) {
         mTrailers = trailers;
         mContext = context;
         mInflater = LayoutInflater.from(mContext);
+        mClickListener = listener;
     }
 
     @NonNull
@@ -46,7 +50,7 @@ public class TrailerListAdapter extends RecyclerView.Adapter<TrailerListAdapter.
         return mTrailers.size();
     }
 
-    class TrailerViewHolder extends RecyclerView.ViewHolder {
+    class TrailerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         ImageView thumbnail;
         TextView trailerName;
@@ -55,6 +59,7 @@ public class TrailerListAdapter extends RecyclerView.Adapter<TrailerListAdapter.
             super(itemView);
             thumbnail = itemView.findViewById(R.id.image_trailer_thumbnail);
             trailerName = itemView.findViewById(R.id.text_trailer_name);
+            itemView.setOnClickListener(this);
         }
 
         void bind(int itemIndex) {
@@ -64,5 +69,17 @@ public class TrailerListAdapter extends RecyclerView.Adapter<TrailerListAdapter.
                     .into(thumbnail);
             trailerName.setText(t.getName());
         }
+
+        @Override
+        public void onClick(View view) {
+            if (mClickListener != null) {
+                Trailer t = mTrailers.get(getAdapterPosition());
+                mClickListener.onListItemClick(t);
+            }
+        }
+    }
+
+    public interface ListItemClickListener {
+        void onListItemClick(Trailer trailer);
     }
 }

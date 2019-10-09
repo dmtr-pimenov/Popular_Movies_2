@@ -25,7 +25,7 @@ import com.example.android.popularmovies.util.MarginItemDecorator;
 
 import java.util.List;
 
-public class TrailersFragment extends Fragment {
+public class TrailersFragment extends Fragment implements TrailerListAdapter.ListItemClickListener {
 
     private static final String TAG = TrailersFragment.class.getSimpleName();
 
@@ -85,7 +85,7 @@ public class TrailersFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false);
         mBinding.recyclerViewTrailers.setLayoutManager(layoutManager);
-        TrailerListAdapter adapter = new TrailerListAdapter(getContext(), data);
+        TrailerListAdapter adapter = new TrailerListAdapter(getContext(), data, this);
         mBinding.recyclerViewTrailers.setAdapter(adapter);
         mBinding.recyclerViewTrailers
                 .addItemDecoration(new MarginItemDecorator((int) getContext().getResources().getDimension(R.dimen.double_margin)));
@@ -105,7 +105,6 @@ public class TrailersFragment extends Fragment {
     }
 
     private void showTrailer(@Nullable Trailer trailer) {
-
         if (trailer != null) {
             //initialize a new intent with action
             Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -128,4 +127,8 @@ public class TrailersFragment extends Fragment {
         Toast.makeText(getContext(), messageId, Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onListItemClick(Trailer trailer) {
+        showTrailer(trailer);
+    }
 }
