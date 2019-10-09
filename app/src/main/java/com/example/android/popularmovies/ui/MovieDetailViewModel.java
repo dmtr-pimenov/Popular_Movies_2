@@ -47,6 +47,9 @@ public class MovieDetailViewModel extends ViewModel {
         }
 
         loadMovieDetail();
+    }
+
+    private void retrieveMovieStuff() {
         retrieveBackdropCollection();
         retrieveTrailerCollection();
         retrieveReviewCollection();
@@ -59,6 +62,7 @@ public class MovieDetailViewModel extends ViewModel {
                         @Override
                         public Resource<MovieDetail> apply(MovieDetail input) {
                             Resource<MovieDetail> res = Resource.success(input);
+                            retrieveMovieStuff();
                             return res;
                         }
                     });
@@ -67,7 +71,10 @@ public class MovieDetailViewModel extends ViewModel {
                     new Function<Resource<MovieDetail>, Resource<MovieDetail>>() {
                         @Override
                         public Resource<MovieDetail> apply(Resource<MovieDetail> input) {
-                            mMovieLoadingWatcher.movieLoaded();
+                            if (input.status == Resource.Status.SUCCESS) {
+                                mMovieLoadingWatcher.movieLoaded();
+                                retrieveMovieStuff();
+                            }
                             return input;
                         }
                     });

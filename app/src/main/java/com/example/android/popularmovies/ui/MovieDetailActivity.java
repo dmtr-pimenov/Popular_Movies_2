@@ -5,7 +5,6 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -32,18 +31,16 @@ import com.example.android.popularmovies.data.network.NetworkApi;
 import com.example.android.popularmovies.databinding.ActivityMovieDetailBinding;
 import com.example.android.popularmovies.ui.adapter.BackdropAdapter;
 import com.example.android.popularmovies.ui.adapter.MovieFragmentAdapter;
-import com.example.android.popularmovies.ui.adapter.ReviewListAdapter;
 import com.example.android.popularmovies.ui.factory.MovieDetailViewModelFactory;
 import com.example.android.popularmovies.util.InjectorUtil;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class MovieDetailActivity extends AppCompatActivity implements ReviewListAdapter.OnLinkClickListener {
+public class MovieDetailActivity extends AppCompatActivity {
 
     public static final String EXTRA_MOVIE_ID = "EXTRA_MOVIE_ID";
     public static final String EXTRA_MOVIE_TITLE = "EXTRA_MOVIE_TITLE";
-    public static final String YOUTUBE_BASE_URI = "https://youtube.com/watch?v=";
     private static final String TAG = MovieDetailActivity.class.getSimpleName();
     private ActivityMovieDetailBinding mBinding;
     private MovieDetailViewModel mViewModel;
@@ -76,14 +73,10 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
 
         long movieId = startIntent.getLongExtra(EXTRA_MOVIE_ID, -1);
         String movieTitle = startIntent.getStringExtra(EXTRA_MOVIE_TITLE);
-
         setTitle(movieTitle);
 
         setupViewModel(movieId);
-
         setupAppBarListener();
-        setupBackdropViewPager();
-        setupFragmentViewPager();
 
         isFavoriteMode = mViewModel.isFavoriteMode();
     }
@@ -123,12 +116,16 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
                 MovieDetail movieDetail = movieDetailResource.data;
                 if (movieDetailResource.status == Resource.Status.SUCCESS && movieDetail != null) {
                     populateUi(movieDetailResource.data, mViewModel);
+                    observeRestCollections();
+                    setupFragmentViewPager();
                 } else {
                     showToastMessage(R.string.error_loading_movie_info);
                 }
             }
         });
+    }
 
+    private void observeRestCollections() {
         mViewModel.getBackdropCollection().observe(this, new Observer<Resource<List<Backdrop>>>() {
             @Override
             public void onChanged(@Nullable Resource<List<Backdrop>> backdropCollectionResource) {
@@ -137,9 +134,7 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
                         backdropCollectionResource.status == Resource.Status.ERROR) {
                     showToastMessage(R.string.error_loading_backdrop_collection);
                 } else {
-                    BackdropAdapter adapter = new BackdropAdapter(MovieDetailActivity.this,
-                            backdropCollectionResource.data);
-                    mBinding.detailInfo.viewPagerBackdrops.setAdapter(adapter);
+                    setupBackdropViewPager(backdropCollectionResource.data);
                 }
             }
         });
@@ -203,7 +198,10 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
         mBinding.tabFragment.setupWithViewPager(mBinding.viewPagerFragment);
     }
 
-    private void setupBackdropViewPager() {
+    private void setupBackdropViewPager(List<Backdrop> backdrops) {
+
+        BackdropAdapter adapter = new BackdropAdapter(MovieDetailActivity.this, backdrops);
+        mBinding.detailInfo.viewPagerBackdrops.setAdapter(adapter);
 
         TabLayout tabLayout = mBinding.detailInfo.tablayoutBackdropIndicator;
         ViewPager viewPager = mBinding.detailInfo.viewPagerBackdrops;
@@ -229,26 +227,14 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
                 .into(mBinding.detailInfo.imagePoster);
     }
 
-/*
-    private void setupRatingViews(Movie movie) {
-        Float voteAverage = movie.getVoteAverage();
-        if (voteAverage == null) {
-            voteAverage = 0f;
-        }
-        float numStars = mBinding.ratingMovieRating.getNumStars();
-        float maxRating = (float) getResources().getInteger(R.integer.max_rating_value);
-        float rating = voteAverage * numStars / maxRating;
-        mBinding.ratingMovieRating.setRating(rating);
-
-        String ratingString = DecimalFormat.getNumberInstance().format(voteAverage) + "/10";
-        mBinding.textRatingStr.setText(ratingString);
-    }
-*/
-
     private void setupAppBarListener() {
         mBinding.appBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                // yes, this is possible, especially on slow network connection
+                if (mViewPagerChanger == null) {
+                    return;
+                }
                 if (Math.abs(verticalOffset) == appBarLayout.getTotalScrollRange()) {
                     // Collapsed
                     if (mViewPagerChanger.isStarted()) {
@@ -365,23 +351,6 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
     }
 */
 
-/*
-    private void showTrailer(@Nullable TrailerMinimal trailer) {
-
-        if (trailer != null) {
-            //initialize a new intent with action
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse(YOUTUBE_BASE_URI + trailer.getKey()));
-            //check if intent is supported
-            if (intent.resolveActivity(getPackageManager()) != null) {
-                startActivity(intent);
-            } else {
-                showToastMessage(R.string.error_no_player);
-            }
-        }
-    }
-*/
-
     /**
      * Helper method
      *
@@ -395,20 +364,5 @@ public class MovieDetailActivity extends AppCompatActivity implements ReviewList
                 messageId,
                 Toast.LENGTH_SHORT);
         mToast.show();
-    }
-
-    /**
-     * Click listener for TextView that contains Http link to Review on web site
-     * If user clicks on link then external web browser will open page with Review
-     *
-     * @param link
-     */
-    @Override
-    public void onLinkClickListener(@Nullable String link) {
-        if (link != null && (link.startsWith("http://") || link.startsWith("https://"))) {
-            Log.d(TAG, "onLinkClickListener: " + link);
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
-            startActivity(browserIntent);
-        }
     }
 }
