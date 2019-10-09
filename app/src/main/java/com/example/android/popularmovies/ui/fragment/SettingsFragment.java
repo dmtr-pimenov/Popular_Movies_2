@@ -1,4 +1,4 @@
-package com.example.android.popularmovies.ui;
+package com.example.android.popularmovies.ui.fragment;
 
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;

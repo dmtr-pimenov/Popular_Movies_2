@@ -7,9 +7,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.example.android.popularmovies.R;
-import com.example.android.popularmovies.ui.MovieInfoFragment;
-import com.example.android.popularmovies.ui.ReviewsFragment;
-import com.example.android.popularmovies.ui.TrailersFragment;
+import com.example.android.popularmovies.ui.fragment.MovieInfoFragment;
+import com.example.android.popularmovies.ui.fragment.ReviewsFragment;
+import com.example.android.popularmovies.ui.fragment.TrailersFragment;
 
 public class MovieFragmentAdapter extends FragmentPagerAdapter {
 

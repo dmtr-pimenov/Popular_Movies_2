@@ -1,52 +1,68 @@
 package com.example.android.popularmovies.ui.adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.data.model.Trailer;
+import com.example.android.popularmovies.data.network.NetworkApi;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class TrailerListAdapter extends BaseAdapter {
+public class TrailerListAdapter extends RecyclerView.Adapter<TrailerListAdapter.TrailerViewHolder> {
 
-    Context mContext;
+    private List<Trailer> mTrailers;
+    private Context mContext;
     LayoutInflater mInflater;
-    List<Trailer> mItems;
 
-    public TrailerListAdapter(Context context, List<Trailer> trailers) {
+    public TrailerListAdapter(Context context, @NonNull List<Trailer> trailers) {
+        mTrailers = trailers;
         mContext = context;
-        mItems = trailers;
         mInflater = LayoutInflater.from(mContext);
     }
 
+    @NonNull
     @Override
-    public int getCount() {
-        return mItems.size();
+    public TrailerViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        View view = mInflater.inflate(R.layout.trailer_list_item, viewGroup, false);
+        TrailerViewHolder viewHolder = new TrailerViewHolder(view);
+        return viewHolder;
     }
 
     @Override
-    public Object getItem(int position) {
-        return mItems.get(position);
+    public void onBindViewHolder(@NonNull TrailerViewHolder viewHolder, int i) {
+        viewHolder.bind(i);
     }
 
     @Override
-    public long getItemId(int position) {
-        return position;
+    public int getItemCount() {
+        return mTrailers.size();
     }
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View view = convertView;
-        if (view == null) {
-            view = mInflater.inflate(R.layout.lv_trailer_layout, parent, false);
+    class TrailerViewHolder extends RecyclerView.ViewHolder {
+
+        ImageView thumbnail;
+        TextView trailerName;
+
+        public TrailerViewHolder(@NonNull View itemView) {
+            super(itemView);
+            thumbnail = itemView.findViewById(R.id.image_trailer_thumbnail);
+            trailerName = itemView.findViewById(R.id.text_trailer_name);
         }
-        TextView text = view.findViewById(R.id.tv_trailer_name);
-        text.setText(mItems.get(position).getName());
-        return view;
+
+        void bind(int itemIndex) {
+            Trailer t = mTrailers.get(itemIndex);
+            Picasso.with(mContext)
+                    .load(NetworkApi.getVideoThimbnailUrl(t.getKey()))
+                    .into(thumbnail);
+            trailerName.setText(t.getName());
+        }
     }
 }

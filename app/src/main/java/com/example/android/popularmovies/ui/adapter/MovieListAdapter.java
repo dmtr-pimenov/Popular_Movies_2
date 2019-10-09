@@ -27,6 +27,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
     public static final int ITEM_TYPE_LOADING = 2;
     private static final String TAG = MovieListAdapter.class.getSimpleName();
     private final Context mContext;
+    LayoutInflater mInflater;
     // reference to on click listener
     final private ListItemClickListener mOnClickListener;
     // movie collection
@@ -41,6 +42,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
     public MovieListAdapter(Context context, ListItemClickListener clickListener) {
         mContext = context;
         mOnClickListener = clickListener;
+        mInflater = LayoutInflater.from(mContext);
     }
 
     /**
@@ -63,8 +65,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
             layoutId = R.layout.progress_bar_list_item;
         }
 
-        LayoutInflater inflater = LayoutInflater.from(mContext);
-        View view = inflater.inflate(layoutId, parent, false);
+        View view = mInflater.inflate(layoutId, parent, false);
 
         MoviesAdapterViewHolder viewHolder = new MoviesAdapterViewHolder(view);
         return viewHolder;

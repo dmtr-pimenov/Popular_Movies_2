@@ -1,4 +1,4 @@
-package com.example.android.popularmovies.ui;
+package com.example.android.popularmovies.ui.fragment;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -14,6 +14,7 @@ import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.data.model.MovieDetail;
 import com.example.android.popularmovies.data.model.Resource;
 import com.example.android.popularmovies.databinding.FragmentMovieInfoBinding;
+import com.example.android.popularmovies.ui.MovieDetailViewModel;
 
 public class MovieInfoFragment extends Fragment {
 

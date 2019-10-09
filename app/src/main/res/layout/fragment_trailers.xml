@@ -1,14 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.TrailersFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Movie Trailers\nTrailers\nTrailers\nTrailers\nTrailers\nTrailers\nTrailers" />
+        tools:context=".ui.fragment.TrailersFragment">
 
-</android.support.v4.widget.NestedScrollView>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/text_trailer_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|top"
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/double_margin"
+                android:text="@string/error_loading_trailers"
+                tools:text="Error loading"/>
+
+            <TextView
+                android:id="@+id/text_trailer_na"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal|top"
+                android:text="@string/short_text_not_available"
+                android:layout_marginTop="@dimen/double_margin"
+                android:visibility="visible"
+                tools:text="N/A"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view_trailers"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:layout_margin="@dimen/double_margin"
+                android:scrollbars="vertical" />
+        </FrameLayout>
+    </android.support.v4.widget.NestedScrollView>
+</layout>

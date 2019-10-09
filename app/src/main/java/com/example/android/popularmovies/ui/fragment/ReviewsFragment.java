@@ -1,6 +1,5 @@
-package com.example.android.popularmovies.ui;
+package com.example.android.popularmovies.ui.fragment;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.android.popularmovies.R;
+import com.example.android.popularmovies.ui.MovieDetailViewModel;
 
 public class ReviewsFragment extends Fragment {
 
