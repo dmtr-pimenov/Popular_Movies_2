@@ -15,11 +15,12 @@
     <string name="error_loading_movie_info">Error loading Movie Information</string>
     <string name="error_no_player">No appropriate Application to show trailer</string>
     <string name="error_loading_trailers">Error loading trailers</string>
+    <string name="error_loading_reviews">Error loading reviews</string>
 
     <string name="added_to_favorites">Movie was added to the Favorite Collection</string>
     <string name="removed_from_favorites">Movie was removed from the Favorite Collection</string>
 
-    <string name="short_text_not_available">N/A</string>
+    <string name="info_not_available">Not Available</string>
 
     <!-- Menu -->
     <string name="action_settings">Settings</string>

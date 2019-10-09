@@ -2,23 +2,44 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-    </data>
-
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
         tools:context=".ui.fragment.ReviewsFragment">
 
-        <android.support.constraint.ConstraintLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            
+            android:layout_height="match_parent">
 
-        </android.support.constraint.ConstraintLayout>
+            <TextView
+                android:id="@+id/text_review_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|top"
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/double_margin"
+                android:text="@string/error_loading_reviews"
+                tools:text="Error loading"/>
 
+            <TextView
+                android:id="@+id/text_review_na"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|top"
+                android:text="@string/info_not_available"
+                android:layout_marginTop="@dimen/double_margin"
+                android:visibility="visible"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                tools:text="@string/info_not_available"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view_review"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:scrollbars="none" />
+        </FrameLayout>
 
     </android.support.v4.widget.NestedScrollView>
 </layout>
