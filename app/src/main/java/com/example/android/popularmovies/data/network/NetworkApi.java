@@ -31,6 +31,10 @@ public class NetworkApi {
     private static final String MOVIEDB_BASE_URL = "https://api.themoviedb.org";
     // Base URL for loading images (posters, backdrops)
     private static final String IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
+    // Base URL for loading video thumbnail from youtube
+    private static final String YOUTUBE_THUMBNAIL_BASE_URL = "https://img.youtube.com/vi/";
+    private static final String YOUTUBE_THUMBNAIL_ENDING = "/mqdefault.jpg";
+
 
     // retrofit client that implements RawMovieDbApi interface
     private RawMovieDbApi mRawMovieDbApi;
@@ -168,7 +172,7 @@ public class NetworkApi {
     }
 
     /**
-     * Returns a String representation of URL for load poster
+     * Returns a String representation of URL for loading poster
      * @param relativePath See Movie.getPosterPath()
      * @param posterSize
      * @return String representation of URL for load image
@@ -178,12 +182,21 @@ public class NetworkApi {
     }
 
     /**
-     * Returns a String representation of URL for load backdrop
+     * Returns a String representation of URL for loading backdrop
      * @param relativePath See Movie.getBackdropPath()
      * @param backdropSize
      * @return String representation of URL for load image
      */
     public static String getBackdropUrl(String relativePath, BackdropSize backdropSize) {
         return IMAGE_BASE_URL + backdropSize.getSizeStr() + relativePath;
+    }
+
+    /**
+     * Returns a String representation of URL for loading video thumbnail from youtube
+     * @param videoKey
+     * @return String representation of URL for load image
+     */
+    public static String getVideoThimbnailUrl(String videoKey) {
+        return YOUTUBE_THUMBNAIL_BASE_URL + videoKey + YOUTUBE_THUMBNAIL_ENDING;
     }
 }

@@ -36,9 +36,6 @@ public class MovieDetailViewModel extends ViewModel {
 
     private LiveData<Boolean> mIsFavorite;
 
-    private boolean mTrailerListCollapsed = true;
-    private boolean mReviewListCollapsed = true;
-
     public MovieDetailViewModel(long movieId, AppRepository repository) {
         Log.d(TAG, "MovieDetailViewModel has been created");
         mMovieId = movieId;
@@ -50,9 +47,9 @@ public class MovieDetailViewModel extends ViewModel {
         }
 
         loadMovieDetail();
-        setupBackdropRetrieving();
-        setupTrailersRetrieving();
-        setupReviewsRetrieving();
+        retrieveBackdropCollection();
+        retrieveTrailerCollection();
+        retrieveReviewCollection();
     }
 
     private void loadMovieDetail() {
@@ -77,7 +74,7 @@ public class MovieDetailViewModel extends ViewModel {
         }
     }
 
-    private void setupBackdropRetrieving() {
+    private void retrieveBackdropCollection() {
         if (mRepository.isFavoriteMode()) {
             mBackdropCollection = Transformations.map(mRepository.dbLoadAllBackdrops(mMovieId),
                     new Function<List<Backdrop>, Resource<List<Backdrop>>>() {
@@ -106,7 +103,7 @@ public class MovieDetailViewModel extends ViewModel {
         }
     }
 
-    private void setupTrailersRetrieving() {
+    private void retrieveTrailerCollection() {
         if (mRepository.isFavoriteMode()) {
             mTrailerCollection = Transformations.map(mRepository.dbLoadAllTrailers(mMovieId),
                     new Function<List<Trailer>, Resource<List<Trailer>>>() {
@@ -135,7 +132,7 @@ public class MovieDetailViewModel extends ViewModel {
         }
     }
 
-    private void setupReviewsRetrieving() {
+    private void retrieveReviewCollection() {
         if (mRepository.isFavoriteMode()) {
             mReviewCollection = Transformations.map(mRepository.dbLoadAllReviews(mMovieId),
                     new Function<List<Review>, Resource<List<Review>>>() {
@@ -164,21 +161,21 @@ public class MovieDetailViewModel extends ViewModel {
         }
     }
 
-    // todo don't forget to disable checkbox Add to Favorite if MoveDetail retrieved with error
+    @SuppressWarnings("ConstantConditions")
     public void addMovieToFavorites() {
         Log.d(TAG, "addMovieToFavorites");
 
         List<Trailer> trailers = new ArrayList<>();
-        if (mTrailerCollection.getValue().status == Resource.Status.SUCCESS) {
+        if (isDataReadyToDb(mTrailerCollection)) {
             trailers.addAll(mTrailerCollection.getValue().data);
         }
         List<Review> reviews = new ArrayList<>();
-        if (mReviewCollection.getValue().status == Resource.Status.SUCCESS) {
+        if (isDataReadyToDb(mReviewCollection)) {
             reviews.addAll(mReviewCollection.getValue().data);
         }
 
         List<Backdrop> backdrops = new ArrayList<>();
-        if (mBackdropCollection.getValue().status == Resource.Status.SUCCESS) {
+        if (isDataReadyToDb(mBackdropCollection)) {
             backdrops.addAll(mBackdropCollection.getValue().data);
         }
 
@@ -186,25 +183,14 @@ public class MovieDetailViewModel extends ViewModel {
         mRepository.dbInsertMovie(movie, trailers, reviews, movie.getGenres(), backdrops);
     }
 
+    private boolean isDataReadyToDb(LiveData<? extends Resource<?>> anyData) {
+        return anyData != null && anyData.getValue() != null
+                && anyData.getValue().status == Resource.Status.SUCCESS;
+    }
+
     public void removeMovieFromFavorites() {
         Log.d(TAG, "removeMovieFromFavorites");
         mRepository.dbDeleteMovieById(mMovieId);
-    }
-
-    public boolean isTrailerListCollapsed() {
-        return mTrailerListCollapsed;
-    }
-
-    public void setTrailerListCollapsed(boolean trailerListCollapsed) {
-        mTrailerListCollapsed = trailerListCollapsed;
-    }
-
-    public boolean isReviewListCollapsed() {
-        return mReviewListCollapsed;
-    }
-
-    public void setReviewListCollapsed(boolean reviewListCollapsed) {
-        mReviewListCollapsed = reviewListCollapsed;
     }
 
     public LiveData<Resource<MovieDetail>> getMovieDetail() {

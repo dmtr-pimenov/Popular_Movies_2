@@ -37,12 +37,16 @@ public class Trailer implements IIdSetter {
     @SerializedName("name")
     private String name;
 
+    @SerializedName("site")
+    private String site;
+
     // Constructor used by Room to create Review instance
-    public Trailer(String id, String key, Long movieId, String name) {
+    public Trailer(String id, String key, Long movieId, String name, String site) {
         this.id = id;
         this.key = key;
         this.movieId = movieId;
         this.name = name;
+        this.site = site;
     }
 
     public String getId() {
@@ -75,5 +79,13 @@ public class Trailer implements IIdSetter {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getSite() {
+        return site;
+    }
+
+    public void setSite(String site) {
+        this.site = site;
     }
 }
