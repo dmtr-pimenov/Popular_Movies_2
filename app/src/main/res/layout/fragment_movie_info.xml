@@ -9,14 +9,14 @@
 
         <variable
             name="movieDetail"
-            type="com.example.android.popularmovies.data.model.MovieDetail" />
+            type="dmtr.example.android.popularmovies.data.model.MovieDetail" />
     </data>
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        tools:context=".ui.fragment.ReviewsFragment">
+        tools:context="dmtr.example.android.popularmovies.ui.fragment.ReviewsFragment">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"

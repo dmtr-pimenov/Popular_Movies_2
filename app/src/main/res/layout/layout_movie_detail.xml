@@ -9,11 +9,11 @@
 
         <variable
             name="movieDetail"
-            type="com.example.android.popularmovies.data.model.MovieDetail" />
+            type="dmtr.example.android.popularmovies.data.model.MovieDetail" />
 
         <variable
             name="viewModel"
-            type="com.example.android.popularmovies.ui.MovieDetailViewModel" />
+            type="dmtr.example.android.popularmovies.ui.MovieDetailViewModel" />
     </data>
 
     <android.support.constraint.ConstraintLayout
