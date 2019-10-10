@@ -140,9 +140,9 @@ public class AppDbRepositoryTest {
 
         Long id = 1L;
 
-        Trailer t1 = new Trailer("id_1", "key_1", id, "trailer_1");
-        Trailer t2 = new Trailer("id_2", "key_2", id, "trailer_2");
-        Trailer t3 = new Trailer("id_3", "key_3", id, "trailer_3");
+        Trailer t1 = new Trailer("id_1", "key_1", id, "trailer_1", "youtube");
+        Trailer t2 = new Trailer("id_2", "key_2", id, "trailer_2", "youtube");
+        Trailer t3 = new Trailer("id_3", "key_3", id, "trailer_3", "youtube");
 
         List<Trailer> trailers = Arrays.asList(t1, t2, t3);
 
