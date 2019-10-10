@@ -29,22 +29,6 @@
     <string name="content_description_backdrop">Большой плакат</string>
     <string name="content_description_poster">Постер</string>
 
-    <string name="transition_poster" translatable="false">poster_transition</string>
-
-    <!-- formatters -->
-    <string name="json_date_format">
-        <xliff:g id="data">yyyy-MM-dd</xliff:g>
-    </string>
-
-    <string name="release_date_format">
-        <xliff:g id="data">MMMM, yyyy</xliff:g>
-    </string>
-
-    <string name="runtime_format">
-        <xliff:g id="hours">%1$d</xliff:g>h
-        <xliff:g id="minutes">%2$d</xliff:g>m
-    </string>
-
     <!-- TabLayout labels -->
     <string name="label_movie_info">ИНФОРМАЦИЯ</string>
     <string name="label_movie_trailers">ТРЕЙЛЕРЫ</string>
