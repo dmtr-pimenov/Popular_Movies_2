@@ -55,7 +55,6 @@
                 app:layout_constraintBottom_toBottomOf="@id/image_tmdb_logo"
                 app:layout_constraintStart_toEndOf="@id/image_tmdb_logo"
                 android:layout_marginStart="@dimen/default_margin"
-                app:layout_constraintTop_toTopOf="@+id/text_rating_str"
                 app:stars="@{movieDetail.voteAverage}"
                 tools:rating="2.5" />
 

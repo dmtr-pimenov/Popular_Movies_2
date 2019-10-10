@@ -27,7 +27,7 @@ public class BindingAdapters {
 
     @BindingAdapter("releaseDate")
     public static void setReleaseDate(TextView textView, String releaseDate) {
-        String result = "N/A";
+        String result = "";
         if (releaseDate != null) {
             Context context = textView.getContext().getApplicationContext();
             try {
@@ -56,7 +56,7 @@ public class BindingAdapters {
 
     @BindingAdapter("releaseDateFull")
     public static void setReleaseDateFull(TextView textView, String releaseDate) {
-        String result = "N/A";
+        String result = "";
         if (releaseDate != null) {
             Context context = textView.getContext().getApplicationContext();
             try {
