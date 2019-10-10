@@ -78,6 +78,9 @@ public class SettingsActivity extends AppCompatActivity implements SharedPrefere
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         Log.d(TAG, "onSharedPreferenceChanged: " + key);
+        if (getResources().getString(R.string.pref_transition_key).equals(key)) {
+            return;
+        }
         mPreferencesHasChanged = controlList.contains(key);
     }
 
