@@ -36,7 +36,7 @@
 
     <!--  Movie Info Fragment  -->
     <string name="label_language">Язык</string>
-    <string name="label_runtime">Продолжительность</string>
+    <string name="label_runtime">Время</string>
     <string name="label_original_title">Оригинальный заголовок:</string>
     <string name="label_release_date">Дата релиза:</string>
     <string name="label_budget">Бюджет:</string>
