@@ -6,7 +6,7 @@
     <!-- Messages -->
     <string name="no_network_message">No network connection\nPlease turn Wi-Fi or mobile data on\n
         and press "TRY AGAIN" button"\n
-        OR select Favorite Movies
+        OR select Favorite Movies in Settings
     </string>
     <string name="error_loading_movies_list_message">An error has occurred. Please try again later</string>
     <string name="error_loading_trailer_collection">Error loading trailers</string>
@@ -28,10 +28,6 @@
     <!-- content description -->
     <string name="content_description_backdrop">Backdrop image</string>
     <string name="content_description_poster">Poster image</string>
-
-    <!-- some labels -->
-    <string name="label_trailers">Trailers</string>
-    <string name="label_reviews">Reviews</string>
 
     <string name="transition_poster" translatable="false">poster_transition</string>
 

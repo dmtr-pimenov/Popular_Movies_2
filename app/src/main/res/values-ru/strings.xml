@@ -1,0 +1,61 @@
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">Popular Movies</string>
+
+    <string name="try_button_title">Try again</string>
+
+    <!-- Messages -->
+    <string name="no_network_message">Нет сети\nВключите Wi-Fi или передачу мобильных данных\n
+        и нажмите "TRY AGAIN" кнопку"\n
+        или выберите "Любимые фильмы в настройках"
+    </string>
+    <string name="error_loading_movies_list_message">Возникла ощибка. Попробуйте еще раз позже</string>
+    <string name="error_loading_trailer_collection">Ошибка загрузки списка трейлеров</string>
+    <string name="error_loading_backdrop_collection">Ошибка загрузки изображений</string>
+    <string name="error_loading_review_collection">Ошибка загрузки списка обзоров</string>
+    <string name="error_loading_movie_info">Ошибка загрузки информации о фильме</string>
+    <string name="error_no_player">Нет подходящего приложения для просмотра трейлера</string>
+    <string name="error_loading_trailers">Ошибка загрузки списка трейлеров</string>
+    <string name="error_loading_reviews">Ошибка загрузки списка обзоров</string>
+
+    <string name="added_to_favorites">Фильм был добавлен в коллекцию любимых фильмов</string>
+    <string name="removed_from_favorites">Фильм был удален из коллекции любимых фильмов</string>
+
+    <string name="info_not_available">Недоступно</string>
+
+    <!-- Menu -->
+    <string name="action_settings">Настройки</string>
+
+    <!-- content description -->
+    <string name="content_description_backdrop">Большой плакат</string>
+    <string name="content_description_poster">Постер</string>
+
+    <string name="transition_poster" translatable="false">poster_transition</string>
+
+    <!-- formatters -->
+    <string name="json_date_format">
+        <xliff:g id="data">yyyy-MM-dd</xliff:g>
+    </string>
+
+    <string name="release_date_format">
+        <xliff:g id="data">MMMM, yyyy</xliff:g>
+    </string>
+
+    <string name="runtime_format">
+        <xliff:g id="hours">%1$d</xliff:g>h
+        <xliff:g id="minutes">%2$d</xliff:g>m
+    </string>
+
+    <!-- TabLayout labels -->
+    <string name="label_movie_info">ИНФОРМАЦИЯ</string>
+    <string name="label_movie_trailers">ТРЕЙЛЕРЫ</string>
+    <string name="label_movie_reviews">ОБЗОРЫ</string>
+
+    <!--  Movie Info Fragment  -->
+    <string name="label_language">Язык</string>
+    <string name="label_runtime">Продолжительность</string>
+    <string name="label_original_title">Оригинальный заголовок:</string>
+    <string name="label_release_date">Дата релиза:</string>
+    <string name="label_budget">Бюджет:</string>
+    <string name="label_revenue">Доход:</string>
+    <string name="label_home_page">Страница:</string>
+</resources>
