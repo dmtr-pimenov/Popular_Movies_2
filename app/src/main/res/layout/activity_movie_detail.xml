@@ -6,18 +6,18 @@
     <data>
         <variable
             name="movieDetail"
-            type="dmtr.pimenov.android.popularmovies.data.model.MovieDetail" />
+            type="dmtr.pimenov.popularmovies.data.model.MovieDetail" />
 
         <variable
             name="viewModel"
-            type="dmtr.pimenov.android.popularmovies.ui.MovieDetailViewModel" />
+            type="dmtr.pimenov.popularmovies.ui.MovieDetailViewModel" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="false"
-        tools:context="dmtr.pimenov.android.popularmovies.ui.MovieDetailActivity">
+        tools:context="dmtr.pimenov.popularmovies.ui.MovieDetailActivity">
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/app_bar"
