@@ -26,7 +26,7 @@ public class MovieDetail {
     private Long id;
 
     @SerializedName("budget")
-    private Integer budget;
+    private Long budget;
 
     @Ignore
     @SerializedName("genres")
@@ -57,7 +57,7 @@ public class MovieDetail {
     private String releaseDate;
 
     @SerializedName("revenue")
-    private Integer revenue;
+    private Long revenue;
 
     @SerializedName("runtime")
     private Integer runtime;
@@ -79,7 +79,7 @@ public class MovieDetail {
     // Constructor used by Room to create MovieDetail instance
     public MovieDetail(Long id, String homepage, String originalLanguage,
                        String title, String originalTitle, String overview, String tagline,
-                       String posterPath, String releaseDate, Integer budget, Integer revenue,
+                       String posterPath, String releaseDate, Long budget, Long revenue,
                        Integer runtime, Double popularity, Double voteAverage, Integer voteCount) {
         this.budget = budget;
         this.homepage = homepage;
@@ -98,11 +98,11 @@ public class MovieDetail {
         this.voteCount = voteCount;
     }
 
-    public Integer getBudget() {
+    public Long getBudget() {
         return budget;
     }
 
-    public void setBudget(Integer budget) {
+    public void setBudget(Long budget) {
         this.budget = budget;
     }
 
@@ -178,11 +178,11 @@ public class MovieDetail {
         this.releaseDate = releaseDate;
     }
 
-    public Integer getRevenue() {
+    public Long getRevenue() {
         return revenue;
     }
 
-    public void setRevenue(Integer revenue) {
+    public void setRevenue(Long revenue) {
         this.revenue = revenue;
     }
 

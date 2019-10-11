@@ -141,7 +141,7 @@ public class BindingAdapters {
     }
 
     @BindingAdapter("money")
-    public static void setMoney(TextView textView, @Nullable Integer money) {
+    public static void setMoney(TextView textView, @Nullable Long money) {
         String result = "N/A";
         if (money != null && money != 0) {
             NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);

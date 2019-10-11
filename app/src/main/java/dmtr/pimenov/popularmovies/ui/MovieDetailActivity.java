@@ -59,10 +59,14 @@ public class MovieDetailActivity extends AppCompatActivity {
     private boolean isTrailersLoaded = false;
     private boolean isReviewsLoaded = false;
 
+    private boolean disableTransition = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        if (UiUtils.isTransitionAvailable(this) && savedInstanceState == null) {
+        disableTransition = savedInstanceState != null;
+
+        if (UiUtils.isTransitionAvailable(this) && !disableTransition) {
             supportPostponeEnterTransition();
         }
 
@@ -88,7 +92,6 @@ public class MovieDetailActivity extends AppCompatActivity {
         String movieTitle = startIntent.getStringExtra(EXTRA_MOVIE_TITLE);
         if (movieTitle != null) {
             setTitle(movieTitle);
-            mBinding.detailInfo.textTitle.setText(movieTitle);
         }
         String posterPath = startIntent.getStringExtra(EXTRA_POSTER_PATH);
         setupPosterImage(posterPath);
@@ -96,6 +99,10 @@ public class MovieDetailActivity extends AppCompatActivity {
         setupViewModel(movieId);
         getMovieDetail();
         setupAppBarListener();
+        if (!UiUtils.isTransitionAvailable(this) || disableTransition) {
+            getBackdropCollection();
+            getRestCollections();
+        }
     }
 
     private void setupViewModel(long movieId) {
@@ -248,7 +255,7 @@ public class MovieDetailActivity extends AppCompatActivity {
             Drawable error = ContextCompat.getDrawable(this, R.drawable.ic_error);
             // poster image
             String posterUrl = NetworkApi.getPosterUrl(posterPath, NetworkApi.PosterSize.W185);
-            if (UiUtils.isTransitionAvailable(this)) {
+            if (UiUtils.isTransitionAvailable(this) && !disableTransition) {
                 Picasso.with(this).load(posterUrl)
                         .error(error)
                         .into(mBinding.detailInfo.imagePoster, new Callback() {
@@ -268,7 +275,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                         .into(mBinding.detailInfo.imagePoster);
             }
         } else {
-            if (UiUtils.isTransitionAvailable(this)) {
+            if (UiUtils.isTransitionAvailable(this) && !disableTransition) {
                 startDelayedTransition();
             }
         }
