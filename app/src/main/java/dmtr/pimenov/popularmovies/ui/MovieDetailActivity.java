@@ -12,6 +12,8 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
+import android.support.transition.Fade;
+import android.support.transition.TransitionManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -20,6 +22,7 @@ import android.transition.Transition;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -109,6 +112,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         MovieDetailViewModelFactory factory = InjectorUtil.provideMovieDetailViewModelFactory(this, movieId);
         mViewModel = ViewModelProviders.of(this, factory).get(MovieDetailViewModel.class);
         isFavoriteMode = mViewModel.isFavoriteMode();
+        setVisibilityFavoriteButton();
     }
 
     private void getMovieDetail() {
@@ -200,7 +204,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         }
         supportStartPostponedEnterTransition();
     }
-    
+
     /**
      * If user clicks on the favorite checkbox and Movie is not in local database
      * then Movie will be added into DB
@@ -344,6 +348,20 @@ public class MovieDetailActivity extends AppCompatActivity {
             partiallyInvisible = false;
         }
         return partiallyInvisible;
+    }
+
+    private void setVisibilityFavoriteButton() {
+        mViewModel.isMovieInformationLoaded().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean aBoolean) {
+                ViewGroup root = findViewById(android.R.id.content);
+                Fade f = new Fade();
+                f.setDuration(500);
+                TransitionManager.beginDelayedTransition(root, f);
+                TransitionManager.beginDelayedTransition(root, f);
+                mBinding.detailInfo.checkFavoriteMovie.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     /**

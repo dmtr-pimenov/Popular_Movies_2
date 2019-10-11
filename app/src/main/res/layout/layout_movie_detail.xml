@@ -51,7 +51,7 @@
             android:layout_marginBottom="8dp"
             android:button="@drawable/check_box_selector"
             android:checked="@{viewModel.isFavorite()}"
-            android:visibility="@{viewModel.isMovieInformationLoaded() ? View.VISIBLE : View.INVISIBLE}"
+            android:visibility="invisible"
             android:elevation="@dimen/standard_elevation"
             app:layout_constraintBottom_toBottomOf="@+id/view_pager_backdrops"
             app:layout_constraintEnd_toStartOf="@+id/gl_vertical_end"
