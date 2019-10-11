@@ -49,16 +49,19 @@ public class ReviewsFragment extends Fragment {
         mViewModel.getReviewCollection().observe(this, new Observer<Resource<List<Review>>>() {
             @Override
             public void onChanged(@Nullable Resource<List<Review>> listResource) {
-                if (listResource.status == Resource.Status.SUCCESS) {
-                    List<Review> data = listResource.data;
-                    if (data.size() == 0) {
-                        showNaMessage();
+                if (listResource != null) {
+                    if (listResource.status == Resource.Status.SUCCESS) {
+                        List<Review> data = listResource.data;
+                        if (data.size() == 0) {
+                            showNaMessage();
+                        } else {
+                            setupRecyclerView(data);
+                        }
                     } else {
-                        setupRecyclerView(data);
+                        showError();
                     }
-
                 } else {
-                    showError();
+                    showNaMessage();
                 }
             }
         });
@@ -66,7 +69,6 @@ public class ReviewsFragment extends Fragment {
     }
 
     private void setupRecyclerView(List<Review> data) {
-
         mBinding.textReviewError.setVisibility(View.GONE);
         mBinding.textReviewNa.setVisibility(View.GONE);
 
@@ -75,10 +77,6 @@ public class ReviewsFragment extends Fragment {
         mBinding.recyclerViewReview.setLayoutManager(layoutManager);
         ReviewListAdapter adapter = new ReviewListAdapter(getContext(), data);
         mBinding.recyclerViewReview.setAdapter(adapter);
-/*
-        mBinding.recyclerViewTrailers
-                .addItemDecoration(new MarginItemDecorator((int) getContext().getResources().getDimension(R.dimen.double_margin)));
-*/
         mBinding.recyclerViewReview.setVisibility(View.VISIBLE);
     }
 

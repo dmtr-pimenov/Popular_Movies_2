@@ -446,9 +446,13 @@ public class AppRepository {
     }
 
     public boolean isTransitionEnabled() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-        return preferences.getBoolean(mContext.getString(R.string.pref_transition_key),
-                mContext.getResources().getBoolean(R.bool.pref_transition_default));
+        return isTransitionEnabled(mContext);
+    }
+
+    public static boolean isTransitionEnabled(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return preferences.getBoolean(context.getString(R.string.pref_transition_key),
+                context.getResources().getBoolean(R.bool.pref_transition_default));
     }
 
     private String getMostPopularStringArgValue() {

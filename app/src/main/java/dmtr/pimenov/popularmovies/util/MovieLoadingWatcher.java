@@ -1,4 +1,4 @@
-package dmtr.pimenov.popularmovies.ui.factory;
+package dmtr.pimenov.popularmovies.util;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
@@ -10,8 +10,6 @@ public class MovieLoadingWatcher {
     private boolean mTrailersLoaded = false;
     private boolean mReviewsLoaded = false;
 
-    private boolean mForcedTrue = false;
-
     private MutableLiveData<Boolean> mMovieInformationLoaded = new MutableLiveData<>();
 
     public LiveData<Boolean> isMovieInformationLoaded() {
@@ -20,14 +18,10 @@ public class MovieLoadingWatcher {
 
     @MainThread
     private void update() {
-        if ((mMovieLoaded && mBackdropsLoaded
-                && mTrailersLoaded && mReviewsLoaded) || mForcedTrue) {
+        if (mMovieLoaded && mBackdropsLoaded
+                && mTrailersLoaded && mReviewsLoaded) {
             mMovieInformationLoaded.setValue(true);
         }
-    }
-
-    public void forceTrue() {
-        mForcedTrue = true;
     }
 
     @MainThread

@@ -33,7 +33,6 @@ public abstract class AppDatabase extends RoomDatabase {
                 }
             }
         }
-        Log.d(TAG, "getInstance");
         return mInstance;
     }
 

@@ -60,16 +60,20 @@ public class TrailersFragment extends Fragment implements TrailerListAdapter.Lis
         mViewModel.getTrailerCollection().observe(this, new Observer<Resource<List<Trailer>>>() {
             @Override
             public void onChanged(@Nullable Resource<List<Trailer>> listResource) {
-                if (listResource.status == Resource.Status.SUCCESS) {
-                    List<Trailer> data = listResource.data;
-                    if (data.size() == 0) {
-                        showNaMessage();
-                    } else {
-                        setupRecyclerView(data);
-                    }
+                if (listResource != null) {
+                    if (listResource.status == Resource.Status.SUCCESS) {
+                        List<Trailer> data = listResource.data;
+                        if (data.size() == 0) {
+                            showNaMessage();
+                        } else {
+                            setupRecyclerView(data);
+                        }
 
+                    } else {
+                        showError();
+                    }
                 } else {
-                    showError();
+                    showNaMessage();
                 }
             }
         });

@@ -6,20 +6,19 @@ import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import dmtr.pimenov.popularmovies.data.AppRepository;
 import dmtr.pimenov.popularmovies.data.model.Backdrop;
 import dmtr.pimenov.popularmovies.data.model.BackdropCollection;
-import dmtr.pimenov.popularmovies.data.model.Language;
 import dmtr.pimenov.popularmovies.data.model.MovieDetail;
 import dmtr.pimenov.popularmovies.data.model.Resource;
 import dmtr.pimenov.popularmovies.data.model.Review;
 import dmtr.pimenov.popularmovies.data.model.ReviewCollection;
 import dmtr.pimenov.popularmovies.data.model.Trailer;
 import dmtr.pimenov.popularmovies.data.model.TrailerCollection;
-import dmtr.pimenov.popularmovies.ui.factory.MovieLoadingWatcher;
-
-import java.util.ArrayList;
-import java.util.List;
+import dmtr.pimenov.popularmovies.util.MovieLoadingWatcher;
 
 public class MovieDetailViewModel extends ViewModel {
 
@@ -42,130 +41,133 @@ public class MovieDetailViewModel extends ViewModel {
         mRepository = repository;
         mIsFavorite = mRepository.dbIsFavoriteMovie(mMovieId);
 
-        if (mRepository.isFavoriteMode()) {
-            mMovieLoadingWatcher.forceTrue();
-        }
-
-        loadMovieDetail();
     }
 
-    private void retrieveMovieStuff() {
-        retrieveBackdropCollection();
-        retrieveTrailerCollection();
-        retrieveReviewCollection();
-    }
-
-    private void loadMovieDetail() {
-        if (mRepository.isFavoriteMode()) {
-            mMovieDetail = Transformations.map(mRepository.dbLoadMovieDetailById(mMovieId),
-                    new Function<MovieDetail, Resource<MovieDetail>>() {
-                        @Override
-                        public Resource<MovieDetail> apply(MovieDetail input) {
-                            Resource<MovieDetail> res = Resource.success(input);
-                            retrieveMovieStuff();
-                            return res;
-                        }
-                    });
-        } else {
-            mMovieDetail = Transformations.map(mRepository.retrieveMoveDetail(mMovieId),
-                    new Function<Resource<MovieDetail>, Resource<MovieDetail>>() {
-                        @Override
-                        public Resource<MovieDetail> apply(Resource<MovieDetail> input) {
-                            if (input.status == Resource.Status.SUCCESS) {
+    public LiveData<Resource<MovieDetail>> getMovieDetail() {
+        if (mMovieDetail == null) {
+            if (mRepository.isFavoriteMode()) {
+                mMovieDetail = Transformations.map(mRepository.dbLoadMovieDetailById(mMovieId),
+                        new Function<MovieDetail, Resource<MovieDetail>>() {
+                            @Override
+                            public Resource<MovieDetail> apply(MovieDetail input) {
+                                Resource<MovieDetail> res = Resource.success(input);
                                 mMovieLoadingWatcher.movieLoaded();
-                                retrieveMovieStuff();
+                                return res;
                             }
-                            return input;
-                        }
-                    });
+                        });
+            } else {
+                mMovieDetail = Transformations.map(mRepository.retrieveMoveDetail(mMovieId),
+                        new Function<Resource<MovieDetail>, Resource<MovieDetail>>() {
+                            @Override
+                            public Resource<MovieDetail> apply(Resource<MovieDetail> input) {
+                                if (input.status == Resource.Status.SUCCESS) {
+                                    mMovieLoadingWatcher.movieLoaded();
+                                }
+                                return input;
+                            }
+                        });
+            }
         }
+        return mMovieDetail;
     }
 
-    private void retrieveBackdropCollection() {
-        if (mRepository.isFavoriteMode()) {
-            mBackdropCollection = Transformations.map(mRepository.dbLoadAllBackdrops(mMovieId),
-                    new Function<List<Backdrop>, Resource<List<Backdrop>>>() {
-                        @Override
-                        public Resource<List<Backdrop>> apply(List<Backdrop> input) {
-                            Resource<List<Backdrop>> res = Resource.success(input);
-                            return res;
-                        }
-                    });
-        } else {
-            mBackdropCollection = Transformations.map(mRepository.retrieveBackdropCollection(mMovieId),
-                    new Function<Resource<BackdropCollection>, Resource<List<Backdrop>>>() {
-                        @Override
-                        public Resource<List<Backdrop>> apply(Resource<BackdropCollection> input) {
-                            Resource<List<Backdrop>> res;
-                            if (input.status == Resource.Status.SUCCESS) {
-                                List<Backdrop> l = input.data.getBackdrops();
-                                res = Resource.success(l);
-                            } else {
-                                res = Resource.error(input.message, null);
+    public LiveData<Resource<List<Backdrop>>> getBackdropCollection() {
+        if (mBackdropCollection == null) {
+            if (mRepository.isFavoriteMode()) {
+                mBackdropCollection = Transformations.map(mRepository.dbLoadAllBackdrops(mMovieId),
+                        new Function<List<Backdrop>, Resource<List<Backdrop>>>() {
+                            @Override
+                            public Resource<List<Backdrop>> apply(List<Backdrop> input) {
+                                Resource<List<Backdrop>> res = Resource.success(input);
+                                mMovieLoadingWatcher.backdropsLoaded();
+                                return res;
                             }
-                            mMovieLoadingWatcher.backdropsLoaded();
-                            return res;
-                        }
-                    });
+                        });
+            } else {
+                mBackdropCollection = Transformations.map(mRepository.retrieveBackdropCollection(mMovieId),
+                        new Function<Resource<BackdropCollection>, Resource<List<Backdrop>>>() {
+                            @Override
+                            public Resource<List<Backdrop>> apply(Resource<BackdropCollection> input) {
+                                Resource<List<Backdrop>> res;
+                                if (input.status == Resource.Status.SUCCESS) {
+                                    List<Backdrop> l = input.data.getBackdrops();
+                                    res = Resource.success(l);
+                                } else {
+                                    res = Resource.error(input.message, null);
+                                }
+                                mMovieLoadingWatcher.backdropsLoaded();
+                                return res;
+                            }
+                        });
+            }
         }
+        return mBackdropCollection;
     }
 
-    private void retrieveTrailerCollection() {
-        if (mRepository.isFavoriteMode()) {
-            mTrailerCollection = Transformations.map(mRepository.dbLoadAllTrailers(mMovieId),
-                    new Function<List<Trailer>, Resource<List<Trailer>>>() {
-                        @Override
-                        public Resource<List<Trailer>> apply(List<Trailer> input) {
-                            Resource<List<Trailer>> res = Resource.success(input);
-                            return res;
-                        }
-                    });
-        } else {
-            mTrailerCollection = Transformations.map(mRepository.retrieveTrailerCollection(mMovieId),
-                    new Function<Resource<TrailerCollection>, Resource<List<Trailer>>>() {
-                        @Override
-                        public Resource<List<Trailer>> apply(Resource<TrailerCollection> input) {
-                            Resource<List<Trailer>> res;
-                            if (input.status == Resource.Status.SUCCESS) {
-                                List<Trailer> l = input.data.getResults();
-                                res = Resource.success(l);
-                            } else {
-                                res = Resource.error(input.message, null);
+    public LiveData<Resource<List<Trailer>>> getTrailerCollection() {
+        if (mTrailerCollection == null) {
+            if (mRepository.isFavoriteMode()) {
+                mTrailerCollection = Transformations.map(mRepository.dbLoadAllTrailers(mMovieId),
+                        new Function<List<Trailer>, Resource<List<Trailer>>>() {
+                            @Override
+                            public Resource<List<Trailer>> apply(List<Trailer> input) {
+                                Resource<List<Trailer>> res = Resource.success(input);
+                                mMovieLoadingWatcher.trailersLoaded();
+                                return res;
                             }
-                            mMovieLoadingWatcher.trailersLoaded();
-                            return res;
-                        }
-                    });
+                        });
+            } else {
+                mTrailerCollection = Transformations.map(mRepository.retrieveTrailerCollection(mMovieId),
+                        new Function<Resource<TrailerCollection>, Resource<List<Trailer>>>() {
+                            @Override
+                            public Resource<List<Trailer>> apply(Resource<TrailerCollection> input) {
+                                Resource<List<Trailer>> res;
+                                if (input.status == Resource.Status.SUCCESS) {
+                                    List<Trailer> l = input.data.getResults();
+                                    res = Resource.success(l);
+                                } else {
+                                    res = Resource.error(input.message, null);
+                                }
+                                mMovieLoadingWatcher.trailersLoaded();
+                                return res;
+                            }
+                        });
+            }
         }
+        return mTrailerCollection;
     }
 
-    private void retrieveReviewCollection() {
-        if (mRepository.isFavoriteMode()) {
-            mReviewCollection = Transformations.map(mRepository.dbLoadAllReviews(mMovieId),
-                    new Function<List<Review>, Resource<List<Review>>>() {
-                        @Override
-                        public Resource<List<Review>> apply(List<Review> input) {
-                            Resource<List<Review>> res = Resource.success(input);
-                            return res;
-                        }
-                    });
-        } else {
-            mReviewCollection = Transformations.map(mRepository.retrieveReviewCollection(mMovieId),
-                    new Function<Resource<ReviewCollection>, Resource<List<Review>>>() {
-                        @Override
-                        public Resource<List<Review>> apply(Resource<ReviewCollection> input) {
-                            Resource<List<Review>> res;
-                            if (input.status == Resource.Status.SUCCESS) {
-                                List<Review> l = input.data.getResults();
-                                res = Resource.success(l);
-                            } else {
-                                res = Resource.error(input.message, null);
+    public LiveData<Resource<List<Review>>> getReviewCollection() {
+        if (mReviewCollection == null) {
+            if (mRepository.isFavoriteMode()) {
+                mReviewCollection = Transformations.map(mRepository.dbLoadAllReviews(mMovieId),
+                        new Function<List<Review>, Resource<List<Review>>>() {
+                            @Override
+                            public Resource<List<Review>> apply(List<Review> input) {
+                                Resource<List<Review>> res = Resource.success(input);
+                                mMovieLoadingWatcher.reviewsLoaded();
+                                return res;
                             }
-                            mMovieLoadingWatcher.reviewsLoaded();
-                            return res;
-                        }
-                    });
+                        });
+            } else {
+                mReviewCollection = Transformations.map(mRepository.retrieveReviewCollection(mMovieId),
+                        new Function<Resource<ReviewCollection>, Resource<List<Review>>>() {
+                            @Override
+                            public Resource<List<Review>> apply(Resource<ReviewCollection> input) {
+                                Resource<List<Review>> res;
+                                if (input.status == Resource.Status.SUCCESS) {
+                                    List<Review> l = input.data.getResults();
+                                    res = Resource.success(l);
+                                } else {
+                                    res = Resource.error(input.message, null);
+                                }
+                                mMovieLoadingWatcher.reviewsLoaded();
+                                return res;
+                            }
+                        });
+            }
         }
+        return mReviewCollection;
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -200,26 +202,6 @@ public class MovieDetailViewModel extends ViewModel {
         mRepository.dbDeleteMovieById(mMovieId);
     }
 
-    public LiveData<Resource<MovieDetail>> getMovieDetail() {
-        return mMovieDetail;
-    }
-
-    public LiveData<Resource<List<Backdrop>>> getBackdropCollection() {
-        return mBackdropCollection;
-    }
-
-    public LiveData<Resource<List<Trailer>>> getTrailerCollection() {
-        return mTrailerCollection;
-    }
-
-    public LiveData<Resource<List<Review>>> getReviewCollection() {
-        return mReviewCollection;
-    }
-
-    public Language getLanguageByCode(String code) {
-        return mRepository.getLanguageByCode(code);
-    }
-
     public LiveData<Boolean> isFavorite() {
         return mIsFavorite;
     }
@@ -233,7 +215,6 @@ public class MovieDetailViewModel extends ViewModel {
     }
 
     // finalization
-
     @Override
     protected void onCleared() {
         Log.d(TAG, "onCleared");

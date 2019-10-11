@@ -1,5 +1,6 @@
 package dmtr.pimenov.popularmovies.ui;
 
+import android.annotation.SuppressLint;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -31,6 +32,8 @@ import dmtr.pimenov.popularmovies.ui.adapter.MovieListAdapter;
 import dmtr.pimenov.popularmovies.ui.factory.MainViewModelFactory;
 import dmtr.pimenov.popularmovies.util.InjectorUtil;
 import dmtr.pimenov.popularmovies.util.NetworkUtils;
+import dmtr.pimenov.popularmovies.util.UiUtils;
+
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -324,6 +327,7 @@ public class MainActivity extends AppCompatActivity
      *
      * @param movie selected movie
      */
+    @SuppressLint("NewApi")
     @Override
     public void onListItemClick(Movie movie, ImageView image2Transition) {
         // create an Intent to launch movie detail activity
@@ -331,10 +335,10 @@ public class MainActivity extends AppCompatActivity
         // put serialized movie into extra bundle
         startMovieDetailActivity.putExtra(MovieDetailActivity.EXTRA_MOVIE_ID, movie.getId());
         startMovieDetailActivity.putExtra(MovieDetailActivity.EXTRA_MOVIE_TITLE, movie.getTitle());
+        startMovieDetailActivity.putExtra(MovieDetailActivity.EXTRA_POSTER_PATH, movie.getPosterPath());
         // start activity with transition
         ActivityOptionsCompat options;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP &&
-                mViewModel.isTransitionEnabled()) {
+        if (UiUtils.isTransitionAvailable(this)) {
             options = ActivityOptionsCompat.makeSceneTransitionAnimation(this,
                     image2Transition, image2Transition.getTransitionName());
             startActivity(startMovieDetailActivity, options.toBundle());
