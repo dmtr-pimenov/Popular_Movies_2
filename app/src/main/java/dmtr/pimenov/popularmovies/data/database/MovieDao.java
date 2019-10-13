@@ -1,11 +1,11 @@
 package dmtr.pimenov.popularmovies.data.database;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.persistence.room.Dao;
-import android.arch.persistence.room.Insert;
-import android.arch.persistence.room.Query;
-import android.arch.persistence.room.Transaction;
-import android.support.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+import androidx.room.Dao;
+import androidx.room.Insert;
+import androidx.room.Query;
+import androidx.room.Transaction;
+import androidx.annotation.NonNull;
 
 import dmtr.pimenov.popularmovies.data.model.Backdrop;
 import dmtr.pimenov.popularmovies.data.model.Genre;

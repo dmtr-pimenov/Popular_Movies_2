@@ -1,10 +1,10 @@
 package dmtr.pimenov.popularmovies.ui;
 
 import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
-import android.support.annotation.Nullable;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.annotation.Nullable;
 import android.util.Log;
 
 import dmtr.pimenov.popularmovies.data.AppRepository;

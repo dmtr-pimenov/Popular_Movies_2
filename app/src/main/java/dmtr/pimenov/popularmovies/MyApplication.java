@@ -1,7 +1,7 @@
 package dmtr.pimenov.popularmovies;
 
 import android.app.Application;
-import android.support.v7.app.AppCompatDelegate;
+import androidx.appcompat.app.AppCompatDelegate;
 import android.util.SparseArray;
 
 import dmtr.pimenov.popularmovies.data.model.Language;

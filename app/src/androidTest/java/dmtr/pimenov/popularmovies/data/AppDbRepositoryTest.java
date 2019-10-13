@@ -1,10 +1,10 @@
 package dmtr.pimenov.popularmovies.data;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.persistence.room.Room;
+import androidx.lifecycle.LiveData;
+import androidx.room.Room;
 import android.content.Context;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import dmtr.pimenov.popularmovies.R;
 import dmtr.pimenov.popularmovies.TestUtil;

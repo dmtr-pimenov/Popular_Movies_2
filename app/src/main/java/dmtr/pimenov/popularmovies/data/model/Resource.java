@@ -1,7 +1,7 @@
 package dmtr.pimenov.popularmovies.data.model;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * This class encapsulates data (the result of a network request)

@@ -1,9 +1,9 @@
 package dmtr.pimenov.popularmovies.ui.adapter;
 
 import android.content.Context;
-import android.databinding.BindingAdapter;
+import androidx.databinding.BindingAdapter;
 import android.os.Build;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.util.SparseArray;
 import android.widget.RatingBar;
 import android.widget.TextView;
