@@ -13,6 +13,7 @@ public class NetworkUtils {
      * @return true - if device is connected to the net or is in connection progress
      */
 
+    @SuppressWarnings("deprecation")
     public static boolean isOnline(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (cm != null) {
