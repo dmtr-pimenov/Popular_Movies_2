@@ -1,19 +1,19 @@
 package dmtr.pimenov.popularmovies.ui;
 
-import android.app.Application;
-import androidx.lifecycle.AndroidViewModel;
+import android.util.Log;
+
+import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
-import androidx.annotation.Nullable;
-import android.util.Log;
+import androidx.lifecycle.ViewModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import dmtr.pimenov.popularmovies.data.AppRepository;
 import dmtr.pimenov.popularmovies.data.model.Movie;
 import dmtr.pimenov.popularmovies.data.model.MoviesPage;
 import dmtr.pimenov.popularmovies.data.model.Resource;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Application operates in 2 global modes
@@ -25,7 +25,7 @@ import java.util.List;
  * A second click on this checkbox will delete the information from the local Database.
  */
 
-public class MainViewModel extends AndroidViewModel {
+public class MainViewModel extends ViewModel {
 
     private static final String TAG = MainViewModel.class.getSimpleName();
 
@@ -40,8 +40,7 @@ public class MainViewModel extends AndroidViewModel {
     private List<Movie> mMovieList;
     private CustomMediatorLiveData<Resource<List<Movie>>> mMovieCollection;
 
-    public MainViewModel(Application application, AppRepository repository) {
-        super(application);
+    public MainViewModel(AppRepository repository) {
         mRepository = repository;
         mMovieCollection = new CustomMediatorLiveData<>();
 

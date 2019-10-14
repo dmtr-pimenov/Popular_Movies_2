@@ -31,14 +31,7 @@ public class ReviewsFragment extends Fragment {
 
     public static ReviewsFragment newInstance() {
         ReviewsFragment fragment = new ReviewsFragment();
-        fragment.setArguments(new Bundle());
         return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mViewModel = ViewModelProviders.of(getActivity()).get(MovieDetailViewModel.class);
     }
 
     @Override
@@ -46,6 +39,8 @@ public class ReviewsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_reviews, container, false);
+
+        mViewModel = ViewModelProviders.of(getActivity()).get(MovieDetailViewModel.class);
         mViewModel.getReviewCollection().observe(this, new Observer<Resource<List<Review>>>() {
             @Override
             public void onChanged(@Nullable Resource<List<Review>> listResource) {

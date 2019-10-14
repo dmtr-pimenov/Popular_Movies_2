@@ -40,14 +40,7 @@ public class TrailersFragment extends Fragment implements TrailerListAdapter.Lis
 
     public static TrailersFragment newInstance() {
         TrailersFragment fragment = new TrailersFragment();
-        fragment.setArguments(new Bundle());
         return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mViewModel = ViewModelProviders.of(getActivity()).get(MovieDetailViewModel.class);
     }
 
     @Override
@@ -55,8 +48,8 @@ public class TrailersFragment extends Fragment implements TrailerListAdapter.Lis
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_trailers, container, false);
-        View v = mBinding.getRoot();
 
+        mViewModel = ViewModelProviders.of(getActivity()).get(MovieDetailViewModel.class);
         mViewModel.getTrailerCollection().observe(this, new Observer<Resource<List<Trailer>>>() {
             @Override
             public void onChanged(@Nullable Resource<List<Trailer>> listResource) {
@@ -78,7 +71,7 @@ public class TrailersFragment extends Fragment implements TrailerListAdapter.Lis
             }
         });
 
-        return v;
+        return mBinding.getRoot();
     }
 
     private void setupRecyclerView(List<Trailer> data) {

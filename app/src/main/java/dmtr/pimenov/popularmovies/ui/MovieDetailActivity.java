@@ -109,7 +109,8 @@ public class MovieDetailActivity extends AppCompatActivity {
     }
 
     private void setupViewModel(long movieId) {
-        MovieDetailViewModelFactory factory = InjectorUtil.provideMovieDetailViewModelFactory(this, movieId);
+        MovieDetailViewModelFactory factory = InjectorUtil.provideMovieDetailViewModelFactory(
+                this.getApplicationContext(), movieId);
         mViewModel = ViewModelProviders.of(this, factory).get(MovieDetailViewModel.class);
         isFavoriteMode = mViewModel.isFavoriteMode();
         setVisibilityFavoriteButton();
