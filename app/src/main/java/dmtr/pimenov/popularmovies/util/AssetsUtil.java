@@ -146,7 +146,7 @@ public class AssetsUtil {
      * @param context
      * @return Set of movie Id's
      */
-    public static Set<Integer> getBadMovieIdsFromAssets(@NonNull Context context) {
+    public static Set<Long> getBadMovieIdsFromAssets(@NonNull Context context) {
 
         InputStream is = null;
         InputStreamReader isr = null;
@@ -163,9 +163,9 @@ public class AssetsUtil {
                 lines.add(line);
             }
 
-            Set<Integer> result = new HashSet<>(lines.size());
+            Set<Long> result = new HashSet<>(lines.size());
             for (String l : lines) {
-                result.add(Integer.parseInt(l));
+                result.add(Long.parseLong(l));
             }
             return Collections.unmodifiableSet(result);
 
@@ -200,7 +200,7 @@ public class AssetsUtil {
      * @param context
      * @return
      */
-    public static Map<Integer, Set<String>> getBadBackdropsFromAssets(@NonNull Context context) {
+    public static Map<Long, Set<String>> getBadBackdropsFromAssets(@NonNull Context context) {
 
         InputStream is = null;
         JsonReader reader = null;
@@ -214,7 +214,7 @@ public class AssetsUtil {
             List<BadMovie> movieList = new Gson().fromJson(reader, BACKDROP_LIST_TYPE);
 
             //noinspection unchecked
-            Map<Integer, Set<String>> result = new HashMap(movieList.size());
+            Map<Long, Set<String>> result = new HashMap(movieList.size());
             for (BadMovie m : movieList) {
                 //noinspection unchecked
                 result.put(m.getId(), Collections.unmodifiableSet(new HashSet(m.getBackdrops())));
@@ -243,14 +243,14 @@ public class AssetsUtil {
     }
 
     private class BadMovie {
-        int id;
+        long id;
         List<String> backdrops;
 
-        public int getId() {
+        public long getId() {
             return id;
         }
 
-        public void setId(int id) {
+        public void setId(long id) {
             this.id = id;
         }
 

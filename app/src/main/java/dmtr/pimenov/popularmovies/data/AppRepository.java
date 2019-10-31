@@ -33,6 +33,8 @@ import dmtr.pimenov.popularmovies.data.network.NetworkApi;
 import dmtr.pimenov.popularmovies.util.IAppExecutors;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -471,5 +473,13 @@ public class AppRepository {
 
     public Language getLanguageByCode(String code639_1) {
         return ((MyApplication) mContext.getApplicationContext()).getLanguageMap().get(code639_1);
+    }
+
+    public Set<Long> getBadMovies() {
+        return ((MyApplication) mContext.getApplicationContext()).getBadMovieIds();
+    }
+
+    public Map<Long, Set<String>> getBadbackdrops() {
+        return ((MyApplication) mContext.getApplicationContext()).getBadBackdrops();
     }
 }

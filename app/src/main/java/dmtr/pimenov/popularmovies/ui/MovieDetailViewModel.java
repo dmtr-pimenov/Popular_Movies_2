@@ -8,6 +8,8 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import dmtr.pimenov.popularmovies.data.AppRepository;
 import dmtr.pimenov.popularmovies.data.model.Backdrop;
@@ -90,8 +92,9 @@ public class MovieDetailViewModel extends ViewModel {
                             public Resource<List<Backdrop>> apply(Resource<BackdropCollection> input) {
                                 Resource<List<Backdrop>> res;
                                 if (input.status == Resource.Status.SUCCESS) {
-                                    List<Backdrop> l = input.data.getBackdrops();
-                                    res = Resource.success(l);
+                                    // remove "bad" Backdrops to prevent Google Sexually Explicit Content policy violation
+                                    List<Backdrop> filteredBackdrops = filterBackdrops(input.data.getBackdrops());
+                                    res = Resource.success(filteredBackdrops);
                                 } else {
                                     res = Resource.error(input.message, null);
                                 }
@@ -102,6 +105,26 @@ public class MovieDetailViewModel extends ViewModel {
             }
         }
         return mBackdropCollection;
+    }
+
+    private List<Backdrop> filterBackdrops(List<Backdrop> backdrops) {
+
+        Map<Long, Set<String>> badBackdrops = mRepository.getBadbackdrops();
+        List<Backdrop> result = new ArrayList<>(backdrops.size());
+
+        if (badBackdrops.containsKey(mMovieId)) {
+            Set<String> set = badBackdrops.get(mMovieId);
+            for (Backdrop b : backdrops) {
+                if (!set.contains(b.getFilePath())) {
+                    result.add(b);
+                } else {
+                    Log.d(TAG, "removed Backdrop: " + b.getFilePath());
+                }
+            }
+        } else {
+            result.addAll(backdrops);
+        }
+        return result;
     }
 
     public LiveData<Resource<List<Trailer>>> getTrailerCollection() {

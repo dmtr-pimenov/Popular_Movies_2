@@ -8,7 +8,9 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import dmtr.pimenov.popularmovies.data.AppRepository;
 import dmtr.pimenov.popularmovies.data.model.Movie;
@@ -85,7 +87,9 @@ public class MainViewModel extends ViewModel {
                                 mMovieList.remove(sz - 1);
                             }
 
-                            mMovieList.addAll(moviesPageResource.data.getResults());
+                            // remove "bad" movies to prevent Google Sexually Explicit Content policy violation
+                            List<Movie> filteredMovies = filterMovieList(moviesPageResource.data.getResults());
+                            mMovieList.addAll(filteredMovies);
                             // add empty movie to the end of list.
                             // An empty movie means it isn't the last movie.
                             // and if RecyclerView adapter meets this empty movie
@@ -100,6 +104,23 @@ public class MainViewModel extends ViewModel {
                         }
                     }
                 });
+    }
+
+    private List<Movie> filterMovieList(List<Movie> movies) {
+
+        Set<Long> badMovies = mRepository.getBadMovies();
+        List<Movie> result = new ArrayList<>(movies.size());
+
+        for (Movie m : movies) {
+            if (!badMovies.contains(m.getId())) {
+                result.add(m);
+            } else {
+                Log.d(TAG, "removed Movie: " + m.getId() + " - " + m.getTitle());
+            }
+        }
+
+        return result;
+
     }
 
     private void setupRetrievingDataFromDb() {
