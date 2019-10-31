@@ -1,5 +1,6 @@
 package dmtr.pimenov.popularmovies;
 
+import androidx.arch.core.executor.ArchTaskExecutor;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.annotation.Nullable;
@@ -22,7 +23,7 @@ public class TestUtil {
         final Object[] data = new Object[1];
         final CountDownLatch latch = new CountDownLatch(1);
 
-        Observer<T> observer = new Observer<T>() {
+        final Observer<T> observer = new Observer<T>() {
             @Override
             public void onChanged(@Nullable T o) {
                 data[0] = o;
@@ -30,7 +31,13 @@ public class TestUtil {
                 liveData.removeObserver(this);
             }
         };
-        liveData.observeForever(observer);
+
+        ArchTaskExecutor.getMainThreadExecutor().execute(new Runnable() {
+            @Override
+            public void run() {
+                liveData.observeForever(observer);
+            }
+        });
         // Don't wait indefinitely if the LiveData is not set.
         if (!latch.await(TIME_OUT, TimeUnit.SECONDS)) {
             throw new RuntimeException("LiveData value was never set.");
