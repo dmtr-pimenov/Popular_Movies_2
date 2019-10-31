@@ -47,38 +47,38 @@ public class AssetsUtilTest {
     @Test
     public void getBadMovieIdsFromAssets() {
         Context appContext = ApplicationProvider.getApplicationContext();
-        Set<Integer> badMovieIds = AssetsUtil.getBadMovieIdsFromAssets(appContext);
+        Set<Long> badMovieIds = AssetsUtil.getBadMovieIdsFromAssets(appContext);
         assertFalse(badMovieIds.isEmpty());
         // bad assert
         assertEquals(145, badMovieIds.size());
-        assertTrue(badMovieIds.contains(9179));
-        assertTrue(badMovieIds.contains(5725));
-        assertTrue(badMovieIds.contains(451156));
+        assertTrue(badMovieIds.contains(9179L));
+        assertTrue(badMovieIds.contains(5725L));
+        assertTrue(badMovieIds.contains(451156L));
     }
 
     @Test
     public void getBadBackdropsFromAssets() {
         Context appContext = ApplicationProvider.getApplicationContext();
-        Map<Integer, Set<String>> badBackdrops = AssetsUtil.getBadBackdropsFromAssets(appContext);
+        Map<Long, Set<String>> badBackdrops = AssetsUtil.getBadBackdropsFromAssets(appContext);
         assertFalse(badBackdrops.isEmpty());
         // bad assert
         assertEquals(226, badBackdrops.size());
 
         Set<String> s;
 
-        s = badBackdrops.get(10261);
+        s = badBackdrops.get(10261L);
         assertNotNull(s);
         assertTrue(s.contains("/jcXM32nUMoV6YAonMT3bAptuHoM.jpg"));
 
-        s = badBackdrops.get(9923);
+        s = badBackdrops.get(9923L);
         assertNotNull(s);
         assertTrue(s.contains("/dNYUrROJMb1NxSNUUrTThYQ4OL9.jpg"));
 
-        s = badBackdrops.get(137182);
+        s = badBackdrops.get(137182L);
         assertNotNull(s);
         assertTrue(s.contains("/2sSLbMcOvZvxzJcbHI46QFibAuc.jpg"));
 
-        s = badBackdrops.get(1378);
+        s = badBackdrops.get(1378L);
         assertNotNull(s);
         assertEquals(3, s.size());
         assertTrue(s.contains("/nJ4WTjDiLNeY1zaI4i0esIUEYRy.jpg"));
