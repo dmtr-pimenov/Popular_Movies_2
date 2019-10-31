@@ -30,7 +30,7 @@ public class AppReferenceRepositoryTest {
 
     @Before
     public void setUp() throws Exception {
-        mContext = InstrumentationRegistry.getTargetContext();
+        mContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         mRepository = AppRepository.getInstance(mContext, null, null, null);
     }
 

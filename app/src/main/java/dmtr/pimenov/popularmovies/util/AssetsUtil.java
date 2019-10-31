@@ -10,21 +10,30 @@ import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
+import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class AssetsUtil {
 
     private static final String GENRES_FILE = "genres.json";
     private static final String LANGUAGES_FILE = "iso_639-1.json";
+    private static final String BAD_MOVIE_FILE = "bad_movies.txt";
+    private static final String BACKDROPS_FILE = "movies_with_bad_backdrops.json";
 
     /**
-     * Loads list of Movie Genres from JSON file into SparseArray
+     * Loads SparseArray of Movie Genres from JSON file into SparseArray
      *
      * @param context
      * @return
@@ -53,15 +62,14 @@ public class AssetsUtil {
             return result;
         } finally {
             try {
-                if (is != null) {
-                    is.close();
+                if (reader != null) {
+                    reader.close();
                 }
             } catch (Exception e) {
             }
-
             try {
-                if (reader != null) {
-                    reader.close();
+                if (is != null) {
+                    is.close();
                 }
             } catch (Exception e) {
             }
@@ -91,7 +99,7 @@ public class AssetsUtil {
     }
 
     /**
-     * Loads list of Language codes ISO 639-1 from JSON file into unmodifiable Map
+     * Loads Map of Language codes ISO 639-1 from JSON file into unmodifiable Map
      *
      * @param context
      * @return
@@ -117,18 +125,141 @@ public class AssetsUtil {
 
         } finally {
             try {
+                if (reader != null) {
+                    reader.close();
+                }
+            } catch (Exception e) {
+            }
+            try {
                 if (is != null) {
                     is.close();
                 }
             } catch (Exception e) {
             }
+        }
+    }
 
+    /**
+     * Loads list of Movie that possible violate Google Sexually Explicit Content policy
+     * Further these movies will be hidden from the user
+     *
+     * @param context
+     * @return Set of movie Id's
+     */
+    public static Set<Integer> getBadMovieIdsFromAssets(@NonNull Context context) {
+
+        InputStream is = null;
+        InputStreamReader isr = null;
+        BufferedReader reader = null;
+        try {
+
+            is = context.getAssets().open(BAD_MOVIE_FILE);
+            isr = new InputStreamReader(is);
+            reader = new BufferedReader(isr);
+
+            String line;
+            ArrayList<String> lines = new ArrayList<>();
+            while ((line = reader.readLine()) != null) {
+                lines.add(line);
+            }
+
+            Set<Integer> result = new HashSet<>(lines.size());
+            for (String l : lines) {
+                result.add(Integer.parseInt(l));
+            }
+            return Collections.unmodifiableSet(result);
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            throw new RuntimeException("Error reading " + BAD_MOVIE_FILE, ex);
+        } finally {
             try {
                 if (reader != null) {
                     reader.close();
                 }
             } catch (Exception e) {
             }
+            try {
+                if (isr != null) {
+                    isr.close();
+                }
+            } catch (Exception e) {
+            }
+            try {
+                if (is != null) {
+                    is.close();
+                }
+            } catch (Exception e) {
+            }
+        }
+    }
+
+    /**
+     * Loads Map of Movie Id with backdrops that possible violate Google Sexually Explicit Content policy
+     *
+     * @param context
+     * @return
+     */
+    public static Map<Integer, Set<String>> getBadBackdropsFromAssets(@NonNull Context context) {
+
+        InputStream is = null;
+        JsonReader reader = null;
+
+        try {
+            is = context.getAssets().open(BACKDROPS_FILE);
+            reader = new JsonReader(new InputStreamReader(is, "UTF-8"));
+            Type BACKDROP_LIST_TYPE = new TypeToken<List<BadMovie>>() {
+            }.getType();
+
+            List<BadMovie> movieList = new Gson().fromJson(reader, BACKDROP_LIST_TYPE);
+
+            //noinspection unchecked
+            Map<Integer, Set<String>> result = new HashMap(movieList.size());
+            for (BadMovie m : movieList) {
+                //noinspection unchecked
+                result.put(m.getId(), Collections.unmodifiableSet(new HashSet(m.getBackdrops())));
+            }
+            return Collections.unmodifiableMap(result);
+
+        } catch (JsonSyntaxException | IOException ex) {
+
+            ex.printStackTrace();
+            return Collections.EMPTY_MAP;
+
+        } finally {
+            try {
+                if (reader != null) {
+                    reader.close();
+                }
+            } catch (Exception e) {
+            }
+            try {
+                if (is != null) {
+                    is.close();
+                }
+            } catch (Exception e) {
+            }
+        }
+    }
+
+    private class BadMovie {
+        int id;
+        List<String> backdrops;
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public List<String> getBackdrops() {
+            return backdrops;
+        }
+
+        public void setBackdrops(List<String> backdrops) {
+            this.backdrops = backdrops;
         }
     }
 }

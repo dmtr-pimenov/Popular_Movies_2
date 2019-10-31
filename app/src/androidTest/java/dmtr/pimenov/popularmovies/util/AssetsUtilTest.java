@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.Map;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 
@@ -19,7 +20,7 @@ public class AssetsUtilTest {
 
     @Test
     public void getGenresFromAssets() {
-        Context appContext = InstrumentationRegistry.getTargetContext();
+        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
         SparseArray<String> genres = AssetsUtil.getGenresFromAssets(appContext);
         assertNotNull(genres.get(878));
@@ -31,7 +32,7 @@ public class AssetsUtilTest {
 
     @Test
     public void getLanguagesFromAssets() {
-        Context appContext = InstrumentationRegistry.getTargetContext();
+        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
         Map<String, Language> languages = AssetsUtil.getLanguagesFromAssets(appContext);
         assertNotNull(languages.get("en"));
@@ -39,5 +40,48 @@ public class AssetsUtilTest {
         assertEquals("English", languages.get("en").getName());
         assertEquals("Russian", languages.get("ru").getName());
         assertNull(languages.get("zzz"));
+    }
+
+    @Test
+    public void getBadMovieIdsFromAssets() {
+        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        Set<Integer> badMovieIds = AssetsUtil.getBadMovieIdsFromAssets(appContext);
+        assertFalse(badMovieIds.isEmpty());
+        // bad assert
+        assertEquals(145, badMovieIds.size());
+        assertTrue(badMovieIds.contains(9179));
+        assertTrue(badMovieIds.contains(5725));
+        assertTrue(badMovieIds.contains(451156));
+    }
+
+    @Test
+    public void getBadBackdropsFromAssets() {
+        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        Map<Integer, Set<String>> badBackdrops = AssetsUtil.getBadBackdropsFromAssets(appContext);
+        assertFalse(badBackdrops.isEmpty());
+        // bad assert
+        assertEquals(226, badBackdrops.size());
+
+        Set<String> s;
+
+        s = badBackdrops.get(10261);
+        assertNotNull(s);
+        assertTrue(s.contains("/jcXM32nUMoV6YAonMT3bAptuHoM.jpg"));
+
+        s = badBackdrops.get(9923);
+        assertNotNull(s);
+        assertTrue(s.contains("/dNYUrROJMb1NxSNUUrTThYQ4OL9.jpg"));
+
+        s = badBackdrops.get(137182);
+        assertNotNull(s);
+        assertTrue(s.contains("/2sSLbMcOvZvxzJcbHI46QFibAuc.jpg"));
+
+        s = badBackdrops.get(1378);
+        assertNotNull(s);
+        assertEquals(3, s.size());
+        assertTrue(s.contains("/nJ4WTjDiLNeY1zaI4i0esIUEYRy.jpg"));
+        assertTrue(s.contains("/NIoD1HZGAPQnJnEwIDmlEWYY1w.jpg"));
+        assertTrue(s.contains("/uGgiiUKIaUlO0ArJPwpW9aIeaiy.jpg"));
+
     }
 }

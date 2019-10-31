@@ -49,7 +49,7 @@ public class AppDbRepositoryTest {
 
     @Before
     public void setUp() throws Exception {
-        mContext = InstrumentationRegistry.getTargetContext();
+        mContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         mDatabase = Room.inMemoryDatabaseBuilder(mContext, AppDatabase.class)
                 .allowMainThreadQueries()
                 .build();
@@ -260,8 +260,8 @@ public class AppDbRepositoryTest {
         String tagLine = "tagline";
         String posterPath = "\\path";
         String releaseDate = "2019-06-05";
-        int budget = 100;
-        int revenue = 200;
+        long budget = 100L;
+        long revenue = 200L;
         int runtime = 144;
         int voteCount = 99;
 
