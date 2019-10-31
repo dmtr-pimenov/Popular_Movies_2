@@ -1,6 +1,8 @@
 package dmtr.pimenov.popularmovies.util;
 
 import android.content.Context;
+
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import android.util.SparseArray;
@@ -20,7 +22,7 @@ public class AssetsUtilTest {
 
     @Test
     public void getGenresFromAssets() {
-        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        Context appContext = ApplicationProvider.getApplicationContext();
 
         SparseArray<String> genres = AssetsUtil.getGenresFromAssets(appContext);
         assertNotNull(genres.get(878));
@@ -32,7 +34,7 @@ public class AssetsUtilTest {
 
     @Test
     public void getLanguagesFromAssets() {
-        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        Context appContext = ApplicationProvider.getApplicationContext();
 
         Map<String, Language> languages = AssetsUtil.getLanguagesFromAssets(appContext);
         assertNotNull(languages.get("en"));
@@ -44,7 +46,7 @@ public class AssetsUtilTest {
 
     @Test
     public void getBadMovieIdsFromAssets() {
-        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        Context appContext = ApplicationProvider.getApplicationContext();
         Set<Integer> badMovieIds = AssetsUtil.getBadMovieIdsFromAssets(appContext);
         assertFalse(badMovieIds.isEmpty());
         // bad assert
@@ -56,7 +58,7 @@ public class AssetsUtilTest {
 
     @Test
     public void getBadBackdropsFromAssets() {
-        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        Context appContext = ApplicationProvider.getApplicationContext();
         Map<Integer, Set<String>> badBackdrops = AssetsUtil.getBadBackdropsFromAssets(appContext);
         assertFalse(badBackdrops.isEmpty());
         // bad assert

@@ -1,6 +1,8 @@
 package dmtr.pimenov.popularmovies.data;
 
 import android.content.Context;
+
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
@@ -30,7 +32,7 @@ public class AppReferenceRepositoryTest {
 
     @Before
     public void setUp() throws Exception {
-        mContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        mContext = ApplicationProvider.getApplicationContext();
         mRepository = AppRepository.getInstance(mContext, null, null, null);
     }
 

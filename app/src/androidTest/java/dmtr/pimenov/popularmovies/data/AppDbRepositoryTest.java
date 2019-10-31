@@ -3,6 +3,8 @@ package dmtr.pimenov.popularmovies.data;
 import androidx.lifecycle.LiveData;
 import androidx.room.Room;
 import android.content.Context;
+
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
@@ -49,7 +51,7 @@ public class AppDbRepositoryTest {
 
     @Before
     public void setUp() throws Exception {
-        mContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        mContext = ApplicationProvider.getApplicationContext();
         mDatabase = Room.inMemoryDatabaseBuilder(mContext, AppDatabase.class)
                 .allowMainThreadQueries()
                 .build();

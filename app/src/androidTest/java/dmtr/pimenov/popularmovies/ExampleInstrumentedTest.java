@@ -1,6 +1,8 @@
 package dmtr.pimenov.popularmovies;
 
 import android.content.Context;
+
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
@@ -19,7 +21,7 @@ public class ExampleInstrumentedTest {
     @Test
     public void useAppContext() {
         // Context of the app under test.
-        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        Context appContext = ApplicationProvider.getApplicationContext();
 
         assertEquals("dmtr.pimenov.popularmovies", appContext.getPackageName());
     }
