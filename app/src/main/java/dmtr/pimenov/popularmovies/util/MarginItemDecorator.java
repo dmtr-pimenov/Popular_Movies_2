@@ -7,19 +7,33 @@ import android.view.View;
 
 public class MarginItemDecorator extends RecyclerView.ItemDecoration {
 
-    private int mSpaceHeight;
+    private final int mSpace;
+    private int mSpanCount = 1;
 
-    public MarginItemDecorator(int spaceHeight) {
-        mSpaceHeight = spaceHeight;
+    public MarginItemDecorator(int space) {
+        mSpace = space;
+    }
+
+    public MarginItemDecorator(int space, int spanCount) {
+        mSpace = space;
+        mSpanCount = spanCount;
     }
 
     @Override
     public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
-        if (parent.getChildAdapterPosition(view) == 0) {
-            outRect.top = mSpaceHeight;
+        int position = parent.getChildAdapterPosition(view);
+        if (position < mSpanCount) {
+            outRect.top = mSpace;
         }
-        outRect.bottom = mSpaceHeight;
-        outRect.left = mSpaceHeight;
-        outRect.right = mSpaceHeight;
+        outRect.bottom = mSpace;
+
+        if (mSpanCount == 1) {
+            outRect.left = mSpace;
+            outRect.right = mSpace;
+        } else {
+            int column = position % mSpanCount;
+            outRect.left = mSpace - column * mSpace / mSpanCount;
+            outRect.right = (column + 1) * mSpace / mSpanCount;
+        }
     }
 }

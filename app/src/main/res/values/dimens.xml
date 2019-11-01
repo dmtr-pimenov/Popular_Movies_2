@@ -8,6 +8,7 @@
     <dimen name="small_margin">4dp</dimen>
     <dimen name="default_margin">8dp</dimen>
     <dimen name="double_margin">16dp</dimen>
+    <dimen name="grid_spacing">6dp</dimen>
 
     <!--  Font sizes  -->
     <dimen name="error_text_size">20sp</dimen>

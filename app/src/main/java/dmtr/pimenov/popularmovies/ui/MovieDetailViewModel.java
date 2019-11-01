@@ -117,8 +117,6 @@ public class MovieDetailViewModel extends ViewModel {
             for (Backdrop b : backdrops) {
                 if (!set.contains(b.getFilePath())) {
                     result.add(b);
-                } else {
-                    Log.d(TAG, "removed Backdrop: " + b.getFilePath());
                 }
             }
         } else {

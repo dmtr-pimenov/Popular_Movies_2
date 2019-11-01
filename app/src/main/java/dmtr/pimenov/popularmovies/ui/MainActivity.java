@@ -30,6 +30,7 @@ import dmtr.pimenov.popularmovies.data.model.Resource;
 import dmtr.pimenov.popularmovies.ui.adapter.MovieListAdapter;
 import dmtr.pimenov.popularmovies.ui.factory.MainViewModelFactory;
 import dmtr.pimenov.popularmovies.util.InjectorUtil;
+import dmtr.pimenov.popularmovies.util.MarginItemDecorator;
 import dmtr.pimenov.popularmovies.util.NetworkUtils;
 import dmtr.pimenov.popularmovies.util.UiUtils;
 
@@ -196,6 +197,8 @@ public class MainActivity extends AppCompatActivity
         mMovieListRecyclerView.setLayoutManager(mGridLayoutManager);
 
         mMovieListRecyclerView.setHasFixedSize(true);
+        int recycleViewMargin = (int) getResources().getDimension(R.dimen.grid_spacing);
+        mMovieListRecyclerView.addItemDecoration(new MarginItemDecorator(recycleViewMargin, mSpanCount));
 
         // create and setup adapter
         mMovieListAdapter = new MovieListAdapter(this, this);

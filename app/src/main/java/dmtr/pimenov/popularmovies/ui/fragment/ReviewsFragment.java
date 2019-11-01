@@ -17,6 +17,7 @@ import dmtr.pimenov.popularmovies.data.model.Review;
 import dmtr.pimenov.popularmovies.databinding.FragmentReviewsBinding;
 import dmtr.pimenov.popularmovies.ui.MovieDetailViewModel;
 import dmtr.pimenov.popularmovies.ui.adapter.ReviewListAdapter;
+import dmtr.pimenov.popularmovies.util.MarginItemDecorator;
 
 import java.util.List;
 
@@ -70,6 +71,9 @@ public class ReviewsFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false);
         mBinding.recyclerViewReview.setLayoutManager(layoutManager);
+        int recycleViewMargin = (int) getResources().getDimension(R.dimen.grid_spacing);
+        mBinding.recyclerViewReview.addItemDecoration(new MarginItemDecorator(recycleViewMargin, 1));
+
         ReviewListAdapter adapter = new ReviewListAdapter(getContext(), data);
         mBinding.recyclerViewReview.setAdapter(adapter);
         mBinding.recyclerViewReview.setVisibility(View.VISIBLE);

@@ -6,8 +6,7 @@
     android:layout_height="wrap_content"
     app:cardCornerRadius="@dimen/corner_radius"
     app:cardElevation="4dp"
-    app:cardPreventCornerOverlap="true"
-    app:cardUseCompatPadding="true">
+    app:cardPreventCornerOverlap="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:padding="@dimen/default_margin"
@@ -40,7 +39,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:barrierDirection="bottom"
-            app:constraint_referenced_ids="button_expand,text_reviewer_name"/>
+            app:constraint_referenced_ids="button_expand,text_reviewer_name" />
 
         <TextView
             android:id="@+id/text_review_text"

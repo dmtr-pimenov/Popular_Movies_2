@@ -7,7 +7,7 @@
     app:cardCornerRadius="@dimen/corner_radius"
     app:cardElevation="4dp"
     app:cardPreventCornerOverlap="true"
-    app:cardUseCompatPadding="true">
+    android:padding="0dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -24,3 +24,17 @@
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>
+<!--
+
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/poster_height"
+
+    android:id="@+id/image_movie_poster"
+    android:adjustViewBounds="true"
+    android:scaleType="centerCrop"
+    tools:src="@tools:sample/avatars"
+    android:transitionName="@string/transition_poster" />
+-->
+

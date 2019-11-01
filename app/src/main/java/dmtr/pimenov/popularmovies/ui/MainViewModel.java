@@ -8,7 +8,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -114,8 +113,6 @@ public class MainViewModel extends ViewModel {
         for (Movie m : movies) {
             if (!badMovies.contains(m.getId())) {
                 result.add(m);
-            } else {
-                Log.d(TAG, "removed Movie: " + m.getId() + " - " + m.getTitle());
             }
         }
 
