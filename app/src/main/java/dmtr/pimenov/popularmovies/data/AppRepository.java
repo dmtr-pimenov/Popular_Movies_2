@@ -441,6 +441,13 @@ public class AppRepository {
                 mContext.getString(R.string.default_sort_mode));
     }
 
+    public void setSortMode(String sortMode) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(mContext.getString(R.string.pref_sort_mode_key), sortMode);
+        editor.commit();
+    }
+
     public boolean isFavoriteMode() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         return preferences.getBoolean(mContext.getString(R.string.pref_favorite_key),

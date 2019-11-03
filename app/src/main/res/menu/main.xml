@@ -10,4 +10,28 @@
         android:title="@string/action_settings"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/action_sort"
+        android:orderInCategory="10"
+        android:title=""
+        android:icon="@drawable/ic_sort_24dp"
+        app:iconTint="@android:color/white"
+        app:showAsAction="always">
+
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/action_sort_popularity"
+                    android:title="@string/pref_most_popular_label"
+                    android:orderInCategory="0"
+                    app:showAsAction="never" />
+                <item
+                    android:id="@+id/action_sort_top_rated"
+                    android:title="@string/pref_top_rated_label"
+                    app:showAsAction="never" />
+            </group>
+        </menu>
+
+    </item>
+
 </menu>

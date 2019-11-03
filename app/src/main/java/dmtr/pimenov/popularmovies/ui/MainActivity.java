@@ -1,17 +1,9 @@
 package dmtr.pimenov.popularmovies.ui;
 
 import android.annotation.SuppressLint;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityOptionsCompat;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
@@ -23,6 +15,19 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.squareup.picasso.Picasso;
+
+import java.util.List;
+
 import dmtr.pimenov.popularmovies.BuildConfig;
 import dmtr.pimenov.popularmovies.R;
 import dmtr.pimenov.popularmovies.data.model.Movie;
@@ -33,10 +38,6 @@ import dmtr.pimenov.popularmovies.util.InjectorUtil;
 import dmtr.pimenov.popularmovies.util.MarginItemDecorator;
 import dmtr.pimenov.popularmovies.util.NetworkUtils;
 import dmtr.pimenov.popularmovies.util.UiUtils;
-
-import com.squareup.picasso.Picasso;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements MovieListAdapter.ListItemClickListener {
@@ -61,6 +62,8 @@ public class MainActivity extends AppCompatActivity
 
     // To indicate that the loading in progress
     private boolean mLoadingInProgress;
+
+    private Menu mOptionMenu;
 
     // number of columns with movie posters (in RecyclerView)
     // calculated value. depends on screen size and device orientation
@@ -141,6 +144,29 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.main, menu);
+        mOptionMenu = menu;
+        return true;
+    }
+
+    private void changeSortMenuState(Menu menu) {
+        String sortMode = mViewModel.getSortMode();
+        if (getString(R.string.pref_most_popular_value).equals(sortMode)) {
+            MenuItem item = menu.findItem(R.id.action_sort_popularity);
+            if (item != null) {
+                item.setChecked(true);
+            }
+        } else {
+            MenuItem item = menu.findItem(R.id.action_sort_top_rated);
+            if (item != null) {
+                item.setChecked(true);
+            }
+        }
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        changeSortMenuState(menu);
         return true;
     }
 
@@ -154,12 +180,26 @@ public class MainActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            showSettingsActivity();
-            return true;
 
-        } else {
-            return super.onOptionsItemSelected(item);
+        switch (id) {
+            case R.id.action_settings:
+                showSettingsActivity();
+                return true;
+            case R.id.action_sort:
+                changeSortMenuState(mOptionMenu);
+                return true;
+            case R.id.action_sort_popularity:
+                item.setChecked(true);
+                mViewModel.setSortMode(getString(R.string.pref_most_popular_value));
+                loadFirstPage();
+                return true;
+            case R.id.action_sort_top_rated:
+                item.setChecked(true);
+                mViewModel.setSortMode(getString(R.string.pref_top_rated_value));
+                loadFirstPage();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 

@@ -24,6 +24,7 @@
 
     <!-- Menu -->
     <string name="action_settings">Настройки</string>
+    <string name="action_sort_mode">Сортировка</string>
 
     <!-- content description -->
     <string name="content_description_backdrop">Большой плакат</string>

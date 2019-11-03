@@ -179,6 +179,14 @@ public class MainViewModel extends ViewModel {
         return mRepository.isTransitionEnabled();
     }
 
+    public String getSortMode() {
+        return mRepository.getSortMode();
+    }
+
+    public  void setSortMode(String sortMode) {
+        mRepository.setSortMode(sortMode);
+    }
+
     public boolean isFavoriteMode() {
         return mRepository.isFavoriteMode();
     }
