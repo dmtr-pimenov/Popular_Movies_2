@@ -1,6 +1,6 @@
 # Popular_Movies_2
 FYI: If you try to build this project, you will see an error message: 
-ERROR: ... keys.properties (Cannot find the specified file)
+ERROR: ... keys.properties (Cannot find the specified file)<br/>
 To fix it
 1. Register on www.themoviedb.org
 2. Get API Key v3
